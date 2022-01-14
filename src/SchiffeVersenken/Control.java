@@ -7,8 +7,13 @@ import SchiffeVersenken.Schiffe.Zerstörer;
 
 public class Control {
     GUI theGUI;
+    GameField theGameField;
     Player player1;
     Player player2;
+
+    public Control(){
+        theGameField = new GameField();
+    }
 
     private void openGUI() {
         if (theGUI == null) {
@@ -43,7 +48,13 @@ public class Control {
 
     }
 
+    private void printField(){
+        theGameField.printField();
+    }
+
     public void start() {
         openGUI();
+        printField();
+
     }
 }
