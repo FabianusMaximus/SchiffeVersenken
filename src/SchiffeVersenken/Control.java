@@ -11,13 +11,13 @@ public class Control {
     Player player1;
     Player player2;
 
-    public Control(){
+    public Control() {
         theGameField = new GameField();
     }
 
     private void openGUI() {
         if (theGUI == null) {
-            theGUI = new GUI();
+            theGUI = new GUI(this);
         } else {
             System.out.println("GUI allready exists");
         }
@@ -48,8 +48,22 @@ public class Control {
 
     }
 
-    private void printField(){
+    private void printField() {
         theGameField.printField();
+    }
+
+    public boolean isCellValid(int x, int y) {
+        boolean valid = false;
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+
+            }
+        }
+        return valid;
+    }
+
+    public void setCellSelected(int x, int y){
+
     }
 
     public void start() {

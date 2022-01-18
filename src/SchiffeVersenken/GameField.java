@@ -1,12 +1,18 @@
 package SchiffeVersenken;
 
 public class GameField {
-    private int[][] field;
+    private String[][] field;
     private String[] translate;
 
     public GameField() {
-        field = new int[10][10];
+        field = new String[10][10];
         translate = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+        for (int i = 0; i <field.length ; i++) {
+            for (int j = 0; j < field[i].length ; j++) {
+                field[i][j] = " ";
+            }
+
+        }
     }
 
     public void printField() {
