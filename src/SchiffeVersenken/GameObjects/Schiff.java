@@ -1,37 +1,37 @@
 package SchiffeVersenken.GameObjects;
 
 public class Schiff {
-    protected String name;
-    protected int value;
-    protected int groesse;
+    private String name;
+    private int value;
+    private int groesse;
 
-    protected Schiff(String pName, int pValue, int pGroesse){
+    public Schiff(String pName, int pValue, int pGroesse){
         name = pName;
         value = pValue;
         groesse = pGroesse;
     }
 
-    protected void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    protected void setValue(int value) {
+    public void setValue(int value) {
         this.value = value;
     }
 
-    protected void setGroesse(int groesse) {
+    public void setGroesse(int groesse) {
         this.groesse = groesse;
     }
 
-    protected String getName() {
+    public String getName() {
         return name;
     }
 
-    protected int getValue() {
+    public int getValue() {
         return value;
     }
 
-    protected int getGroesse() {
+    public int getGroesse() {
         return groesse;
     }
 }
