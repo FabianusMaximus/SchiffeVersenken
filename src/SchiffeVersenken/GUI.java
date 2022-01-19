@@ -12,6 +12,9 @@ public class GUI extends JFrame {
     private Container cp;
     private JLabel label;
 
+    private Point pos = new Point();
+    private int move;
+
     public GUI(Control control) {
         this.control = control;
         cp = this.getContentPane();
@@ -37,12 +40,17 @@ public class GUI extends JFrame {
             for (int j = 0; j < cell[i].length; j++) {
                 cell[i][j] = new JButton();
                 cell[i][j].setBackground(Color.black);
-                int finalJ = j;
-                int finalI = i;
+                int finalX = i;
+                int finalY = j;
                 cell[i][j].addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        cell[finalI][finalJ].setBackground(Color.green);
+                        if (cell[finalX][finalY].getBackground() == Color.black) {
+                            showValid(finalX, finalY);
+                            pos.setLocation(finalX, finalY);
+                            move++;
+                            cell[finalX][finalY].setBackground(Color.green);
+                        }
                     }
                 });
                 field.add(cell[i][j]);
@@ -51,6 +59,51 @@ public class GUI extends JFrame {
 
 
         setVisible(true);
+    }
+
+    /**
+     * schaut wo der nächste Move hingeht
+     *
+     * @param x
+     * @param y
+     * @return 0 = Waagerecht, 1 = Senkrecht, 2 = Fehler
+     */
+    private int getNextMove(int x, int y) {
+        if (move != 0) {
+            if (pos.getY() == y + 1 || pos.getY() == y - 1) {
+                return 0;
+            } else if (x == pos.getX() + 1 || x == pos.getX() - 1) {
+                return 1;
+            }
+        }
+        return 2;
+
+    }
+
+    private void showValid(int x, int y) {
+        for (JButton[] jButtons : cell) {
+            for (JButton jButton : jButtons) {
+                if (jButton.getBackground() != Color.green) {
+                    jButton.setBackground(Color.gray);
+                }
+            }
+        }
+        for (int i = x; i >= 0; i--) {
+            if (cell[i][y].getBackground() != Color.green && getNextMove(x, y) == 1 || move == 0) {
+                cell[i][y].setBackground(Color.black);
+            }
+            if (cell[x][i].getBackground() != Color.green && getNextMove(x, y) == 0 || move == 0) {
+                cell[x][i].setBackground(Color.black);
+            }
+        }
+        for (int i = x; i < 10; i++) {
+            if (cell[x][i].getBackground() != Color.green && getNextMove(x, y) == 0 || move == 0) {
+                cell[i][y].setBackground(Color.black);
+            }
+            if (cell[x][i].getBackground() != Color.green && getNextMove(x, y) == 0 || move == 0) {
+                cell[x][i].setBackground(Color.black);
+            }
+        }
     }
 
     public static void main(String[] args) {

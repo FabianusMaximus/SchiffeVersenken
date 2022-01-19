@@ -1,6 +1,4 @@
-package SchiffeVersenken;
-
-import SchiffeVersenken.Schiffe.Schiff;
+package SchiffeVersenken.GameObjects;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,6 @@
-package SchiffeVersenken.Schiffe;
+package SchiffeVersenken.GameObjects;
 
-public abstract class Schiff {
+public class Schiff {
     protected String name;
     protected int value;
     protected int groesse;

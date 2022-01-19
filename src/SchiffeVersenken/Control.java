@@ -1,9 +1,8 @@
 package SchiffeVersenken;
 
-import SchiffeVersenken.Schiffe.Kreuzer;
-import SchiffeVersenken.Schiffe.Schlachtschiff;
-import SchiffeVersenken.Schiffe.UBoot;
-import SchiffeVersenken.Schiffe.Zerstörer;
+
+import SchiffeVersenken.GameObjects.GameField;
+import SchiffeVersenken.GameObjects.Player;
 
 public class Control {
     GUI theGUI;
@@ -30,21 +29,6 @@ public class Control {
     }
 
     private void generateShips() {
-        player1.addShips(new Schlachtschiff());
-        player2.addShips(new Schlachtschiff());
-        for (int i = 0; i < 2; i++) {
-            player1.addShips(new Kreuzer());
-            player2.addShips(new Kreuzer());
-
-        }
-        for (int i = 0; i < 3; i++) {
-            player1.addShips(new Zerstörer());
-            player2.addShips(new Zerstörer());
-        }
-        for (int i = 0; i < 4; i++) {
-            player1.addShips(new UBoot());
-            player2.addShips(new UBoot());
-        }
 
     }
 

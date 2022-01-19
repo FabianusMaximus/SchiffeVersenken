@@ -1,4 +1,4 @@
-package SchiffeVersenken;
+package SchiffeVersenken.GameObjects;
 
 public class GameField {
     private String[][] field;

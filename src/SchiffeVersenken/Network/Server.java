@@ -1,13 +1,13 @@
 package SchiffeVersenken.Network;
 
 import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.*;
+import java.util.Arrays;
 
 public class Server {
     private ServerSocket serverSocket;
     private Socket socket;
-    private PrintWriter writer;
+    private PrintWriter pr;
     private String message;
 
     private String[] coolerZufälligerSpruch;
@@ -24,7 +24,12 @@ public class Server {
                 "Wenn der Server nicht erreichbar ist, beschweren sie sich bitte bei \"NoahGerber100@gmail.com\""
         };
         serverSocket = new ServerSocket(5050);
+        System.out.println("IpV4-Adresse: " + InetAddress.getLocalHost());
 
+    }
+
+    public String getLocalHost() throws UnknownHostException {
+        return String.valueOf(InetAddress.getLocalHost());
     }
 
     public void connect() throws IOException {
@@ -34,7 +39,7 @@ public class Server {
     }
 
     public void sendMessage(String pMessage) throws IOException {
-        PrintWriter pr = new PrintWriter(socket.getOutputStream());
+        pr = new PrintWriter(socket.getOutputStream());
         pr.println(pMessage);
         pr.flush();
     }

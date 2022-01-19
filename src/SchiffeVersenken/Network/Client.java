@@ -14,7 +14,7 @@ public class Client {
     private String message;
 
     public Client() throws IOException {
-        clienSocket = new Socket("localhost", 5050);
+        clienSocket = new Socket("172.20.242.140", 5050);
     }
 
     public void sendMessage(String pMessage) throws IOException {
