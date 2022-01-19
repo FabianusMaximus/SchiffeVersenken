@@ -1,4 +1,4 @@
-package SchiffeVersenken;
+package SchiffeVersenken.util;
 
 public class Cell {
     private boolean belegt;

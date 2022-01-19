@@ -1,6 +1,6 @@
 package SchiffeVersenken.GameObjects;
 
-import SchiffeVersenken.Cell;
+import SchiffeVersenken.util.Cell;
 
 public class GameField {
     private Cell[][] cells;

@@ -1,19 +1,27 @@
 package SchiffeVersenken.Network;
 
-import java.io.*;
-import java.net.*;
-import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class Server {
     private ServerSocket serverSocket;
-    private Socket socket;
-    private PrintWriter pr;
-    private String message;
+    private Socket[] socket;
+    private PrintWriter[] pr;
+    private String[] message;
 
     private String[] coolerZufälligerSpruch;
 
 
     public Server() throws IOException {
+        socket = new Socket[2];
+        pr = new PrintWriter[2];
+        message = new String[2];
         coolerZufälligerSpruch = new String[]{
                 "Wie kann ich ihnen helfen?",
                 "Willkommen bei Virus.com",
@@ -32,27 +40,36 @@ public class Server {
         return String.valueOf(InetAddress.getLocalHost());
     }
 
-    public void connect() throws IOException {
-        socket = serverSocket.accept();
+    public void connect(int index) throws IOException {
+        socket[index] = serverSocket.accept();
         System.out.println("client connected");
 
     }
 
-    public void sendMessage(String pMessage) throws IOException {
-        pr = new PrintWriter(socket.getOutputStream());
-        pr.println(pMessage);
-        pr.flush();
+    public void sendMessage(int index, String pMessage) throws IOException {
+        pr[index] = new PrintWriter(socket[index].getOutputStream());
+        pr[index].println(pMessage);
+        pr[index].flush();
     }
 
-    public void receiveMessage() throws IOException {
-        InputStreamReader in = new InputStreamReader(socket.getInputStream());
+    public void receiveMessage(int index) throws IOException {
+        InputStreamReader in = new InputStreamReader(socket[index].getInputStream());
         BufferedReader bf = new BufferedReader(in);
 
-        message = bf.readLine();
+        message[index] = bf.readLine();
     }
 
-    public void printMessage() {
-        System.out.println("client: " + message);
+    public void printMessage(int index) {
+        System.out.println("client " + index + " : "+ message[index]);
+    }
+
+    public int nextIndex(int index){
+        if (index < socket.length){
+            index++;
+        }else{
+            index--;
+        }
+        return index;
     }
 
     public String getCoolerZufälligerSpruch() {
@@ -61,11 +78,13 @@ public class Server {
 
     public static void main(String[] args) throws IOException {
         Server server = new Server();
+        int index = 0;
         while (true) {
-            server.connect();
-            server.receiveMessage();
-            server.sendMessage(server.getCoolerZufälligerSpruch());
-            server.printMessage();
+            server.connect(index);
+            server.receiveMessage(index);
+            server.sendMessage(index,server.getCoolerZufälligerSpruch());
+            server.printMessage(index);
+            index = server.nextIndex(index);
         }
     }
 

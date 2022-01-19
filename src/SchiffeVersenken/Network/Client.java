@@ -14,7 +14,7 @@ public class Client {
     private String message;
 
     public Client() throws IOException {
-        clienSocket = new Socket("172.20.242.140", 5050);
+        clienSocket = new Socket("192.168.178.33", 5050);
     }
 
     public void sendMessage(String pMessage) throws IOException {
@@ -38,11 +38,16 @@ public class Client {
     }
 
     public static void main(String[] args) throws IOException {
-        Client client = new Client();
+        Client client0 = new Client();
+        Client client1 = new Client();
 
-        client.sendMessage("hat es funktioniert?");
-        client.receiveMessage();
-        client.printMessage();
+        client0.sendMessage("hallo ich möchte bitte spielen");
+        client0.receiveMessage();
+        client0.printMessage();
+
+        client1.sendMessage("ja, ich bitte auch");
+        client1.receiveMessage();
+        client1.printMessage();
 
 
 
