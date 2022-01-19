@@ -1,5 +1,7 @@
 package SchiffeVersenken.GameObjects;
 
+import SchiffeVersenken.Cell;
+
 public class GameField {
     private Cell[][] cells;
     private String[] translate;
