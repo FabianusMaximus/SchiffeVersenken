@@ -51,11 +51,7 @@ public class Control {
 
     public boolean isCellValid(int x, int y) {
         boolean valid = false;
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
 
-            }
-        }
         return valid;
     }
 
