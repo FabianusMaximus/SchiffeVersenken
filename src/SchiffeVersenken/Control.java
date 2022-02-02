@@ -24,22 +24,22 @@ public class Control {
     }
 
     private void generateShips() {
-        player1.addShips(new Ship("Schlachtschiff", 5,5));
-        player2.addShips(new Ship("Schlachtschiff", 5,5));
+        player1.addShips(new Ship("Schlachtschiff", 5));
+        player2.addShips(new Ship("Schlachtschiff", 5));
 
         for (int i = 0; i <2 ; i++) {
-            player1.addShips(new Ship("Kreuzer", 4,4));
-            player2.addShips(new Ship("Kreuzer", 4,4));
+            player1.addShips(new Ship("Kreuzer", 4));
+            player2.addShips(new Ship("Kreuzer", 4));
         }
 
         for (int i = 0; i <3 ; i++) {
-            player1.addShips(new Ship("Zerstörer", 3,3));
-            player2.addShips(new Ship("Zerstörer", 3,3));
+            player1.addShips(new Ship("Zerstörer", 3));
+            player2.addShips(new Ship("Zerstörer", 3));
         }
 
         for (int i = 0; i <4 ; i++) {
-            player1.addShips(new Ship("U-Boot", 2,2));
-            player2.addShips(new Ship("U-Boot", 2,2));
+            player1.addShips(new Ship("U-Boot", 2));
+            player2.addShips(new Ship("U-Boot", 2));
         }
 
 

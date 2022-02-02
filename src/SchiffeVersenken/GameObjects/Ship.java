@@ -9,9 +9,9 @@ public class Ship {
     private int groesse;
     private Orientation orientation;
 
-    public Ship(String pName, int pValue, int pGroesse) {
+    public Ship(String pName, int pGroesse) {
         name = pName;
-        value = pValue;
+        value = pGroesse;
         groesse = pGroesse;
         orientation = Orientation.HORIZONTAL;
 

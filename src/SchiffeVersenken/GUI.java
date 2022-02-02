@@ -13,13 +13,14 @@ public class GUI extends JFrame {
     private int width;
     private int height;
     private JPanel field;
+    private JPanel selectionPanel;
     private ShipPanel[][] cell;
     private Container cp;
     private JLabel label;
 
     private Point pos = new Point();
     private int move;
-    private Ship selectedShip;
+    private Ship selectedShip = new Ship("penis", 3);
 
     public GUI(Control control) {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
@@ -37,11 +38,17 @@ public class GUI extends JFrame {
 
         field = new JPanel();
         field.setBackground(Color.blue);
-        Dimension dimension = new Dimension();
         field.setSize((int) (height / 1.5), (int) (height / 1.5));
-        field.setLocation(height / 2 - field.getHeight() / 2, height / 2 - field.getHeight() / 2);
+        field.setLocation(width / 4 - field.getWidth() / 2, height / 2 - field.getHeight() / 2);
         field.setLayout(new GridLayout(10, 10, 5, 5));
         cp.add(field);
+
+        selectionPanel = new JPanel();
+        selectionPanel.setBackground(Color.green);
+        selectionPanel.setSize((int) (height / 1.5), (int) (height / 1.5));
+        selectionPanel.setLocation(width / 3 + selectionPanel.getWidth()/2 , height / 2 - selectionPanel.getHeight()/2);
+        selectionPanel.setLayout(null);
+        cp.add(selectionPanel);
 
         cell = new ShipPanel[10][10];
 
@@ -54,7 +61,7 @@ public class GUI extends JFrame {
                 cell[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        clickCell(finalX, finalY, new Ship("penis", 3, 3));
+                        clickCell(finalX, finalY, selectedShip);
                     }
                 });
                 field.add(cell[i][j]);
@@ -86,22 +93,49 @@ public class GUI extends JFrame {
 
     /**
      * Funktion die beim Click ausgeführt wird
-     * @param x Erste Koordinate des Felds
-     * @param y Zweite Koordinate des Fels
+     *
+     * @param x    Erste Koordinate des Felds
+     * @param y    Zweite Koordinate des Fels
      * @param ship Objekt von Schiff, das plaziert werden soll
      */
     private void clickCell(int x, int y, Ship ship) {
-        if (!cell[x][y].isBelegt()){
-            cell[x][y].setBackground(Color.green);
-            for (int i = 0; i < ship.applyOrientation(x, y).size(); i++) {
-                cell[(int) ship.applyOrientation(x, y).get(i).getX()][(int) ship.applyOrientation(x, y).get(i).getY()]
-                        .setBackground(Color.green);
+        if (selectedShip == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Du hast kein Schiff ausgewählt",
+                    "Placement Error",
+                    JOptionPane.ERROR_MESSAGE);
+        } else {
+            try {
+                if (!cell[x][y].isBelegt()) {
+                    cell[x][y].setBackground(Color.green);
+                    placeShip(x, y, ship);
+                } else {
+                    ship.changeOrientation();
+                    for (int i = 0; i < cell.length; i++) {
+                        for (int j = 0; j < cell[i].length; j++) {
+                            if (cell[i][j].isBelegt()) {
+                                cell[i][j].setBackground(Color.black);
+                                cell[i][j].setBelegt(false);
+                            }
+                        }
+                    }
+                    placeShip(x, y, ship);
+                }
+            }catch (IndexOutOfBoundsException e){
+                cell[x][y].setBackground(Color.red);
             }
-        }else{
-            ship.changeOrientation();
+
         }
 
+    }
 
+    public void placeShip(int x, int y, Ship ship) {
+        for (int i = 0; i < ship.applyOrientation(x, y).size(); i++) {
+            int a = (int) ship.applyOrientation(x, y).get(i).getX();
+            int b = (int) ship.applyOrientation(x, y).get(i).getY();
+            cell[a][b].setBackground(Color.green);
+            cell[a][b].setBelegt(true);
+        }
     }
 
 
