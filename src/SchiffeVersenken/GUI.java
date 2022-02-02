@@ -1,27 +1,36 @@
 package SchiffeVersenken;
 
+import SchiffeVersenken.Components.ShipPanel;
+import SchiffeVersenken.GameObjects.Ship;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GUI extends JFrame {
     private Control control;
+    private int width;
+    private int height;
     private JPanel field;
-    private JButton[][] cell;
+    private ShipPanel[][] cell;
     private Container cp;
     private JLabel label;
 
     private Point pos = new Point();
     private int move;
+    private Ship selectedShip;
 
     public GUI(Control control) {
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        width = (int) ((int) size.getWidth() - size.getWidth() / 5);
+        height = (int) ((int) size.getHeight() - size.getHeight() / 5);
         this.control = control;
         cp = this.getContentPane();
         cp.setLayout(null);
 
         setTitle("Schiffeversenken - GUI");
-        setSize(600, 500);
+        setSize(width, height);
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -29,28 +38,23 @@ public class GUI extends JFrame {
         field = new JPanel();
         field.setBackground(Color.blue);
         Dimension dimension = new Dimension();
-        field.setBounds(this.getWidth() / 9, this.getHeight() / 8,
-                (int) (this.getWidth() / 1.5), (int) (this.getHeight() / 1.4));
+        field.setSize((int) (height / 1.5), (int) (height / 1.5));
+        field.setLocation(height / 2 - field.getHeight() / 2, height / 2 - field.getHeight() / 2);
         field.setLayout(new GridLayout(10, 10, 5, 5));
         cp.add(field);
 
-        cell = new JButton[10][10];
+        cell = new ShipPanel[10][10];
 
         for (int i = 0; i < cell.length; i++) {
             for (int j = 0; j < cell[i].length; j++) {
-                cell[i][j] = new JButton();
+                cell[i][j] = new ShipPanel();
                 cell[i][j].setBackground(Color.black);
                 int finalX = i;
                 int finalY = j;
-                cell[i][j].addActionListener(new ActionListener() {
+                cell[i][j].addMouseListener(new MouseAdapter() {
                     @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (cell[finalX][finalY].getBackground() == Color.black) {
-                            showValid(finalX, finalY);
-                            pos.setLocation(finalX, finalY);
-                            move++;
-                            cell[finalX][finalY].setBackground(Color.green);
-                        }
+                    public void mouseClicked(MouseEvent e) {
+                        clickCell(finalX, finalY, new Ship("penis", 3, 3));
                     }
                 });
                 field.add(cell[i][j]);
@@ -80,31 +84,26 @@ public class GUI extends JFrame {
 
     }
 
-    private void showValid(int x, int y) {
-        for (JButton[] jButtons : cell) {
-            for (JButton jButton : jButtons) {
-                if (jButton.getBackground() != Color.green) {
-                    jButton.setBackground(Color.gray);
-                }
+    /**
+     * Funktion die beim Click ausgeführt wird
+     * @param x Erste Koordinate des Felds
+     * @param y Zweite Koordinate des Fels
+     * @param ship Objekt von Schiff, das plaziert werden soll
+     */
+    private void clickCell(int x, int y, Ship ship) {
+        if (!cell[x][y].isBelegt()){
+            cell[x][y].setBackground(Color.green);
+            for (int i = 0; i < ship.applyOrientation(x, y).size(); i++) {
+                cell[(int) ship.applyOrientation(x, y).get(i).getX()][(int) ship.applyOrientation(x, y).get(i).getY()]
+                        .setBackground(Color.green);
             }
+        }else{
+            ship.changeOrientation();
         }
-        for (int i = x; i >= 0; i--) {
-            if (cell[i][y].getBackground() != Color.green && getNextMove(x, y) == 1 || move == 0) {
-                cell[i][y].setBackground(Color.black);
-            }
-            if (cell[x][i].getBackground() != Color.green && getNextMove(x, y) == 0 || move == 0) {
-                cell[x][i].setBackground(Color.black);
-            }
-        }
-        for (int i = x; i < 10; i++) {
-            if (cell[x][i].getBackground() != Color.green && getNextMove(x, y) == 0 || move == 0) {
-                cell[i][y].setBackground(Color.black);
-            }
-            if (cell[x][i].getBackground() != Color.green && getNextMove(x, y) == 0 || move == 0) {
-                cell[x][i].setBackground(Color.black);
-            }
-        }
+
+
     }
+
 
     public static void main(String[] args) {
         new GUI(new Control());
