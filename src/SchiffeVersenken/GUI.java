@@ -111,11 +111,11 @@ public class GUI extends JFrame {
                     placeShip(x, y, ship);
                 } else {
                     ship.changeOrientation();
-                    for (int i = 0; i < cell.length; i++) {
-                        for (int j = 0; j < cell[i].length; j++) {
-                            if (cell[i][j].isBelegt()) {
-                                cell[i][j].setBackground(Color.black);
-                                cell[i][j].setBelegt(false);
+                    for (ShipPanel[] shipPanels : cell) {
+                        for (ShipPanel shipPanel : shipPanels) {
+                            if (shipPanel.isBelegt()) {
+                                shipPanel.setBackground(Color.black);
+                                shipPanel.setBelegt(false);
                             }
                         }
                     }
@@ -129,6 +129,12 @@ public class GUI extends JFrame {
 
     }
 
+    /**
+     * Funktion die das Schiff entsprechend seiner Größe und seiner Orientierung auf dem Spielfeld platziert
+     * @param x Erste Koordinate, an dem das Schiff platziert werden, soll
+     * @param y Zweite Koordinate, an dem das Schiff platziert werden, soll
+     * @param ship Schiff das platziert werden soll
+     */
     public void placeShip(int x, int y, Ship ship) {
         for (int i = 0; i < ship.applyOrientation(x, y).size(); i++) {
             int a = (int) ship.applyOrientation(x, y).get(i).getX();
