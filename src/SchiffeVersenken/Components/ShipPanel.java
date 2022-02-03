@@ -1,13 +1,21 @@
 package SchiffeVersenken.Components;
 
+import SchiffeVersenken.GameObjects.Ship;
+
 import javax.swing.*;
 
 public class ShipPanel extends JPanel {
     private int id;
     private boolean belegt;
+    private Ship linkedShip;
 
-    public ShipPanel(){
+    public ShipPanel() {
         belegt = false;
+    }
+
+    public ShipPanel(Ship ship) {
+        linkedShip = ship;
+        belegt = true;
     }
 
     public int getId() {
@@ -25,5 +33,14 @@ public class ShipPanel extends JPanel {
 
     public void setBelegt(boolean belegt) {
         this.belegt = belegt;
+    }
+
+
+    public Ship getLinkedShips() {
+        return linkedShip;
+    }
+
+    public void setLinkedShip(Ship linkedShip) {
+        this.linkedShip = linkedShip;
     }
 }

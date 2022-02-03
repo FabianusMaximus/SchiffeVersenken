@@ -1,18 +1,18 @@
 package SchiffeVersenken;
 
 
-import SchiffeVersenken.GameObjects.GameField;
+import SchiffeVersenken.Fenster.GUI;
 import SchiffeVersenken.GameObjects.Player;
 import SchiffeVersenken.GameObjects.Ship;
 
+import java.util.ArrayList;
+
 public class Control {
-    GUI theGUI;
-    GameField theGameField;
-    Player player1;
-    Player player2;
+    private GUI theGUI;
+    private ArrayList<Ship> ships = new ArrayList<>();
 
     public Control() {
-        theGameField = new GameField();
+        generateShips();
     }
 
     private void openGUI() {
@@ -24,29 +24,27 @@ public class Control {
     }
 
     private void generateShips() {
-        player1.addShips(new Ship("Schlachtschiff", 5));
-        player2.addShips(new Ship("Schlachtschiff", 5));
+        ships.add(new Ship("Schlachtschiff", 5));
 
-        for (int i = 0; i <2 ; i++) {
-            player1.addShips(new Ship("Kreuzer", 4));
-            player2.addShips(new Ship("Kreuzer", 4));
+        for (int i = 0; i < 2; i++) {
+           ships.add(new Ship("Kreuzer", 4));
         }
 
-        for (int i = 0; i <3 ; i++) {
-            player1.addShips(new Ship("Zerstörer", 3));
-            player2.addShips(new Ship("Zerstörer", 3));
+        for (int i = 0; i < 3; i++) {
+            ships.add(new Ship("Zerstörer", 3));
         }
 
-        for (int i = 0; i <4 ; i++) {
-            player1.addShips(new Ship("U-Boot", 2));
-            player2.addShips(new Ship("U-Boot", 2));
+        for (int i = 0; i < 4; i++) {
+            ships.add(new Ship("U-Boot", 2));
         }
-
-
     }
 
-    private void printField() {
-        theGameField.printField();
+    public void setShips(ArrayList<Ship> ships) {
+        this.ships = ships;
+    }
+
+    public ArrayList<Ship> getShips() {
+        return ships;
     }
 
     public boolean isCellValid(int x, int y) {
@@ -55,13 +53,11 @@ public class Control {
         return valid;
     }
 
-    public void setCellSelected(int x, int y){
+    public void setCellSelected(int x, int y) {
 
     }
 
     public void start() {
         openGUI();
-        printField();
-
     }
 }

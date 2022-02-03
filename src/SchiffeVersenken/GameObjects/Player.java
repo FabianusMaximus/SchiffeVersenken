@@ -12,4 +12,8 @@ public class Player {
     public void addShips(Ship ship){
         schiffe.add(ship);
     }
+
+    public ArrayList<Ship> getShips(){
+        return schiffe;
+    }
 }
