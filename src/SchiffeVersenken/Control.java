@@ -1,19 +1,15 @@
 package SchiffeVersenken;
 
 
-import SchiffeVersenken.Fenster.GUI;
-import SchiffeVersenken.GameObjects.Player;
 import SchiffeVersenken.GameObjects.Ship;
 
 import java.util.ArrayList;
 
 public class Control {
     private GUI theGUI;
-    private GameField theGameField;
     private Ship[] ships;
 
     public Control() {
-        theGameField = new GameField();
         generateShips();
     }
 
@@ -30,9 +26,7 @@ public class Control {
                 new Ship("Zerstörer", 3), new Ship("U-Boot", 2)};
     }
 
-    public ArrayList<Ship> getShips() {
-        return ships;
-    }
+
 
     public boolean isCellValid(int x, int y) {
 

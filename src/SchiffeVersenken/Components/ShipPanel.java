@@ -50,7 +50,4 @@ public class ShipPanel extends JPanel {
         return linkedShip;
     }
 
-    public void setLinkedShip(Ship linkedShip) {
-        this.linkedShip = linkedShip;
-    }
 }
