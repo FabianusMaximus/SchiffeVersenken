@@ -9,8 +9,10 @@ public class ShipPanel extends JPanel {
     private boolean belegt;
     private Ship linkedShip;
 
-    public ShipPanel() {
+    public ShipPanel(int id) {
+        this.id = id;
         belegt = false;
+        linkedShip = null;
     }
 
     public ShipPanel(Ship ship) {
@@ -28,6 +30,14 @@ public class ShipPanel extends JPanel {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setLinkedShip(Ship ship) {
+        linkedShip = ship;
+    }
+
+    public Ship getLinkedShip(){
+        return linkedShip;
     }
 
 

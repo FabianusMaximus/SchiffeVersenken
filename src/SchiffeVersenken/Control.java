@@ -9,9 +9,11 @@ import java.util.ArrayList;
 
 public class Control {
     private GUI theGUI;
-    private ArrayList<Ship> ships = new ArrayList<>();
+    private GameField theGameField;
+    private Ship[] ships;
 
     public Control() {
+        theGameField = new GameField();
         generateShips();
     }
 
@@ -19,28 +21,13 @@ public class Control {
         if (theGUI == null) {
             theGUI = new GUI(this);
         } else {
-            System.out.println("GUI allready exists");
+            System.out.println("GUI already exists");
         }
     }
 
     private void generateShips() {
-        ships.add(new Ship("Schlachtschiff", 5));
-
-        for (int i = 0; i < 2; i++) {
-           ships.add(new Ship("Kreuzer", 4));
-        }
-
-        for (int i = 0; i < 3; i++) {
-            ships.add(new Ship("Zerstörer", 3));
-        }
-
-        for (int i = 0; i < 4; i++) {
-            ships.add(new Ship("U-Boot", 2));
-        }
-    }
-
-    public void setShips(ArrayList<Ship> ships) {
-        this.ships = ships;
+        ships = new Ship[]{new Ship("Schlachtschiff", 5), new Ship("Kreuzer", 4),
+                new Ship("Zerstörer", 3), new Ship("U-Boot", 2)};
     }
 
     public ArrayList<Ship> getShips() {
@@ -48,13 +35,16 @@ public class Control {
     }
 
     public boolean isCellValid(int x, int y) {
-        boolean valid = false;
 
-        return valid;
+        return false;
     }
 
     public void setCellSelected(int x, int y) {
 
+    }
+
+    public Ship getShip(int index){
+        return ships[index];
     }
 
     public void start() {

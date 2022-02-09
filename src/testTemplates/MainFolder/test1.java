@@ -1,4 +1,4 @@
-package MainFolder;
+package testTemplates.MainFolder;
 
 import java.awt.*;
 import javax.swing.*;
