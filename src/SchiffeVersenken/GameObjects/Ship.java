@@ -33,6 +33,24 @@ public class Ship {
 
     }
 
+    public ArrayList<Point> generateBlockedZone(int x, int y) {
+        ArrayList<Point> blockedIndexes = new ArrayList<Point>();
+        int holdX = x - 1;
+        int holdY = y - 1;
+        if (orientation == Orientation.HORIZONTAL) {
+            for (int i = 0; i < groesse + 2; i++) {
+                holdY =+ i;
+                blockedIndexes.add(new Point(holdX, holdY));
+            }
+        } else {
+            for (int i = 0; i < groesse + 2; i++) {
+                blockedIndexes.add(new Point(holdX + i, holdY));
+
+            }
+        }
+        return blockedIndexes;
+    }
+
     public void changeOrientation() {
         orientation = orientation.flip();
     }

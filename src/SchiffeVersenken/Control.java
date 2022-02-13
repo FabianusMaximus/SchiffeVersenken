@@ -22,10 +22,11 @@ public class Control {
     }
 
     private void generateShips() {
-        ships = new Ship[]{new Ship("Schlachtschiff", 5), new Ship("Kreuzer", 4),
-                new Ship("Zerstörer", 3), new Ship("U-Boot", 2)};
+        ships = new Ship[]
+                {new Ship("Schlachtschiff", 5),
+                        new Ship("Kreuzer", 4), new Ship("Zerstörer", 3),
+                        new Ship("U-Boot", 2), new Ship("U-Boot", 2)};
     }
-
 
 
     public boolean isCellValid(int x, int y) {
@@ -37,7 +38,7 @@ public class Control {
 
     }
 
-    public Ship getShip(int index){
+    public Ship getShip(int index) {
         return ships[index];
     }
 
