@@ -37,17 +37,11 @@ public class Ship {
         ArrayList<Point> blockedIndexes = new ArrayList<Point>();
         int holdX = x - 1;
         int holdY = y - 1;
-        if (orientation == Orientation.HORIZONTAL) {
-            for (int i = 0; i < groesse + 2; i++) {
-                holdY =+ i;
-                blockedIndexes.add(new Point(holdX, holdY));
+            for (int i = Math.max(0, holdX); i < Math.min(x + groesse + 1, 11); i++) {
+                for (int j = Math.max(0, holdY); j < Math.min(y + 2, 11); j++) {
+                    blockedIndexes.add(orientation == Orientation.HORIZONTAL ? new Point(j, i) : new Point(i, j));
+                }
             }
-        } else {
-            for (int i = 0; i < groesse + 2; i++) {
-                blockedIndexes.add(new Point(holdX + i, holdY));
-
-            }
-        }
         return blockedIndexes;
     }
 

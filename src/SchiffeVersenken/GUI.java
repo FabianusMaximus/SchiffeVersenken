@@ -75,13 +75,13 @@ public class GUI extends JFrame {
             selectShips[i].addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    selectShips[finalI].setBackground(Color.lightGray);
+                    selectShips[finalI].setForeground(Color.lightGray);
                 }
             });
             selectShips[i].addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    selectShips[finalI].setBackground(Color.white);
+                    selectShips[finalI].setForeground(Color.black);
                 }
             });
             selectionPanel.add(selectShips[i]);
