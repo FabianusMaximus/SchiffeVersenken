@@ -1,7 +1,8 @@
-package SchiffeVersenken;
+package SchiffeVersenken.Fenster;
 
 import SchiffeVersenken.Components.SelectionLabel;
 import SchiffeVersenken.Components.ShipPanel;
+import SchiffeVersenken.Control;
 import SchiffeVersenken.GameObjects.Ship;
 
 import javax.swing.*;
@@ -11,7 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class GUI extends JFrame {
-    private Control control;
+    private GUIControl guiControl;
     private int width;
     private int height;
     private JPanel field;
@@ -23,15 +24,15 @@ public class GUI extends JFrame {
 
     private Point pos = new Point();
     private int move;
-    private Ship selectedShip;
+
 
     private Font standardFont;
 
-    public GUI(Control control) {
+    public GUI(GUIControl guiControl) {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         width = (int) ((int) size.getWidth() - size.getWidth() / 5);
         height = (int) ((int) size.getHeight() - size.getHeight() / 5);
-        this.control = control;
+        this.guiControl = guiControl;
         cp = this.getContentPane();
         cp.setLayout(null);
 
@@ -59,7 +60,7 @@ public class GUI extends JFrame {
         selectShips = new SelectionLabel[5];
         String[] names = {"Schlachtschiff", "Kreuzer", "Zerstörer", "U-Bot", "U-Bot"};
         for (int i = 0; i < selectShips.length; i++) {
-            selectShips[i] = new SelectionLabel(names[i], control.getShip(i));
+            selectShips[i] = new SelectionLabel(names[i], guiControl.getShip(i));
             selectShips[i].setBorder(new LineBorder(Color.black));
             selectShips[i].setHorizontalAlignment(SwingConstants.CENTER);
             selectShips[i].setVerticalAlignment(SwingConstants.CENTER);
@@ -68,7 +69,7 @@ public class GUI extends JFrame {
             selectShips[i].addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    selectShip(selectShips[finalI].getLinkedShip());
+                    guiControl.selectShip(selectShips[finalI].getLinkedShip());
                     selectionPanel.remove(selectShips[finalI]);
                 }
             });
@@ -98,7 +99,25 @@ public class GUI extends JFrame {
                 cell[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        clickCell(finalX, finalY, selectedShip);
+                        System.out.println(e.getButton());
+                        if (e.getButton() == MouseEvent.BUTTON1){
+                            guiControl.clickCell(finalX, finalY);
+                        }else if (e.getButton() == MouseEvent.BUTTON3){
+                            guiControl.changeOrientation(finalX,finalY);
+                        }
+
+                    }
+                });
+                cell[i][j].addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        guiControl.showPreview(finalX, finalY);
+                    }
+                });
+                cell[i][j].addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        guiControl.deletePreview(finalX, finalY);
                     }
                 });
                 field.add(cell[i][j]);
@@ -109,93 +128,97 @@ public class GUI extends JFrame {
         setVisible(true);
     }
 
-    /**
-     * Funktion die beim Click ausgeführt wird
-     *
-     * @param x    Erste Koordinate des Felds
-     * @param y    Zweite Koordinate des Fels
-     * @param ship Objekt von Schiff, das plaziert werden soll
-     */
-    private void clickCell(int x, int y, Ship ship) {
-        System.out.println("PanelID: " + cell[x][y].getId());
-        if (!cell[x][y].isBelegt() && selectedShip != null) {
-            placeShip(x, y, ship);
-        } else if (cell[x][y].isBelegt() && selectedShip == null) {
-            Ship holdShip = cell[x][y].getLinkedShip();
-            removeShip(x, y, holdShip);
-            holdShip.changeOrientation();
-            placeShip(x, y, holdShip);
-        } else {
-            JOptionPane.showMessageDialog(this,
-                    "Du hast kein Schiff ausgewählt",
-                    "Placement Error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-        updateGamefield();
-
+    @Override
+    public int getWidth() {
+        return width;
     }
 
-    /**
-     * Funktion die das Schiff entsprechend seiner Größe und seiner Orientierung auf dem Spielfeld platziert
-     *
-     * @param x    Erste Koordinate, an dem das Schiff platziert werden, soll
-     * @param y    Zweite Koordinate, an dem das Schiff platziert werden, soll
-     * @param ship Schiff das platziert werden soll
-     */
-    public void placeShip(int x, int y, Ship ship) {
-        for (int i = 0; i < ship.generateBlockedZone(x, y).size(); i++) {
-            int a = (int) ship.generateBlockedZone(x, y).get(i).getX();
-            int b = (int) ship.generateBlockedZone(x, y).get(i).getY();
-            cell[a][b].setBlocked(true);
-        }
-
-        for (int i = 0; i < ship.applyOrientation(x, y).size(); i++) {
-            int a = (int) ship.applyOrientation(x, y).get(i).getX();
-            int b = (int) ship.applyOrientation(x, y).get(i).getY();
-            cell[a][b].setBelegt(true);
-            cell[a][b].setLinkedShip(ship);
-            selectedShip = null;
-        }
+    @Override
+    public int getHeight() {
+        return height;
     }
 
-    private void removeShip(int x, int y, Ship ship) {
-        for (int i = 0; i < ship.generateBlockedZone(x, y).size(); i++) {
-            int a = (int) ship.generateBlockedZone(x, y).get(i).getX();
-            int b = (int) ship.generateBlockedZone(x, y).get(i).getY();
-            cell[a][b].setBlocked(false);
-        }
-
-        for (int i = 0; i < ship.applyOrientation(x, y).size(); i++) {
-            int a = (int) ship.applyOrientation(x, y).get(i).getX();
-            int b = (int) ship.applyOrientation(x, y).get(i).getY();
-            cell[a][b].setBelegt(false);
-            cell[a][b].setLinkedShip(null);
-            selectedShip = null;
-        }
+    public JPanel getField() {
+        return field;
     }
 
-    public void updateGamefield() {
-        for (ShipPanel[] shipPanels : cell) {
-            for (ShipPanel shipPanel : shipPanels) {
-                if (!shipPanel.isBelegt() && !shipPanel.isBlocked()) {
-                    shipPanel.setBackground(Color.black);
-                } else if (shipPanel.isBlocked()) {
-                    shipPanel.setBackground(Color.gray);
-                } else {
-                    shipPanel.setBackground(Color.green);
-                }
-            }
-        }
-        this.revalidate();
+    public JPanel getSelectionPanel() {
+        return selectionPanel;
     }
 
-    public void selectShip(Ship ship) {
-        selectedShip = ship;
-        System.out.println("Selectet Ship: " + selectedShip.getName());
+    public SelectionLabel[] getSelectShips() {
+        return selectShips;
     }
 
+    public ShipPanel[][] getCell() {
+        return cell;
+    }
 
-    public static void main(String[] args) {
-        new GUI(new Control());
+    public Container getCp() {
+        return cp;
+    }
+
+    public JLabel getLabel() {
+        return label;
+    }
+
+    public Point getPos() {
+        return pos;
+    }
+
+    public int getMove() {
+        return move;
+    }
+
+    public void setGuiControl(GUIControl guiControl) {
+        this.guiControl = guiControl;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public void setField(JPanel field) {
+        this.field = field;
+    }
+
+    public void setSelectionPanel(JPanel selectionPanel) {
+        this.selectionPanel = selectionPanel;
+    }
+
+    public void setSelectShips(SelectionLabel[] selectShips) {
+        this.selectShips = selectShips;
+    }
+
+    public void setCell(ShipPanel[][] cell) {
+        this.cell = cell;
+    }
+
+    public void setCp(Container cp) {
+        this.cp = cp;
+    }
+
+    public void setLabel(JLabel label) {
+        this.label = label;
+    }
+
+    public void setPos(Point pos) {
+        this.pos = pos;
+    }
+
+    public void setMove(int move) {
+        this.move = move;
+    }
+
+    public void setStandardFont(Font standardFont) {
+        this.standardFont = standardFont;
+    }
+
+    public Font getStandardFont() {
+        return standardFont;
     }
 }

@@ -1,12 +1,12 @@
 package SchiffeVersenken;
 
 
+import SchiffeVersenken.Fenster.GUI;
+import SchiffeVersenken.Fenster.GUIControl;
 import SchiffeVersenken.GameObjects.Ship;
 
-import java.util.ArrayList;
-
 public class Control {
-    private GUI theGUI;
+    private GUIControl guiControl;
     private Ship[] ships;
 
     public Control() {
@@ -14,8 +14,8 @@ public class Control {
     }
 
     private void openGUI() {
-        if (theGUI == null) {
-            theGUI = new GUI(this);
+        if (guiControl == null) {
+            guiControl = new GUIControl(this);
         } else {
             System.out.println("GUI already exists");
         }
