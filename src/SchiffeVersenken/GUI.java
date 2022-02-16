@@ -110,25 +110,6 @@ public class GUI extends JFrame {
     }
 
     /**
-     * schaut wo der nächste Move hingeht
-     *
-     * @param x
-     * @param y
-     * @return 0 = Waagerecht, 1 = Senkrecht, 2 = Fehler
-     */
-    private int getNextMove(int x, int y) {
-        if (move != 0) {
-            if (pos.getY() == y + 1 || pos.getY() == y - 1) {
-                return 0;
-            } else if (x == pos.getX() + 1 || x == pos.getX() - 1) {
-                return 1;
-            }
-        }
-        return 2;
-
-    }
-
-    /**
      * Funktion die beim Click ausgeführt wird
      *
      * @param x    Erste Koordinate des Felds
@@ -162,6 +143,12 @@ public class GUI extends JFrame {
      * @param ship Schiff das platziert werden soll
      */
     public void placeShip(int x, int y, Ship ship) {
+        for (int i = 0; i < ship.generateBlockedZone(x, y).size(); i++) {
+            int a = (int) ship.generateBlockedZone(x, y).get(i).getX();
+            int b = (int) ship.generateBlockedZone(x, y).get(i).getY();
+            cell[a][b].setBlocked(true);
+        }
+
         for (int i = 0; i < ship.applyOrientation(x, y).size(); i++) {
             int a = (int) ship.applyOrientation(x, y).get(i).getX();
             int b = (int) ship.applyOrientation(x, y).get(i).getY();
@@ -169,14 +156,15 @@ public class GUI extends JFrame {
             cell[a][b].setLinkedShip(ship);
             selectedShip = null;
         }
-        for (int i = 0; i < ship.generateBlockedZone(x, y).size(); i++) {
-            int a = (int) ship.generateBlockedZone(x, y).get(i).getX();
-            int b = (int) ship.generateBlockedZone(x, y).get(i).getY();
-            cell[a][b].setBlocked(true);
-        }
     }
 
     private void removeShip(int x, int y, Ship ship) {
+        for (int i = 0; i < ship.generateBlockedZone(x, y).size(); i++) {
+            int a = (int) ship.generateBlockedZone(x, y).get(i).getX();
+            int b = (int) ship.generateBlockedZone(x, y).get(i).getY();
+            cell[a][b].setBlocked(false);
+        }
+
         for (int i = 0; i < ship.applyOrientation(x, y).size(); i++) {
             int a = (int) ship.applyOrientation(x, y).get(i).getX();
             int b = (int) ship.applyOrientation(x, y).get(i).getY();
