@@ -15,9 +15,10 @@ public class ShipPanel extends JPanel {
         linkedShip = null;
     }
 
-    public ShipPanel(Ship ship) {
+    public ShipPanel(int id, Ship ship) {
         linkedShip = ship;
         status = Status.LOADED;
+        this.id = id;
     }
 
     public int getId() {
