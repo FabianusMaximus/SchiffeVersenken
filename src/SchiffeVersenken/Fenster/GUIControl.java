@@ -160,4 +160,12 @@ public class GUIControl {
         return control.getShip(index);
     }
 
+    public void clickHostGame(){
+
+    }
+
+    public void clickJoinGame(){
+
+    }
+
 }

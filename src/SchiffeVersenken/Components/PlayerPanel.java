@@ -5,9 +5,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class PlayerPanel extends JPanel {
-
-    private int width, height;
+public class PlayerPanel extends CustomPanel {
 
     public PlayerPanel(int pWidth){
         this.width = pWidth;
