@@ -6,7 +6,6 @@ import SchiffeVersenken.GameObjects.Ship;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class GUIControl {
     private GUI gui;
@@ -181,8 +180,15 @@ public class GUIControl {
         return x >= 0 && x < gui.getCell().length && y >= 0 && y < gui.getCell()[0].length;
     }
 
-    public boolean checkError(Ship ship) {
-        return ship.getLocation().size() != ship.getGroesse();
+    public boolean checkError() {
+        for (ShipPanel[] shipPanels : gui.getCell()) {
+            for (ShipPanel shipPanel : shipPanels) {
+                if (shipPanel.isError()) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public Ship getShip(int index) {
