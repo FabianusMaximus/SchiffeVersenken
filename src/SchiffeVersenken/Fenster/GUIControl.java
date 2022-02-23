@@ -93,9 +93,11 @@ public class GUIControl {
     }
 
     public void changeOrientation(int x, int y) {
-        deletePreview();
-        selectedShip.changeOrientation();
-        showPreview(x, y);
+        if (selectedShip != null) {
+            deletePreview();
+            selectedShip.changeOrientation();
+            showPreview(x, y);
+        }
     }
 
     private void removeShip(Ship ship) {
