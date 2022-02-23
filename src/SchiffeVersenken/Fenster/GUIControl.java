@@ -6,6 +6,7 @@ import SchiffeVersenken.GameObjects.Ship;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GUIControl {
     private GUI gui;
@@ -92,6 +93,27 @@ public class GUIControl {
         selectedShip = null;
     }
 
+    /**
+     * Plaziert alle Schiffe, die sich auf dem Spielfeld befinden neu, damit Daniel das Spiel nicht kaputt machen kann
+     */
+    public void replaceShips() {
+        Ship holdShip = selectedShip;
+        ArrayList<Ship> shipsOnField = new ArrayList<>();
+        for (ShipPanel[] shipPanels : gui.getCell()) {
+            for (ShipPanel shipPanel : shipPanels) {
+                Ship holdShips = shipPanel.getLinkedShip();
+                if (holdShips != null) {
+                    shipsOnField.add(holdShips);
+                }
+            }
+        }
+            for (Ship ship : shipsOnField) {
+                placeShip((int) ship.getLocation().get(0).getX(), (int) ship.getLocation().get(0).getY(), ship);
+            }
+
+        selectedShip = holdShip;
+    }
+
     public void changeOrientation(int x, int y) {
         if (selectedShip != null) {
             deletePreview();
@@ -121,6 +143,7 @@ public class GUIControl {
     }
 
     public void updateGamefield() {
+        replaceShips();
         for (ShipPanel[] shipPanels : gui.getCell()) {
             for (ShipPanel shipPanel : shipPanels) {
                 if (!shipPanel.isBelegt() && !shipPanel.isBlocked()) {

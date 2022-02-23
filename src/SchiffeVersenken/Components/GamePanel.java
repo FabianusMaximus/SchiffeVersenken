@@ -18,10 +18,7 @@ public class GamePanel extends CustomPanel {
     private Font standardFont;
 
     public GamePanel(int width, int height, GUIControl guiControl) {
-        super();
-        this.width = width;
-        this.height = height;
-        this.guiControl = guiControl;
+        super(width, height, guiControl);
 
         this.setLayout(null);
 

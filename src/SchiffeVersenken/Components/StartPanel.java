@@ -18,10 +18,7 @@ public class StartPanel extends CustomPanel {
     private JLabel hostLabel, joinLabel;
 
     public StartPanel(int width, int height, GUIControl guiControl) {
-        super();
-        this.guiControl = guiControl;
-        this.width = width;
-        this.height = height;
+        super(width, height, guiControl);
         this.setLayout(null);
 
         Font standardFont = new Font("Times new Roman", Font.PLAIN, width / 20);

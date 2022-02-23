@@ -1,5 +1,8 @@
 package SchiffeVersenken.Components;
 
+import SchiffeVersenken.Control;
+import SchiffeVersenken.Fenster.GUIControl;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -7,11 +10,10 @@ import java.awt.event.MouseEvent;
 
 public class PlayerPanel extends CustomPanel {
 
-    public PlayerPanel(int pWidth){
-        this.width = pWidth;
-        this.height = pWidth/2;
+    public PlayerPanel(int width, GUIControl guiControl){
+        super(width, width/2, guiControl);
         this.setBackground(Color.BLUE);
-        this.setLayout(new GridLayout(1,2,width/20,0));
+        this.setLayout(new GridLayout(1,2, this.width /20,0));
 
         JPanel playerPanel = new JPanel();
         playerPanel.setBackground(Color.GREEN);
@@ -72,7 +74,7 @@ public class PlayerPanel extends CustomPanel {
         Container cp = testFrame.getContentPane();
         cp.setLayout(null);
         cp.setBackground(Color.black);
-        PlayerPanel playerPanel = new PlayerPanel(width);
+        PlayerPanel playerPanel = new PlayerPanel(width, new GUIControl(new Control()));
         //TODO
         playerPanel.setBounds(20,20,width,height/2);
         cp.add(playerPanel);
