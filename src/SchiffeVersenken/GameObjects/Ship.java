@@ -7,6 +7,8 @@ public class Ship {
     private String name;
     private int value;
     private int groesse;
+    private ArrayList<Point> location;
+    private ArrayList<Point> blockedZone;
     private Orientation orientation;
 
     public Ship(String pName, int pGroesse) {
@@ -41,7 +43,7 @@ public class Ship {
         if (holdX < 0) {
             holdX = 0;
         }
-        if (holdY < 0){
+        if (holdY < 0) {
             holdY = 0;
         }
 
@@ -63,6 +65,10 @@ public class Ship {
         orientation = orientation.flip();
     }
 
+    public void setBlockedZone(int x, int y) {
+        blockedZone = generateBlockedZone(x, y);
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -75,6 +81,10 @@ public class Ship {
         this.groesse = groesse;
     }
 
+    public void setLocation(int x, int y) {
+        location = applyOrientation(x, y);
+    }
+
     public String getName() {
         return name;
     }
@@ -85,6 +95,14 @@ public class Ship {
 
     public int getGroesse() {
         return groesse;
+    }
+
+    public ArrayList<Point> getLocation() {
+        return location;
+    }
+
+    public ArrayList<Point> getBlockedZone() {
+        return blockedZone;
     }
 }
 

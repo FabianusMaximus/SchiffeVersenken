@@ -51,6 +51,14 @@ public class ShipPanel extends JPanel {
 
     }
 
+    public void setError(boolean error) {
+        if (error) {
+            status = Status.ERROR;
+        } else {
+            status = Status.FREE;
+        }
+    }
+
 
     public Ship getLinkedShips() {
         return linkedShip;
@@ -58,6 +66,10 @@ public class ShipPanel extends JPanel {
 
     public boolean isBlocked() {
         return status == Status.BLOCKED;
+    }
+
+    public boolean isError(){
+        return status == Status.ERROR;
     }
 
     public void setBlocked(boolean blocked) {
@@ -69,11 +81,11 @@ public class ShipPanel extends JPanel {
 
     }
 
-    public Status getStatus(){
+    public Status getStatus() {
         return status;
     }
 
     enum Status {
-        FREE, LOADED, BLOCKED;
+        FREE, LOADED, BLOCKED, ERROR;
     }
 }

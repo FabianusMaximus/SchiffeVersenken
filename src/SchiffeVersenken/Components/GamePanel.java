@@ -101,7 +101,7 @@ public class GamePanel extends CustomPanel {
                 cell[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        guiControl.deletePreview(finalX, finalY);
+                        guiControl.deletePreview();
                     }
                 });
                 field.add(cell[i][j]);
