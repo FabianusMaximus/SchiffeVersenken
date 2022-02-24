@@ -50,8 +50,13 @@ public class GamePanel extends CustomPanel {
             selectShips[i].addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    guiControl.selectShip(selectShips[finalI].getLinkedShip());
-                    selectionPanel.remove(selectShips[finalI]);
+                    if (guiControl.getSelectedShip() == null) {
+                        selectionPanel.remove(selectShips[finalI]);
+                        guiControl.selectShip(selectShips[finalI].getLinkedShip());
+                        repaint();
+                    }
+
+
                 }
             });
             selectShips[i].addMouseListener(new MouseAdapter() {

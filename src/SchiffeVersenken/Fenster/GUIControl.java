@@ -216,6 +216,10 @@ public class GUIControl {
         return true;
     }
 
+    public Ship getSelectedShip(){
+        return selectedShip;
+    }
+
     public Ship getShip(int index) {
         return control.getShip(index);
     }
