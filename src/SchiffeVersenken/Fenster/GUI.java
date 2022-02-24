@@ -41,16 +41,15 @@ public class GUI extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         //TODO hier muss noch der Start screen hinzugefügt werden und die weiteren Schritte müssen auch noch entworfen werden
-        /**
-         * startPanel = new StartPanel(width, height, guiControl);
-         *         startPanel.setBounds(0,0,width,height);
-         *         cp.add(startPanel);
-         */
+
+        startPanel = new StartPanel(width, height, guiControl);
+        startPanel.setBounds(0, 0, width, height);
+        cp.add(startPanel);
 
 
         gamePanel = new GamePanel(width, height, guiControl);
         gamePanel.setBounds(0, 0, width, height);
-        //gamePanel.setVisible(false);
+        gamePanel.setVisible(false);
         cp.add(gamePanel);
 
         setVisible(true);
@@ -68,6 +67,11 @@ public class GUI extends JFrame {
 
     public ShipPanel[][] getCell() {
         return gamePanel.getCell();
+    }
+
+    public void goToGameScreen() {
+        startPanel.setVisible(false);
+        gamePanel.setVisible(true);
     }
 
     public Container getCp() {

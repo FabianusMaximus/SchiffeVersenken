@@ -3,9 +3,12 @@ package SchiffeVersenken.Fenster;
 import SchiffeVersenken.Components.ShipPanel;
 import SchiffeVersenken.Control;
 import SchiffeVersenken.GameObjects.Ship;
+import SchiffeVersenken.Network.Server;
+import SchiffeVersenken.Network.ServerScreen;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GUIControl {
@@ -107,9 +110,9 @@ public class GUIControl {
                 }
             }
         }
-            for (Ship ship : shipsOnField) {
-                placeShip((int) ship.getLocation().get(0).getX(), (int) ship.getLocation().get(0).getY(), ship);
-            }
+        for (Ship ship : shipsOnField) {
+            placeShip((int) ship.getLocation().get(0).getX(), (int) ship.getLocation().get(0).getY(), ship);
+        }
 
         selectedShip = holdShip;
     }
@@ -216,7 +219,7 @@ public class GUIControl {
         return true;
     }
 
-    public Ship getSelectedShip(){
+    public Ship getSelectedShip() {
         return selectedShip;
     }
 
@@ -225,7 +228,8 @@ public class GUIControl {
     }
 
     public void clickHostGame() {
-
+        ServerScreen host = new ServerScreen();
+        gui.goToGameScreen();
     }
 
     public void clickJoinGame() {
