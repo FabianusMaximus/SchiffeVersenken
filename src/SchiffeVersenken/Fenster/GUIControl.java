@@ -239,16 +239,17 @@ public class GUIControl {
     }
 
     private boolean checkIP(String ip) {
-        int count  = 0;
-        if ((!Pattern.matches("[a-zA-Z]+", ip)) && ip.length() > 2){
+        int count = 0;
+        if ((!Pattern.matches("[a-zA-Z]+", ip)) && ip.length() > 2) {
             String[] splitString = ip.split("\\.");
-            if (splitString.length <= 4){
-                for (String string: splitString) {
-                    if (string.length() == 3){
+            if (splitString.length <= 4) {
+                for (String string : splitString) {
+                    int holdInt = Integer.parseInt(string);
+                    if (holdInt >= 0 && holdInt <= 255) {
                         count++;
                     }
                 }
-                return count == 3;
+                return count == 4;
             }
         }
         return false;
