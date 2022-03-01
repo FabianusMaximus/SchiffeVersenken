@@ -13,8 +13,8 @@ public class Client {
     private PrintWriter writer;
     private String message;
 
-    public Client() throws IOException {
-        clienSocket = new Socket("192.168.178.33", 5050);
+    public Client(String ip) throws IOException {
+        clienSocket = new Socket(ip, 5050);
     }
 
     public void sendMessage(String pMessage) throws IOException {
@@ -38,8 +38,8 @@ public class Client {
     }
 
     public static void main(String[] args) throws IOException {
-        Client client0 = new Client();
-        Client client1 = new Client();
+        Client client0 = new Client("192.168.178.33");
+        Client client1 = new Client("192.168.178.33");
 
         client0.sendMessage("hallo ich möchte bitte spielen");
         client0.receiveMessage();

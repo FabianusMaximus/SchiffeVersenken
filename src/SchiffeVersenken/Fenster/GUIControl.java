@@ -3,6 +3,7 @@ package SchiffeVersenken.Fenster;
 import SchiffeVersenken.Components.ShipPanel;
 import SchiffeVersenken.Control;
 import SchiffeVersenken.GameObjects.Ship;
+import SchiffeVersenken.Network.Client;
 import SchiffeVersenken.Network.Server;
 import SchiffeVersenken.Network.ServerScreen;
 
@@ -10,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class GUIControl {
     private GUI gui;
@@ -233,7 +235,36 @@ public class GUIControl {
     }
 
     public void clickJoinGame() {
+        gui.goToClientScreen();
+    }
 
+    private boolean checkIP(String ip) {
+        int count  = 0;
+        if ((!Pattern.matches("[a-zA-Z]+", ip)) && ip.length() > 2){
+            String[] splitString = ip.split("\\.");
+            if (splitString.length <= 4){
+                for (String string: splitString) {
+                    if (string.length() == 3){
+                        count++;
+                    }
+                }
+                return count == 3;
+            }
+        }
+        return false;
+    }
+
+    public void connectToServer(String ip) {
+        if (checkIP(ip)) {
+            try {
+                Client client = new Client(ip);
+                gui.goToGameScreen();
+            } catch (IOException e) {
+                System.out.println("Client kaputt");
+            }
+        } else {
+            System.out.println("Die IP-Adresse kann nicht verbunden werden");
+        }
     }
 
 }

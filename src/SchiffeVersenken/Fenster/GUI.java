@@ -1,9 +1,6 @@
 package SchiffeVersenken.Fenster;
 
-import SchiffeVersenken.Components.GamePanel;
-import SchiffeVersenken.Components.SelectionLabel;
-import SchiffeVersenken.Components.ShipPanel;
-import SchiffeVersenken.Components.StartPanel;
+import SchiffeVersenken.Components.*;
 import SchiffeVersenken.Control;
 import SchiffeVersenken.GameObjects.Ship;
 
@@ -20,6 +17,7 @@ public class GUI extends JFrame {
 
     private StartPanel startPanel;
     private GamePanel gamePanel;
+    private ClientPanel clientPanel;
 
     private Container cp;
     private Font standardFont;
@@ -46,6 +44,10 @@ public class GUI extends JFrame {
         startPanel.setBounds(0, 0, width, height);
         cp.add(startPanel);
 
+        clientPanel = new ClientPanel(width, height, guiControl);
+        clientPanel.setBounds(0, 0, width, height);
+        clientPanel.setVisible(false);
+        cp.add(clientPanel);
 
         gamePanel = new GamePanel(width, height, guiControl);
         gamePanel.setBounds(0, 0, width, height);
@@ -71,7 +73,15 @@ public class GUI extends JFrame {
 
     public void goToGameScreen() {
         startPanel.setVisible(false);
+        clientPanel.setVisible(false);
         gamePanel.setVisible(true);
+    }
+
+    public void goToClientScreen(){
+        startPanel.setVisible(false);
+        gamePanel.setVisible(false);
+        clientPanel.setVisible(true);
+
     }
 
     public Container getCp() {
