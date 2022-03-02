@@ -25,10 +25,17 @@ public class StartPanel extends CustomPanel {
 
         //TODO Titelbild muss noch hinzugefügt werden
 
-        ImageIcon titleImage = new ImageIcon("src/SchiffeVersenken/img/Titel Image2.png");
-        JLabel iconLabel = new JLabel(titleImage);
-        iconLabel.setBounds(width/2-titleImage.getIconWidth()/2, 50, titleImage.getIconWidth(), titleImage.getIconHeight());
-        this.add(iconLabel);
+        title = new JLabel();
+        title.setSize(width/2, height/4);
+        title.setLocation(width/2-title.getWidth()/2,50);
+        title.setHorizontalAlignment(SwingConstants.CENTER);
+        title.setVerticalAlignment(SwingConstants.CENTER);
+        this.add(title);
+
+        ImageIcon preLoad = new ImageIcon("src/SchiffeVersenken/img/Titel Image.png");
+        ImageIcon imageIcon = new ImageIcon(preLoad.getImage()
+                .getScaledInstance((int) (preLoad.getIconWidth()/2.5), (int) (preLoad.getIconHeight()/2.5), Image.SCALE_DEFAULT));
+        title.setIcon(imageIcon);
 
         buttonPanel = new JPanel();
         buttonPanel.setSize(width / 2, height / 2);
