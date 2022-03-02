@@ -10,7 +10,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class StartPanel extends CustomPanel {
-    private GUIControl guiControl;
 
     private JPanel buttonPanel;
     private JLabel title;
@@ -26,15 +25,15 @@ public class StartPanel extends CustomPanel {
         //TODO Titelbild muss noch hinzugefügt werden
 
         title = new JLabel();
-        title.setSize(width/2, height/4);
-        title.setLocation(width/2-title.getWidth()/2,50);
+        title.setSize(width / 2, height / 4);
+        title.setLocation(width / 2 - title.getWidth() / 2, 50);
         title.setHorizontalAlignment(SwingConstants.CENTER);
         title.setVerticalAlignment(SwingConstants.CENTER);
+        title.setBorder(new LineBorder(Color.green));
         this.add(title);
 
-        ImageIcon preLoad = new ImageIcon("src/SchiffeVersenken/img/Titel Image.png");
-        ImageIcon imageIcon = new ImageIcon(preLoad.getImage()
-                .getScaledInstance((int) (preLoad.getIconWidth()/2.5), (int) (preLoad.getIconHeight()/2.5), Image.SCALE_DEFAULT));
+        ImageIcon imageIcon = new ImageIcon(new ImageIcon("src/SchiffeVersenken/img/Titel Image.png").getImage()
+                .getScaledInstance(title.getWidth(), title.getHeight(), Image.SCALE_DEFAULT));
         title.setIcon(imageIcon);
 
         buttonPanel = new JPanel();
