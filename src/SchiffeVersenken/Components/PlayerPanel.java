@@ -10,9 +10,12 @@ import java.awt.event.MouseEvent;
 
 public class PlayerPanel extends CustomPanel {
 
+    private ShipPanel[][] playerCell;
+    private ShipPanel[][] enemyCell;
+
     public PlayerPanel(int width, GUIControl guiControl){
         super(width, width/2, guiControl);
-        this.setBackground(Color.BLUE);
+        this.setBackground(Color.WHITE);
         this.setLayout(new GridLayout(1,2, this.width /20,0));
 
         JPanel playerPanel = new JPanel();
@@ -20,7 +23,6 @@ public class PlayerPanel extends CustomPanel {
         playerPanel.setLayout(new GridLayout(10,10,5,5));
         this.add(playerPanel);
 
-        ShipPanel[][] playerCell;
         playerCell = new ShipPanel[10][10];
         int playerid = 0;
         for (int i = 0; i < playerCell.length; i++) {
@@ -39,12 +41,12 @@ public class PlayerPanel extends CustomPanel {
             }
         }
 
-        JPanel enemyPanel = new JPanel();
+        JPanel enemyPanel;
+        enemyPanel= new JPanel();
         enemyPanel.setBackground(Color.RED);
         enemyPanel.setLayout(new GridLayout(10,10,5,5));
         this.add(enemyPanel);
 
-        ShipPanel[][] enemyCell;
         enemyCell = new ShipPanel[10][10];
         int enemyid = 0;
         for (int i = 0; i < playerCell.length; i++) {
@@ -68,15 +70,13 @@ public class PlayerPanel extends CustomPanel {
 
     public static void main(String[] args) {
         int width = 1000;
-        int height = 500;
         JFrame testFrame = new JFrame();
-        testFrame.setSize(new Dimension(width,height));
+        testFrame.setSize(new Dimension(width,width/2));
         Container cp = testFrame.getContentPane();
         cp.setLayout(null);
-        cp.setBackground(Color.black);
+        cp.setBackground(Color.white);
         PlayerPanel playerPanel = new PlayerPanel(width, new GUIControl(new Control()));
-        //TODO
-        playerPanel.setBounds(20,20,width,height/2);
+        playerPanel.setBounds((int) (width*0.07), (int) ((width/2)*0.04), (int) (width*0.85), (int) ((width/2)*0.85));
         cp.add(playerPanel);
         testFrame.setLocationRelativeTo(null);
         testFrame.setVisible(true);
