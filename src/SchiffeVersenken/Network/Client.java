@@ -21,8 +21,6 @@ public class Client {
         PrintWriter pr = new PrintWriter(clienSocket.getOutputStream());
         pr.println(pMessage);
         pr.flush();
-
-
     }
 
     public void receiveMessage() throws IOException {
@@ -30,7 +28,6 @@ public class Client {
         BufferedReader bf = new BufferedReader(in);
 
         message = bf.readLine();
-
     }
 
     public void printMessage(){
@@ -38,16 +35,11 @@ public class Client {
     }
 
     public static void main(String[] args) throws IOException {
-        Client client0 = new Client("192.168.178.33");
-        Client client1 = new Client("192.168.178.33");
+        Client client = new Client("localhost");
+        Client client1 = new Client("localhost");
 
-        client0.sendMessage("hallo ich möchte bitte spielen");
-        client0.receiveMessage();
-        client0.printMessage();
-
-        client1.sendMessage("ja, ich bitte auch");
-        client1.receiveMessage();
-        client1.printMessage();
+        client.sendMessage("test");
+        client1.sendMessage("test1");
 
 
 

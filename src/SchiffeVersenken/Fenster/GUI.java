@@ -1,14 +1,9 @@
 package SchiffeVersenken.Fenster;
 
 import SchiffeVersenken.Components.*;
-import SchiffeVersenken.Control;
-import SchiffeVersenken.GameObjects.Ship;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class GUI extends JFrame {
     private GUIControl guiControl;
@@ -110,5 +105,9 @@ public class GUI extends JFrame {
 
     public Font getStandardFont() {
         return standardFont;
+    }
+
+    public void setDefaultColor(Color color){
+        gamePanel.setDefaultColor(color);
     }
 }

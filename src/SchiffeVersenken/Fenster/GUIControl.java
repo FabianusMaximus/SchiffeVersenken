@@ -2,9 +2,8 @@ package SchiffeVersenken.Fenster;
 
 import SchiffeVersenken.Components.ShipPanel;
 import SchiffeVersenken.Control;
-import SchiffeVersenken.GameObjects.Ship;
+import SchiffeVersenken.Ship;
 import SchiffeVersenken.Network.Client;
-import SchiffeVersenken.Network.Server;
 import SchiffeVersenken.Network.ServerScreen;
 
 import javax.swing.*;
@@ -19,6 +18,8 @@ public class GUIControl {
 
     private Ship selectedShip;
 
+    private boolean bestaetigt = false;
+
     public GUIControl(Control control) {
         this.control = control;
         this.gui = new GUI(this);
@@ -31,25 +32,28 @@ public class GUIControl {
      * @param y Zweite Koordinate des Fels
      */
     public void clickCell(int x, int y) {
-        System.out.println("PanelID: " + gui.getCell()[x][y].getId());
-        if (!gui.getCell()[x][y].isBelegt() && !gui.getCell()[x][y].isBlocked() && selectedShip != null) {
-            placeShip(x, y, selectedShip);
-        } else if (gui.getCell()[x][y].isBelegt() && selectedShip == null) {
-            Ship holdShip = gui.getCell()[x][y].getLinkedShip();
-            removeShip(holdShip);
-            selectedShip = holdShip;
-        } else if ((gui.getCell()[x][y].isBelegt() || gui.getCell()[x][y].isBlocked()) && selectedShip != null) {
-            JOptionPane.showMessageDialog(gui,
-                    "Das Schiff kann hier nicht platziert werden",
-                    "Placement Error",
-                    JOptionPane.ERROR_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(gui,
-                    "Du hast kein Schiff ausgewählt",
-                    "Placement Error",
-                    JOptionPane.ERROR_MESSAGE);
+        if (!bestaetigt){
+            System.out.println("PanelID: " + gui.getCell()[x][y].getId());
+            if (!gui.getCell()[x][y].isBelegt() && !gui.getCell()[x][y].isBlocked() && selectedShip != null) {
+                placeShip(x, y, selectedShip);
+            } else if (gui.getCell()[x][y].isBelegt() && selectedShip == null) {
+                Ship holdShip = gui.getCell()[x][y].getLinkedShip();
+                removeShip(holdShip);
+                selectedShip = holdShip;
+            } else if ((gui.getCell()[x][y].isBelegt() || gui.getCell()[x][y].isBlocked()) && selectedShip != null) {
+                JOptionPane.showMessageDialog(gui,
+                        "Das Schiff kann hier nicht platziert werden",
+                        "Placement Error",
+                        JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(gui,
+                        "Du hast kein Schiff ausgewählt",
+                        "Placement Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+            updateGamefield();
         }
-        updateGamefield();
+
     }
 
     /**
@@ -230,7 +234,14 @@ public class GUIControl {
     }
 
     public void clickHostGame() {
-        ServerScreen host = new ServerScreen();
+        ServerScreen host = new ServerScreen(control);
+
+        try {
+            control.getServer().start();
+            control.setClient(new Client("localhost"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         gui.goToGameScreen();
     }
 
@@ -258,13 +269,30 @@ public class GUIControl {
     public void connectToServer(String ip) {
         if (checkIP(ip)) {
             try {
-                Client client = new Client(ip);
+                control.setClient(new Client(ip));
                 gui.goToGameScreen();
             } catch (IOException e) {
-                System.out.println("Client kaputt");
+                System.out.println("Server kaputt");
             }
         } else {
             System.out.println("Die IP-Adresse kann nicht verbunden werden");
+        }
+    }
+
+    public void clickContinue(){
+        if (selectedShip == null){
+            bestaetigt = true;
+            gui.setDefaultColor(Color.green);
+            try {
+                control.getClient().sendMessage("true");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            JOptionPane.showMessageDialog(gui,
+                    "Du hast noch nicht alle Schiffe platziert",
+                    "Placement Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 

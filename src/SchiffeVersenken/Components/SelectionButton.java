@@ -1,6 +1,6 @@
 package SchiffeVersenken.Components;
 
-import SchiffeVersenken.GameObjects.Ship;
+import SchiffeVersenken.Ship;
 
 import javax.swing.*;
 import java.util.ArrayList;

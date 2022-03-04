@@ -13,9 +13,12 @@ public class GamePanel extends CustomPanel {
     private JPanel field, selectionPanel;
     private SelectionLabel[] selectShips;
     private ShipPanel[][] cell;
-    private JLabel label;
+    private JLabel label, besteatigen;
 
     private Font standardFont;
+
+    private int counter;
+    private Color defaultColor = Color.black;
 
     public GamePanel(int width, int height, GUIControl guiControl) {
         super(width, height, guiControl);
@@ -38,7 +41,30 @@ public class GamePanel extends CustomPanel {
         selectionPanel.setLayout(new GridLayout(2, 2, 10, 10));
         this.add(selectionPanel);
 
+        besteatigen = new JLabel("Bestätigen zum fortfahren");
+        besteatigen.setBorder(new LineBorder(Color.black));
+        besteatigen.setHorizontalAlignment(SwingConstants.CENTER);
+        besteatigen.setVerticalAlignment(SwingConstants.CENTER);
+        besteatigen.setFont(standardFont);
+        besteatigen.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                besteatigen.setForeground(Color.gray);
+            }
+
+            public void mouseExited(MouseEvent e) {
+                besteatigen.setForeground(defaultColor);
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+               guiControl.clickContinue();
+            }
+        });
+
+
         selectShips = new SelectionLabel[5];
+        counter = selectShips.length;
         String[] names = {"Schlachtschiff", "Kreuzer", "Zerstörer", "U-Bot", "U-Bot"};
         for (int i = 0; i < selectShips.length; i++) {
             selectShips[i] = new SelectionLabel(names[i], guiControl.getShip(i));
@@ -53,20 +79,18 @@ public class GamePanel extends CustomPanel {
                     if (guiControl.getSelectedShip() == null) {
                         selectionPanel.remove(selectShips[finalI]);
                         guiControl.selectShip(selectShips[finalI].getLinkedShip());
+                        counter--;
+                        if (counter == 0) {
+                            selectionPanel.add(besteatigen);
+                        }
                         repaint();
                     }
-
-
                 }
-            });
-            selectShips[i].addMouseListener(new MouseAdapter() {
-                @Override
+
                 public void mouseEntered(MouseEvent e) {
                     selectShips[finalI].setForeground(Color.lightGray);
                 }
-            });
-            selectShips[i].addMouseListener(new MouseAdapter() {
-                @Override
+
                 public void mouseExited(MouseEvent e) {
                     selectShips[finalI].setForeground(Color.black);
                 }
@@ -91,17 +115,12 @@ public class GamePanel extends CustomPanel {
                         } else if (e.getButton() == MouseEvent.BUTTON3) {
                             guiControl.changeOrientation(finalX, finalY);
                         }
-
                     }
-                });
-                cell[i][j].addMouseListener(new MouseAdapter() {
-                    @Override
+
                     public void mouseEntered(MouseEvent e) {
                         guiControl.showPreview(finalX, finalY);
                     }
-                });
-                cell[i][j].addMouseListener(new MouseAdapter() {
-                    @Override
+
                     public void mouseExited(MouseEvent e) {
                         guiControl.deletePreview();
                     }
@@ -150,4 +169,9 @@ public class GamePanel extends CustomPanel {
     public void setLabel(JLabel label) {
         this.label = label;
     }
+
+    public void setDefaultColor(Color color){
+        defaultColor = color;
+    }
+
 }

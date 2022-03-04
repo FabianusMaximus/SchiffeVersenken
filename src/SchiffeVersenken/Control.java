@@ -1,13 +1,16 @@
 package SchiffeVersenken;
 
 
-import SchiffeVersenken.Fenster.GUI;
 import SchiffeVersenken.Fenster.GUIControl;
-import SchiffeVersenken.GameObjects.Ship;
+import SchiffeVersenken.Network.Client;
+import SchiffeVersenken.Network.Server;
 
 public class Control {
     private GUIControl guiControl;
     private Ship[] ships;
+
+    private Client client;
+    private Server server;
 
     public Control() {
         generateShips();
@@ -36,6 +39,22 @@ public class Control {
 
     public void setCellSelected(int x, int y) {
 
+    }
+
+    public void setClient(Client client){
+        this.client = client;
+    }
+
+    public Client getClient(){
+        return this.client;
+    }
+
+    public Server getServer() {
+        return server;
+    }
+
+    public void setServer(Server server) {
+        this.server = server;
     }
 
     public Ship getShip(int index) {
