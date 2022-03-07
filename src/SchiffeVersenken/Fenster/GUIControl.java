@@ -2,6 +2,7 @@ package SchiffeVersenken.Fenster;
 
 import SchiffeVersenken.Components.ShipPanel;
 import SchiffeVersenken.Control;
+import SchiffeVersenken.Network.Server;
 import SchiffeVersenken.Ship;
 import SchiffeVersenken.Network.Client;
 import SchiffeVersenken.Network.ServerScreen;
@@ -234,11 +235,13 @@ public class GUIControl {
     }
 
     public void clickHostGame() {
-        ServerScreen host = new ServerScreen(control);
-
         try {
-            control.getServer().start();
+            Server server = new Server();
+            control.setServer(server);
+            ServerScreen serverScreen = new ServerScreen(server);
+            control.getServer().startServer();
             control.setClient(new Client("localhost"));
+
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -9,7 +9,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Server implements Runnable {
+public class Server {
     private ServerSocket serverSocket;
     private Socket[] socket;
     private PrintWriter[] pr;
@@ -32,12 +32,19 @@ public class Server implements Runnable {
         return String.valueOf(InetAddress.getLocalHost());
     }
 
-    public void connect() throws IOException {
+    public void connect(int index) throws IOException {
         socket[index] = serverSocket.accept();
-        Thread myThread = new Thread(this);
-        myThread.start();
-        System.out.println("client connected");
+        System.out.println("client connected to socket " + index);
+        this.index++;
 
+    }
+
+    private int nextIndex() {
+        index++;
+        if (index > 2) {
+            index = 0;
+        }
+        return index;
     }
 
     public void sendMessage(String pMessage) throws IOException {
@@ -57,24 +64,28 @@ public class Server implements Runnable {
         System.out.println("client " + index + " : " + message[index]);
     }
 
-    public void start() throws IOException {
-        connect();
-    }
+    public void startServer() throws IOException {
+        for (Socket socket : socket) {
+            (new Thread() {
+                public void run() {
 
-    @Override
-    public void run() {
-        while (true) {
-            try {
-                receiveMessage(index);
-                printMessage(index);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                    try {
+                        int PlayerID = index;
+                        connect(PlayerID);
+                        System.out.println("-----Warte auf Nachricht...-----");
+                        receiveMessage(PlayerID);
+                        printMessage(PlayerID);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
         }
+
     }
 
     public static void main(String[] args) throws IOException {
         Server s = new Server();
-        s.start();
+        s.startServer();
     }
 }
