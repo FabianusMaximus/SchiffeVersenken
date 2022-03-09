@@ -1,5 +1,7 @@
 package SchiffeVersenken.Network;
 
+import SchiffeVersenken.Control;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,21 +10,22 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 public class Server {
     private ServerSocket serverSocket;
-    private Socket[] socket;
-    private PrintWriter[] pr;
-    private String[] message;
+    private Socket socket;
+
+    private ServerScreen serverScreen;
+
 
     private String[] coolerZufälligerSpruch;
 
     private int index = 0;
 
     public Server() throws IOException {
-        socket = new Socket[2];
-        pr = new PrintWriter[2];
-        message = new String[2];
+        socket = new Socket();
+        serverScreen = new ServerScreen(this);
         serverSocket = new ServerSocket(5050);
         System.out.println("IpV4-Adresse: " + InetAddress.getLocalHost());
 
@@ -32,8 +35,8 @@ public class Server {
         return String.valueOf(InetAddress.getLocalHost());
     }
 
-    public void connect(int index) throws IOException {
-        socket[index] = serverSocket.accept();
+    public void connect() throws IOException {
+        socket = serverSocket.accept();
         System.out.println("client connected to socket " + index);
         this.index++;
 
@@ -47,45 +50,15 @@ public class Server {
         return index;
     }
 
-    public void sendMessage(String pMessage) throws IOException {
-        pr[index] = new PrintWriter(socket[0].getOutputStream());
-        pr[index].println(pMessage);
-        pr[index].flush();
-    }
-
-    public void receiveMessage(int index) throws IOException {
-        InputStreamReader in = new InputStreamReader(socket[index].getInputStream());
-        BufferedReader bf = new BufferedReader(in);
-
-        message[index] = bf.readLine();
-    }
-
-    public void printMessage(int index) {
-        System.out.println("client " + index + " : " + message[index]);
-    }
-
-    public void startServer() throws IOException {
-        for (Socket socket : socket) {
-            (new Thread() {
-                public void run() {
-
-                    try {
-                        int PlayerID = index;
-                        connect(PlayerID);
-                        System.out.println("-----Warte auf Nachricht...-----");
-                        receiveMessage(PlayerID);
-                        printMessage(PlayerID);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
+    public void startServer(Control control, ArrayList<ClientHandler> clients) throws IOException {
+        control.setClient(new Client("localhost"));
+        serverScreen.addText("Waiting for other player");
+        for (int i = 0; i < 2; i++) {
+            socket = serverSocket.accept();
+            ClientHandler clientHandler = new ClientHandler(socket);
+            clients.add(clientHandler);
+            new Thread(clientHandler::init).start();
         }
 
-    }
-
-    public static void main(String[] args) throws IOException {
-        Server s = new Server();
-        s.startServer();
     }
 }

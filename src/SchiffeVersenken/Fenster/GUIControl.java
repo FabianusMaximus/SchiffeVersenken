@@ -2,6 +2,7 @@ package SchiffeVersenken.Fenster;
 
 import SchiffeVersenken.Components.ShipPanel;
 import SchiffeVersenken.Control;
+import SchiffeVersenken.Network.ClientHandler;
 import SchiffeVersenken.Network.Server;
 import SchiffeVersenken.Ship;
 import SchiffeVersenken.Network.Client;
@@ -10,6 +11,7 @@ import SchiffeVersenken.Network.ServerScreen;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
@@ -238,9 +240,22 @@ public class GUIControl {
         try {
             Server server = new Server();
             control.setServer(server);
-            ServerScreen serverScreen = new ServerScreen(server);
-            control.getServer().startServer();
-            control.setClient(new Client("localhost"));
+            ArrayList<ClientHandler> clients = new ArrayList<>();
+            new Thread(() -> {
+                try {
+                    server.startServer(control,clients);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Clients connected");
+                assert clients.size() == 2;
+
+                while (!clients.stream().allMatch(ClientHandler::isReady));
+
+                System.out.println("clients Ready");
+
+                
+            }).start();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -287,7 +302,7 @@ public class GUIControl {
             bestaetigt = true;
             gui.setDefaultColor(Color.green);
             try {
-                control.getClient().sendMessage("true");
+                control.getClient().sendMessage("ready");
             } catch (IOException e) {
                 e.printStackTrace();
             }

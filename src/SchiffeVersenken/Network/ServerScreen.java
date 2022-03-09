@@ -41,10 +41,14 @@ public class ServerScreen extends JFrame {
 
     private void setTextConsole() {
         try {
-            console.setText(server.getLocalHost());
+            console.setText(server.getLocalHost() + "\n");
             console.setFont(new Font("Times new Roman", Font.PLAIN, 20));
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addText(String text) {
+        console.append(text + "\n");
     }
 }
