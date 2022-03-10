@@ -59,6 +59,7 @@ public class GamePanel extends CustomPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                guiControl.clickContinue();
+                System.out.println(guiControl.translateGamefield());
             }
         });
 
@@ -173,5 +174,6 @@ public class GamePanel extends CustomPanel {
     public void setDefaultColor(Color color){
         defaultColor = color;
     }
+
 
 }

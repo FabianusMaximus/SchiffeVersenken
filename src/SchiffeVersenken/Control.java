@@ -12,6 +12,8 @@ public class Control {
     private Client client;
     private Server server;
 
+    private String datenSpielfeld;
+
     public Control() {
         generateShips();
     }

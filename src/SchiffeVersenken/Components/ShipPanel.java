@@ -29,6 +29,10 @@ public class ShipPanel extends JPanel {
         return status != Status.FREE;
     }
 
+    public boolean isShip(){
+        return status == Status.LOADED;
+    }
+
     public void setId(int id) {
         this.id = id;
     }

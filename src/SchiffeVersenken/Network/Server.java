@@ -1,5 +1,6 @@
 package SchiffeVersenken.Network;
 
+import SchiffeVersenken.Components.ShipPanel;
 import SchiffeVersenken.Control;
 
 import java.io.BufferedReader;
@@ -19,7 +20,7 @@ public class Server {
     private ServerScreen serverScreen;
 
 
-    private String[] coolerZufälligerSpruch;
+    private ShipPanel[][] gameField;
 
     private int index = 0;
 
@@ -28,6 +29,15 @@ public class Server {
         serverScreen = new ServerScreen(this);
         serverSocket = new ServerSocket(5050);
         System.out.println("IpV4-Adresse: " + InetAddress.getLocalHost());
+
+        gameField = new ShipPanel[10][10];
+        int id = 0;
+        for (int i = 0; i < gameField.length; i++) {
+            for (int j = 0; j < gameField[0].length; j++) {
+                gameField[i][j] = new ShipPanel(id);
+                id++;
+            }
+        }
 
     }
 
@@ -59,6 +69,36 @@ public class Server {
             clients.add(clientHandler);
             new Thread(clientHandler::init).start();
         }
+    }
+
+    public void translateGamefield(String input) {
+
+        char[] field = new char[input.length()];
+        input.getChars(0, input.length(), field, 0);
+
+        int count = 0;
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                gameField[i][j].setBlocked(field[count] == '1');
+                count++;
+            }
+        }
+    }
+
+    public void printGamefield() {
+        for (int i = 0; i < gameField.length; i++) {
+            for (int j = 0; j < gameField[0].length; j++) {
+                System.out.print(gameField[i][j].isBlocked() + "\t");
+            }
+            System.out.println("");
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        Server server = new Server();
+        server.translateGamefield("11111000000000000000111100000000000000001110000000000000000011000000000" +
+                "00000000011000000000000000000");
+        server.printGamefield();
 
     }
 }

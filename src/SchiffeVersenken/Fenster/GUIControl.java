@@ -35,7 +35,7 @@ public class GUIControl {
      * @param y Zweite Koordinate des Fels
      */
     public void clickCell(int x, int y) {
-        if (!bestaetigt){
+        if (!bestaetigt) {
             System.out.println("PanelID: " + gui.getCell()[x][y].getId());
             if (!gui.getCell()[x][y].isBelegt() && !gui.getCell()[x][y].isBlocked() && selectedShip != null) {
                 placeShip(x, y, selectedShip);
@@ -243,18 +243,18 @@ public class GUIControl {
             ArrayList<ClientHandler> clients = new ArrayList<>();
             new Thread(() -> {
                 try {
-                    server.startServer(control,clients);
+                    server.startServer(control, clients);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 System.out.println("Clients connected");
                 assert clients.size() == 2;
 
-                while (!clients.stream().allMatch(ClientHandler::isReady));
+                while (!clients.stream().allMatch(ClientHandler::isReady)) ;
 
                 System.out.println("clients Ready");
 
-                
+
             }).start();
 
         } catch (IOException e) {
@@ -297,8 +297,8 @@ public class GUIControl {
         }
     }
 
-    public void clickContinue(){
-        if (selectedShip == null){
+    public void clickContinue() {
+        if (selectedShip == null) {
             bestaetigt = true;
             gui.setDefaultColor(Color.green);
             try {
@@ -306,12 +306,26 @@ public class GUIControl {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(gui,
                     "Du hast noch nicht alle Schiffe platziert",
                     "Placement Error",
                     JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public String translateGamefield() {
+        StringBuilder translatedField = new StringBuilder();
+        for (ShipPanel[] cells : gui.getCell()) {
+            for (ShipPanel cell : cells) {
+                if(cell.isShip()){
+                    translatedField.append("1");
+                }else{
+                    translatedField.append("0");
+                }
+            }
+        }
+        return translatedField.toString();
     }
 
 }
