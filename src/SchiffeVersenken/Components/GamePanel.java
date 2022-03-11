@@ -66,7 +66,7 @@ public class GamePanel extends CustomPanel {
 
         selectShips = new SelectionLabel[5];
         counter = selectShips.length;
-        String[] names = {"Schlachtschiff", "Kreuzer", "Zerstörer", "U-Bot", "U-Bot"};
+        String[] names = {"Schlachtschiff", "Kreuzer", "Zerstörer", "U-Boot", "U-Boot"};
         for (int i = 0; i < selectShips.length; i++) {
             selectShips[i] = new SelectionLabel(names[i], guiControl.getShip(i));
             selectShips[i].setBorder(new LineBorder(Color.black));

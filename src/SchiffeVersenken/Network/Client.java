@@ -7,24 +7,24 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Client {
-    private Socket clienSocket;
+    private Socket clientSocket;
     private InputStreamReader stream;
     private BufferedReader reader;
     private PrintWriter writer;
     private String message;
 
     public Client(String ip) throws IOException {
-        clienSocket = new Socket(ip, 5050);
+        clientSocket = new Socket(ip, 5050);
     }
 
     public void sendMessage(String pMessage) throws IOException {
-        PrintWriter pr = new PrintWriter(clienSocket.getOutputStream());
+        PrintWriter pr = new PrintWriter(clientSocket.getOutputStream());
         pr.println(pMessage);
         pr.flush();
     }
 
     public void receiveMessage() throws IOException {
-        InputStreamReader in = new InputStreamReader(clienSocket.getInputStream());
+        InputStreamReader in = new InputStreamReader(clientSocket.getInputStream());
         BufferedReader bf = new BufferedReader(in);
 
         message = bf.readLine();
