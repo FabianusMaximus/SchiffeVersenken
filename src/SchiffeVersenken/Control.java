@@ -2,14 +2,18 @@ package SchiffeVersenken;
 
 
 import SchiffeVersenken.Fenster.GUIControl;
+import SchiffeVersenken.Network.ClientHandler;
 import SchiffeVersenken.Network.Client;
 import SchiffeVersenken.Network.Server;
+
+import java.util.ArrayList;
 
 public class Control {
     private GUIControl guiControl;
     private Ship[] ships;
 
-    private Client client;
+    private ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
+    private ArrayList<Client> clients = new ArrayList<>();
     private Server server;
 
     private String datenSpielfeld;
@@ -43,12 +47,19 @@ public class Control {
 
     }
 
-    public void setClient(Client client){
-        this.client = client;
+    public void addClientHandler(ClientHandler clientHandler){
+        this.clientHandlers.add(clientHandler);
+    }
+    public void addClient(Client client) {
+        this.clients.add(client);
     }
 
-    public Client getClient(){
-        return this.client;
+    public ArrayList<ClientHandler> getClientHandlers(){
+        return this.clientHandlers;
+    }
+
+    public ArrayList<Client> getClients() {
+        return this.clients;
     }
 
     public Server getServer() {

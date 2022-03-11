@@ -22,14 +22,11 @@ public class StartPanel extends CustomPanel {
 
         Font standardFont = new Font("Times new Roman", Font.PLAIN, width / 20);
 
-        //TODO Titelbild muss noch hinzugefügt werden
-
         title = new JLabel();
         title.setSize(width / 2, height / 4);
-        title.setLocation(width / 2 - title.getWidth() / 2, 50);
+        title.setLocation(width / 2 - title.getWidth() / 2, 40);
         title.setHorizontalAlignment(SwingConstants.CENTER);
         title.setVerticalAlignment(SwingConstants.CENTER);
-        title.setBorder(new LineBorder(Color.green));
         this.add(title);
 
         ImageIcon imageIcon = new ImageIcon(new ImageIcon("src/SchiffeVersenken/img/Titel Image.png").getImage()

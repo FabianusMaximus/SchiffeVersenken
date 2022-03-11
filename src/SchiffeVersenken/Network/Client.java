@@ -30,7 +30,7 @@ public class Client {
         message = bf.readLine();
     }
 
-    public void printMessage(){
+    public void printMessage() {
         System.out.println("Server: " + message);
     }
 
@@ -40,8 +40,6 @@ public class Client {
 
         client.sendMessage("test");
         client1.sendMessage("test1");
-
-
 
 
     }
