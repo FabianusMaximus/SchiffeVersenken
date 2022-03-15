@@ -13,7 +13,7 @@ public class Control {
     private Ship[] ships;
 
     private ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
-    private ArrayList<Client> clients = new ArrayList<>();
+    private Client client;
     private Server server;
 
     private String datenSpielfeld;
@@ -47,19 +47,20 @@ public class Control {
 
     }
 
-    public void addClientHandler(ClientHandler clientHandler){
+    public void addClientHandler(ClientHandler clientHandler) {
         this.clientHandlers.add(clientHandler);
     }
-    public void addClient(Client client) {
-        this.clients.add(client);
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
-    public ArrayList<ClientHandler> getClientHandlers(){
+    public ArrayList<ClientHandler> getClientHandlers() {
         return this.clientHandlers;
     }
 
-    public ArrayList<Client> getClients() {
-        return this.clients;
+    public Client getClient() {
+        return this.client;
     }
 
     public Server getServer() {

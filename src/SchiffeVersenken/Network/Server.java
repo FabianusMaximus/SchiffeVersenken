@@ -43,13 +43,18 @@ public class Server {
         return index;
     }
 
+    /**
+     * Startet den Server und verbindet direkt einen Client damit
+     * @param control
+     * @throws IOException
+     */
     public void startServer(Control control) throws IOException {
-        control.addClient(new Client("localhost"));
+        control.setClient(new Client("localhost"));
         serverScreen.addText("Waiting for other player");
         for (int i = 0; i < 2; i++) {
             socket = serverSocket.accept();
             ClientHandler clientHandler = new ClientHandler(socket);
-            control.getClientHandlers().add(clientHandler);
+            control.addClientHandler(clientHandler);
             new Thread(clientHandler::init).start();
         }
     }

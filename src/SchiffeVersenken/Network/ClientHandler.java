@@ -101,8 +101,8 @@ public class ClientHandler {
      */
     public void translateGamefield(String input) {
 
-        char[] field = new char[input.length() - 4];
-        input.getChars(4, input.length(), field, 0);
+        char[] field = new char[input.length() - 5];
+        input.getChars(5, input.length(), field, 0);
 
         int count = 0;
         for (int i = 0; i < 10; i++) {

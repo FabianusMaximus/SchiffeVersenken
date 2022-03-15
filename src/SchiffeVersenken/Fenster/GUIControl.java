@@ -245,7 +245,6 @@ public class GUIControl {
                     e.printStackTrace();
                 }
                 System.out.println("Clients connected");
-                assert control.getClients().size() == 2;
 
                 while (!control.getClientHandlers().stream().allMatch(ClientHandler::isReady)) ;
 
@@ -284,7 +283,7 @@ public class GUIControl {
     public void connectToServer(String ip) {
         if (checkIP(ip)) {
             try {
-                control.addClient(new Client(ip));
+                control.setClient(new Client(ip));
                 gui.goToGameScreen();
             } catch (IOException e) {
                 System.out.println("Server kaputt");
@@ -299,8 +298,8 @@ public class GUIControl {
             bestaetigt = true;
             gui.setDefaultColor(Color.green);
             try {
-                control.getClientHandlers().get(0).sendMessage("ready");
-                control.getClientHandlers().get(0).sendMessage(translateGamefield());
+                control.getClient().sendMessage("ready");
+                control.getClient().sendMessage(translateGamefield());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -324,6 +323,7 @@ public class GUIControl {
                 }
             }
         }
+        System.out.println(translatedField);
         return translatedField.toString();
     }
 
