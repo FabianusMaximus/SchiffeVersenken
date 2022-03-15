@@ -8,12 +8,12 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class PlayerPanel extends CustomPanel {
+public class PlayPanel extends CustomPanel {
 
     private ShipPanel[][] playerCell;
     private ShipPanel[][] enemyCell;
 
-    public PlayerPanel(int width, GUIControl guiControl){
+    public PlayPanel(int width, GUIControl guiControl){
         super(width, width/2, guiControl);
         this.setBackground(Color.WHITE);
         this.setLayout(new GridLayout(1,2, this.width /20,0));
@@ -64,8 +64,10 @@ public class PlayerPanel extends CustomPanel {
                 enemyPanel.add(enemyCell[i][j]);
             }
         }
+    }
 
-
+    public void setPlayerCell(ShipPanel[][] shipPanels){
+        playerCell = shipPanels;
     }
 
     public static void main(String[] args) {
@@ -75,9 +77,9 @@ public class PlayerPanel extends CustomPanel {
         Container cp = testFrame.getContentPane();
         cp.setLayout(null);
         cp.setBackground(Color.white);
-        PlayerPanel playerPanel = new PlayerPanel(width, new GUIControl(new Control()));
-        playerPanel.setBounds((int) (width*0.07), (int) ((width/2)*0.04), (int) (width*0.85), (int) ((width/2)*0.85));
-        cp.add(playerPanel);
+        PlayPanel playPanel = new PlayPanel(width, new GUIControl(new Control()));
+        playPanel.setBounds((int) (width*0.07), (int) ((width/2)*0.04), (int) (width*0.85), (int) ((width/2)*0.85));
+        cp.add(playPanel);
         testFrame.setLocationRelativeTo(null);
         testFrame.setVisible(true);
     }

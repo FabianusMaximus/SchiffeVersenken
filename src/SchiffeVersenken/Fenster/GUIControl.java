@@ -42,15 +42,9 @@ public class GUIControl {
                 removeShip(holdShip);
                 selectedShip = holdShip;
             } else if ((gui.getCell()[x][y].isBelegt() || gui.getCell()[x][y].isBlocked()) && selectedShip != null) {
-                JOptionPane.showMessageDialog(gui,
-                        "Das Schiff kann hier nicht platziert werden",
-                        "Placement Error",
-                        JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(gui, "Das Schiff kann hier nicht platziert werden", "Placement Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(gui,
-                        "Du hast kein Schiff ausgewählt",
-                        "Placement Error",
-                        JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(gui, "Du hast kein Schiff ausgewählt", "Placement Error", JOptionPane.ERROR_MESSAGE);
             }
             updateGamefield();
         }
@@ -124,6 +118,12 @@ public class GUIControl {
         selectedShip = holdShip;
     }
 
+    /**
+     * Dreht das ausgewählte Schiff um 90° und zeigt die aktualisierte Vorschau an
+     *
+     * @param x X-Koordinate des Klicks
+     * @param y Y-Koordinate des Klicks
+     */
     public void changeOrientation(int x, int y) {
         if (selectedShip != null) {
             deletePreview();
@@ -132,6 +132,11 @@ public class GUIControl {
         }
     }
 
+    /**
+     * Setzt den Status der Zellen neu, auf denen das Schiff war, bevor es entfernt wurde
+     *
+     * @param ship Das Schiff das entfernt werden soll
+     */
     private void removeShip(Ship ship) {
         for (int i = 0; i < ship.getBlockedZone().size(); i++) {
             int a = (int) ship.getBlockedZone().get(i).getX();
@@ -152,6 +157,9 @@ public class GUIControl {
         }
     }
 
+    /**
+     * Überprüft den Status jeder Zelle und färbt sie entsprechend neu ein
+     */
     public void updateGamefield() {
         replaceShips();
         for (ShipPanel[] shipPanels : gui.getCell()) {
@@ -170,6 +178,13 @@ public class GUIControl {
         gui.revalidate();
     }
 
+    /**
+     * Berechnet die Indexe, ausgehend von der Position der Maus, die eingefärbt werden müssen, um den Hover effekt
+     * zu erzeugen.
+     *
+     * @param x X-Koordinate der Maus
+     * @param y Y-Koordinate der Maus
+     */
     public void showPreview(int x, int y) {
         if (selectedShip != null) {
             selectedShip.setLocation(x, y);
@@ -192,6 +207,9 @@ public class GUIControl {
         }
     }
 
+    /**
+     * Überprüft, ob das Schiff so an die Stelle passt und färbt die Zellen entsprechend ein
+     */
     public void placementError() {
         for (int i = 0; i < selectedShip.getLocation().size(); i++) {
             int a = (int) selectedShip.getLocation().get(i).getX();
@@ -211,10 +229,22 @@ public class GUIControl {
         System.out.println("Selected Ship: " + selectedShip.getName());
     }
 
+    /**
+     * Überprüft, ob die angegebenen Koordinaten überhaupt im Spielfeld liegen
+     *
+     * @param x X-Koordinate
+     * @param y Y-Koordinate
+     * @return Ob der Punkt im Spielfeld liegt
+     */
     public boolean checkValid(int x, int y) {
         return x >= 0 && x < gui.getCell().length && y >= 0 && y < gui.getCell()[0].length;
     }
 
+    /**
+     * Überprüft, ob es auf dem Spielfeld ein Feld gibt das mit "Error" markiert ist
+     *
+     * @return true = Error, false = kein Error
+     */
     public boolean checkError() {
         for (ShipPanel[] shipPanels : gui.getCell()) {
             for (ShipPanel shipPanel : shipPanels) {
@@ -234,6 +264,13 @@ public class GUIControl {
         return control.getShip(index);
     }
 
+
+    /**
+     * Funktion die ausgeführt wird, wenn der Spieler "Host game" auf der Oberfläche drückt.
+     * Es wird ein Server erstellt, der in einem neuen Thread läuft.
+     * Gleichzeitig wird ein neuer Client erstellt, welcher sich dann direkt mit dem Server verbindet.
+     * Danach wartet die Funktion bis beide Clients bestätigt haben und das Spiel fortgesetzt werden kann.
+     */
     public void clickHostGame() {
         try {
             Server server = new Server();
@@ -245,10 +282,24 @@ public class GUIControl {
                     e.printStackTrace();
                 }
                 System.out.println("Clients connected");
+                control.getServer().writeInConsole("Clients connected");
 
                 while (!control.getClientHandlers().stream().allMatch(ClientHandler::isReady)) ;
 
+                try {
+                    control.getClientHandlers().get(1).sendMessage("Both Ready");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                for (int i = 0; i < control.getClientHandlers().size(); i++) {
+                    System.out.println("Field from Client " + i + ":");
+                    control.getClientHandlers().get(i).printGamefield();
+                }
+
                 System.out.println("clients Ready");
+                control.getServer().writeInConsole("clients Ready");
+                goToPlayScreen();
 
 
             }).start();
@@ -259,10 +310,19 @@ public class GUIControl {
         gui.goToGameScreen();
     }
 
+    /**
+     * Funktion die ausgeführt werden soll, wenn der Spieler "Join Game" auf der Oberfläche drückt
+     */
     public void clickJoinGame() {
         gui.goToClientScreen();
     }
 
+    /**
+     * Überprüft, ob das was eingegeben wurde den Standards für eine IPV4-Adresse entspricht
+     *
+     * @param ip String der überprüft werden soll
+     * @return Ob die Ip Adresse valide ist
+     */
     private boolean checkIP(String ip) {
         int count = 0;
         if ((!Pattern.matches("[a-zA-Z]+", ip)) && ip.length() > 2) {
@@ -280,11 +340,29 @@ public class GUIControl {
         return false;
     }
 
+    /**
+     * Funktion die einen neuen Client zu dem bestehenden Server verbindet.
+     *
+     * @param ip IP-Adresse, mit der sich verbunden werden soll
+     */
     public void connectToServer(String ip) {
         if (checkIP(ip)) {
             try {
                 control.setClient(new Client(ip));
                 gui.goToGameScreen();
+
+                new Thread(() -> {
+                    //TODO das ist noch sehr hässlich und nur ein erster Versuch
+                    while (true) {
+                        try {
+                            if (!control.getClient().receiveMessage().equals("Both ready")) break;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    goToPlayScreen();
+                }).start();
+
             } catch (IOException e) {
                 System.out.println("Server kaputt");
             }
@@ -293,6 +371,10 @@ public class GUIControl {
         }
     }
 
+    /**
+     * Funktion die ausgeführt wird, wenn man alle seine Schiffe platziert hat und fortfahren möchte.
+     * Sendet eine Nachricht an den Server und färbt den Knopf neu ein
+     */
     public void clickContinue() {
         if (selectedShip == null) {
             bestaetigt = true;
@@ -304,27 +386,39 @@ public class GUIControl {
                 e.printStackTrace();
             }
         } else {
-            JOptionPane.showMessageDialog(gui,
-                    "Du hast noch nicht alle Schiffe platziert",
-                    "Placement Error",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(gui, "Du hast noch nicht alle Schiffe platziert",
+                    "Placement Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
+    /**
+     * Übersetzt die Daten aus dem Spielfeld in einen String,
+     * damit sie über das Netzwerk versendet werden können
+     *
+     * @return
+     */
     public String translateGamefield() {
         StringBuilder translatedField = new StringBuilder();
         translatedField.append("field");
         for (ShipPanel[] cells : gui.getCell()) {
             for (ShipPanel cell : cells) {
-                if(cell.isShip()){
+                if (cell.isShip()) {
                     translatedField.append("1");
-                }else{
+                } else {
                     translatedField.append("0");
                 }
             }
         }
         System.out.println(translatedField);
         return translatedField.toString();
+    }
+
+    /**
+     * Bereitet das Spielfeld vor und wechselt anschließend dort hin
+     */
+    private void goToPlayScreen() {
+        gui.getPlayPanel().setPlayerCell(gui.getCell());
+        gui.goToPlayScreen();
     }
 
 }

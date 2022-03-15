@@ -13,6 +13,7 @@ public class GUI extends JFrame {
     private StartPanel startPanel;
     private GamePanel gamePanel;
     private ClientPanel clientPanel;
+    private PlayPanel playPanel;
 
     private Container cp;
     private Font standardFont;
@@ -33,8 +34,6 @@ public class GUI extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        //TODO hier muss noch der Start screen hinzugefügt werden und die weiteren Schritte müssen auch noch entworfen werden
-
         startPanel = new StartPanel(width, height, guiControl);
         startPanel.setBounds(0, 0, width, height);
         cp.add(startPanel);
@@ -48,6 +47,11 @@ public class GUI extends JFrame {
         gamePanel.setBounds(0, 0, width, height);
         gamePanel.setVisible(false);
         cp.add(gamePanel);
+
+        playPanel = new PlayPanel(width, guiControl);
+        playPanel.setBounds(0,0,width,height);
+        playPanel.setVisible(false);
+        cp.add(playPanel);
 
         setVisible(true);
     }
@@ -69,45 +73,38 @@ public class GUI extends JFrame {
     public void goToGameScreen() {
         startPanel.setVisible(false);
         clientPanel.setVisible(false);
+        playPanel.setVisible(false);
         gamePanel.setVisible(true);
     }
 
-    public void goToClientScreen(){
+    public void goToClientScreen() {
         startPanel.setVisible(false);
         gamePanel.setVisible(false);
+        playPanel.setVisible(false);
         clientPanel.setVisible(true);
 
     }
 
-    public Container getCp() {
-        return cp;
+    public void goToPlayScreen() {
+        startPanel.setVisible(false);
+        gamePanel.setVisible(false);
+        clientPanel.setVisible(false);
+        playPanel.setVisible(true);
+    }
+
+    public PlayPanel getPlayPanel(){
+        return playPanel;
     }
 
     public void setGuiControl(GUIControl guiControl) {
         this.guiControl = guiControl;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public void setCp(Container cp) {
-        this.cp = cp;
-    }
-
-    public void setStandardFont(Font standardFont) {
-        this.standardFont = standardFont;
-    }
-
     public Font getStandardFont() {
         return standardFont;
     }
 
-    public void setDefaultColor(Color color){
+    public void setDefaultColor(Color color) {
         gamePanel.setDefaultColor(color);
     }
 }

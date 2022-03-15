@@ -47,7 +47,6 @@ public class ClientHandler {
                 }
                 if (message.contains("field")) {
                     translateGamefield(message);
-                    printGamefield();
                 }
 
             } catch (IOException e) {
@@ -126,7 +125,7 @@ public class ClientHandler {
     }
 
     /**
-     * @return Boolean, ob der Spieler bereit ist
+     * @return boolean, ob der Spieler bereit ist
      */
     public boolean isReady() {
         return ready;

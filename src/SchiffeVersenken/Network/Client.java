@@ -23,11 +23,11 @@ public class Client {
         pr.flush();
     }
 
-    public void receiveMessage() throws IOException {
+    public String receiveMessage() throws IOException {
         InputStreamReader in = new InputStreamReader(clientSocket.getInputStream());
         BufferedReader bf = new BufferedReader(in);
 
-        message = bf.readLine();
+        return bf.readLine();
     }
 
     public void printMessage() {

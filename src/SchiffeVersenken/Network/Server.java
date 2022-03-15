@@ -59,5 +59,9 @@ public class Server {
         }
     }
 
+    public void writeInConsole(String text){
+        serverScreen.addText(text);
+    }
+
 
 }
