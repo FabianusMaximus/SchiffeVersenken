@@ -1,17 +1,11 @@
 package SchiffeVersenken.Fenster;
 
-import SchiffeVersenken.Components.ShipPanel;
 import SchiffeVersenken.Control;
-import SchiffeVersenken.Network.ClientHandler;
-import SchiffeVersenken.Network.Server;
-import SchiffeVersenken.Network.ServerLogic;
-import SchiffeVersenken.Ship;
 import SchiffeVersenken.Network.Client;
+import SchiffeVersenken.Network.Server;
+import SchiffeVersenken.Ship;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class GUIControl {
@@ -113,16 +107,9 @@ public class GUIControl {
                 }
                 System.out.println("Clients connected");
 
-                ServerLogic serverLogic = new ServerLogic(control.getClientHandlers().get(0),
-                        control.getClientHandlers().get(1), control.getServer());
+                control.setServerLogic();
                 for (int i = 0; i < 2; i++) {
-                    control.getClientHandlers().get(i).setServerLogic(serverLogic);
-                }
-
-                try {
-                    control.getClientHandlers().get(1).sendMessage("Both Ready");
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    control.getClientHandlers().get(i).setServerLogic(control.getServerLogic());
                 }
 
             }).start();

@@ -5,6 +5,7 @@ import SchiffeVersenken.Fenster.GUIControl;
 import SchiffeVersenken.Network.ClientHandler;
 import SchiffeVersenken.Network.Client;
 import SchiffeVersenken.Network.Server;
+import SchiffeVersenken.Network.ServerLogic;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,8 @@ public class Control {
     private Client client;
 
     private Server server;
+
+    private ServerLogic serverLogic;
 
     private String datenSpielfeld;
 
@@ -63,6 +66,14 @@ public class Control {
 
     public Client getClient() {
         return this.client;
+    }
+
+    public void setServerLogic() {
+        serverLogic = new ServerLogic(clientHandlers.get(0), clientHandlers.get(1), server);
+    }
+
+    public ServerLogic getServerLogic() {
+        return serverLogic;
     }
 
     public Server getServer() {

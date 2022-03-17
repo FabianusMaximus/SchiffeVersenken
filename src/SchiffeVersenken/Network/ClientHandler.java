@@ -13,7 +13,6 @@ public class ClientHandler {
     private boolean online;
     private PrintWriter pr;
 
-    private ShipPanel[][] gameField;
     private ServerLogic serverLogic;
 
     public ClientHandler(Socket socket) {
@@ -40,7 +39,7 @@ public class ClientHandler {
                         break;
                 }
                 if (message.contains("field")) {
-                    translateGamefield(message);
+                    serverLogic.setGameField(this, message);
                 }
 
             } catch (IOException e) {
@@ -88,47 +87,9 @@ public class ClientHandler {
         return bf.readLine();
     }
 
-    /**
-     * Baut aus dem String der Über das Netz geschickt wurde wieder ein normales Gamefield
-     *
-     * @param input Input-String des Sockets
-     */
-    public void translateGamefield(String input) {
-
-        char[] field = new char[input.length() - 5];
-        input.getChars(5, input.length(), field, 0);
-
-        ShipPanel[][] gameField = new ShipPanel[10][10];
-        int id = 0;
-        for (int i = 0; i < gameField.length; i++) {
-            for (int j = 0; j < gameField[0].length; j++) {
-                gameField[i][j] = new ShipPanel(id);
-                id++;
-            }
-        }
-
-        int count = 0;
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                gameField[i][j].setBlocked(field[count] == '1');
-                count++;
-            }
-        }
-    }
-
     public void setServerLogic(ServerLogic serverLogic) {
         this.serverLogic = serverLogic;
     }
 
-    /**
-     * Funktion zum Überprüfen, ob das gamefield auch richtig übersetzt wurde
-     */
-    public void printGamefield() {
-        for (int i = 0; i < gameField.length; i++) {
-            for (int j = 0; j < gameField[0].length; j++) {
-                System.out.print(gameField[i][j].isBlocked() + "\t");
-            }
-            System.out.println();
-        }
-    }
+
 }

@@ -14,9 +14,12 @@ public class ServerLogic {
         this.clientHandler2 = clientHandler2;
         this.server = server;
 
+        gameField1 = new ShipPanel[10][10];
+        gameField2 = new ShipPanel[10][10];
+
         int count = 0;
-        for (int i = 0; i <10 ; i++) {
-            for (int j = 0; j <10 ; j++) {
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
                 gameField1[i][j] = new ShipPanel(count);
                 gameField2[i][j] = new ShipPanel(count);
             }
@@ -34,9 +37,47 @@ public class ServerLogic {
         } else {
             throw new RuntimeException();
         }
-        if (ready1 && ready2){
-            printGamefields();
+        if (ready1 && ready2) {
             //TODO mach was cooles
+        }
+    }
+
+    /**
+     * Baut aus dem String der Über das Netz geschickt wurde wieder ein normales Gamefield
+     *
+     * @param input Input-String des Sockets
+     */
+    public ShipPanel[][] translateGamefield(String input) {
+
+        char[] field = new char[input.length() - 5];
+        input.getChars(5, input.length(), field, 0);
+
+        ShipPanel[][] holdField = new ShipPanel[10][10];
+        int id = 0;
+        for (int i = 0; i < holdField.length; i++) {
+            for (int j = 0; j < holdField[0].length; j++) {
+                holdField[i][j] = new ShipPanel(id);
+                id++;
+            }
+        }
+
+        int count = 0;
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                holdField[i][j].setBlocked(field[count] == '1');
+                count++;
+            }
+        }
+        return holdField;
+    }
+
+    public void setGameField(ClientHandler clientHandler, String string) {
+        if (clientHandler == clientHandler1) {
+            gameField1 = translateGamefield(string);
+        } else if (clientHandler == clientHandler2) {
+            gameField2 = translateGamefield(string);
+        } else {
+            throw new RuntimeException();
         }
     }
 

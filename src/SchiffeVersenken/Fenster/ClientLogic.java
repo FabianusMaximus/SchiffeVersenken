@@ -232,6 +232,7 @@ public class ClientLogic {
             try {
                 client.sendMessage("ready");
                 client.sendMessage(translateGamefield());
+                System.out.println("Field translation: " + translateGamefield());
             } catch (IOException e) {
                 e.printStackTrace();
             }
