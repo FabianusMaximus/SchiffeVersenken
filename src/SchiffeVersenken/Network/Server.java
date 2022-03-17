@@ -56,7 +56,7 @@ public class Server {
             control.addClientHandler(clientHandler);
             new Thread(clientHandler::init).start();
         }
-        serverScreen.addText("Beide Clients connected");
+        serverScreen.addText("Both Clients connected");
     }
 
     public void writeInConsole(String text){

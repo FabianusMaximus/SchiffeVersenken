@@ -113,7 +113,8 @@ public class GUIControl {
                 }
                 System.out.println("Clients connected");
 
-                ServerLogic serverLogic = new ServerLogic(control.getClientHandlers().get(0), control.getClientHandlers().get(1));
+                ServerLogic serverLogic = new ServerLogic(control.getClientHandlers().get(0),
+                        control.getClientHandlers().get(1), control.getServer());
                 for (int i = 0; i < 2; i++) {
                     control.getClientHandlers().get(i).setServerLogic(serverLogic);
                 }
@@ -123,16 +124,6 @@ public class GUIControl {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-                for (int i = 0; i < control.getClientHandlers().size(); i++) {
-                    System.out.println("Field from Client " + i + ":");
-                    control.getClientHandlers().get(i).printGamefield();
-                }
-
-                System.out.println("clients Ready");
-                control.getServer().writeInConsole("clients Ready");
-                goToPlayScreen();
-
 
             }).start();
 
