@@ -49,7 +49,6 @@ public class Server {
      * @throws IOException
      */
     public void startServer(Control control) throws IOException {
-        control.setClient(new Client("localhost"));
         serverScreen.addText("Waiting for other player");
         for (int i = 0; i < 2; i++) {
             socket = serverSocket.accept();
@@ -57,6 +56,7 @@ public class Server {
             control.addClientHandler(clientHandler);
             new Thread(clientHandler::init).start();
         }
+        serverScreen.addText("Beide Clients connected");
     }
 
     public void writeInConsole(String text){

@@ -13,7 +13,9 @@ public class Control {
     private Ship[] ships;
 
     private ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
+    
     private Client client;
+
     private Server server;
 
     private String datenSpielfeld;

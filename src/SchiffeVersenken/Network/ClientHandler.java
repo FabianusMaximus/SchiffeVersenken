@@ -10,23 +10,17 @@ import java.net.Socket;
 
 public class ClientHandler {
     private Socket socket;
-    private boolean online, ready;
+    private boolean online;
     private PrintWriter pr;
 
     private ShipPanel[][] gameField;
+    private ServerLogic serverLogic;
 
     public ClientHandler(Socket socket) {
         this.socket = socket;
         online = true;
 
-        gameField = new ShipPanel[10][10];
-        int id = 0;
-        for (int i = 0; i < gameField.length; i++) {
-            for (int j = 0; j < gameField[0].length; j++) {
-                gameField[i][j] = new ShipPanel(id);
-                id++;
-            }
-        }
+
     }
 
     /**
@@ -40,7 +34,7 @@ public class ClientHandler {
                 String message = receiveMessage();
                 switch (message) {
                     case "ready":
-                        ready = true;
+                        serverLogic.clientReady(this);
                         break;
                     case "ping":
                         break;
@@ -58,6 +52,7 @@ public class ClientHandler {
 
     /**
      * Funktion, die es ermöglicht den Clients eine Nachricht zu senden
+     *
      * @param pMessage String der Nachricht die gesendet werden soll
      * @throws IOException
      */
@@ -103,6 +98,15 @@ public class ClientHandler {
         char[] field = new char[input.length() - 5];
         input.getChars(5, input.length(), field, 0);
 
+        ShipPanel[][] gameField = new ShipPanel[10][10];
+        int id = 0;
+        for (int i = 0; i < gameField.length; i++) {
+            for (int j = 0; j < gameField[0].length; j++) {
+                gameField[i][j] = new ShipPanel(id);
+                id++;
+            }
+        }
+
         int count = 0;
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -110,6 +114,10 @@ public class ClientHandler {
                 count++;
             }
         }
+    }
+
+    public void setServerLogic(ServerLogic serverLogic) {
+        this.serverLogic = serverLogic;
     }
 
     /**
@@ -122,12 +130,5 @@ public class ClientHandler {
             }
             System.out.println();
         }
-    }
-
-    /**
-     * @return boolean, ob der Spieler bereit ist
-     */
-    public boolean isReady() {
-        return ready;
     }
 }
