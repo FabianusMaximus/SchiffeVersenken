@@ -36,11 +36,8 @@ public class ClientHandler {
             try {
                 String message = receiveMessage();
                 switch (message) {
-                    case "ready":
-                        serverLogic.clientReady(this);
-                        break;
-                    case "ping":
-                        break;
+                    case "ready" -> serverLogic.clientReady(this);
+                    case "ping" -> System.out.println("ping");
                 }
                 if (message.contains("field")) {
                     serverLogic.setGameField(this, message);
@@ -95,7 +92,7 @@ public class ClientHandler {
         this.serverLogic = serverLogic;
     }
 
-    public void goToPlayScreen(){
+    public void goToPlayScreen() {
         guiControl.goToPlayScreen();
     }
 
