@@ -1,10 +1,12 @@
 package SchiffeVersenken.Fenster;
 
+import SchiffeVersenken.Components.ShipPanel;
 import SchiffeVersenken.Control;
 import SchiffeVersenken.Network.Client;
 import SchiffeVersenken.Network.Server;
 import SchiffeVersenken.Ship;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
@@ -12,10 +14,12 @@ public class GUIControl {
     private GUI gui;
     private Control control;
     private ClientLogic clientLogic;
+    private PlayLogic playLogic;
 
     public GUIControl(Control control) {
         this.control = control;
         this.gui = new GUI(this);
+
     }
 
     /**
@@ -84,6 +88,20 @@ public class GUIControl {
 
     public Ship getShip(int index) {
         return control.getShip(index);
+    }
+
+    public static void applyColorSheme(ShipPanel[] shipPanels) {
+        for (ShipPanel shipPanel : shipPanels) {
+            if (!shipPanel.isBelegt() && !shipPanel.isBlocked()) {
+                shipPanel.setBackground(Color.black);
+            } else if (shipPanel.isBlocked()) {
+                shipPanel.setBackground(Color.gray);
+            } else if (shipPanel.isError()) {
+                shipPanel.setBackground(Color.red);
+            } else {
+                shipPanel.setBackground(Color.green);
+            }
+        }
     }
 
 
@@ -158,6 +176,7 @@ public class GUIControl {
         if (checkIP(ip)) {
             try {
                 this.clientLogic = new ClientLogic(new Client(ip), gui);
+                this.playLogic = new PlayLogic(new Client(ip), gui);
                 gui.goToGameScreen();
 
             } catch (IOException e) {
@@ -179,7 +198,8 @@ public class GUIControl {
     /**
      * Bereitet das Spielfeld vor und wechselt anschließend dort hin
      */
-    private void goToPlayScreen() {
+    public void goToPlayScreen() {
+        playLogic.updatePlayField();
         gui.getPlayPanel().setPlayerCell(gui.getCell());
         gui.goToPlayScreen();
     }

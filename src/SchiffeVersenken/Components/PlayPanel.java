@@ -70,6 +70,10 @@ public class PlayPanel extends CustomPanel {
         playerCell = shipPanels;
     }
 
+    public ShipPanel[][] getPlayerCell() {
+        return playerCell;
+    }
+
     public static void main(String[] args) {
         int width = 1000;
         JFrame testFrame = new JFrame();

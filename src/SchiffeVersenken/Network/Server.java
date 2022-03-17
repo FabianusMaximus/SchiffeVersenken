@@ -52,7 +52,7 @@ public class Server {
         serverScreen.addText("Waiting for other player");
         for (int i = 0; i < 2; i++) {
             socket = serverSocket.accept();
-            ClientHandler clientHandler = new ClientHandler(socket);
+            ClientHandler clientHandler = new ClientHandler(control.getGuiControl(),socket);
             control.addClientHandler(clientHandler);
             new Thread(clientHandler::init).start();
         }

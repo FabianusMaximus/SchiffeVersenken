@@ -52,6 +52,10 @@ public class Control {
 
     }
 
+    public GUIControl getGuiControl() {
+        return guiControl;
+    }
+
     public void addClientHandler(ClientHandler clientHandler) {
         this.clientHandlers.add(clientHandler);
     }

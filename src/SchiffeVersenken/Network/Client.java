@@ -33,14 +33,4 @@ public class Client {
     public void printMessage() {
         System.out.println("Server: " + message);
     }
-
-    public static void main(String[] args) throws IOException {
-        Client client = new Client("localhost");
-        Client client1 = new Client("localhost");
-
-        client.sendMessage("test");
-        client1.sendMessage("test1");
-
-
-    }
 }

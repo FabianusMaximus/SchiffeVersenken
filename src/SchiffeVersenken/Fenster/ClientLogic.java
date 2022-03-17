@@ -150,17 +150,7 @@ public class ClientLogic {
     public void updateGamefield() {
         replaceShips();
         for (ShipPanel[] shipPanels : gui.getCell()) {
-            for (ShipPanel shipPanel : shipPanels) {
-                if (!shipPanel.isBelegt() && !shipPanel.isBlocked()) {
-                    shipPanel.setBackground(Color.black);
-                } else if (shipPanel.isBlocked()) {
-                    shipPanel.setBackground(Color.gray);
-                } else if (shipPanel.isError()) {
-                    shipPanel.setBackground(Color.red);
-                } else {
-                    shipPanel.setBackground(Color.green);
-                }
-            }
+            GUIControl.applyColorSheme(shipPanels);
         }
         gui.revalidate();
     }

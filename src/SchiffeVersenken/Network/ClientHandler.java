@@ -1,6 +1,8 @@
 package SchiffeVersenken.Network;
 
 import SchiffeVersenken.Components.ShipPanel;
+import SchiffeVersenken.Fenster.ClientLogic;
+import SchiffeVersenken.Fenster.GUIControl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,13 +11,15 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class ClientHandler {
+    private GUIControl guiControl;
     private Socket socket;
     private boolean online;
     private PrintWriter pr;
 
     private ServerLogic serverLogic;
 
-    public ClientHandler(Socket socket) {
+    public ClientHandler(GUIControl guiControl, Socket socket) {
+        this.guiControl = guiControl;
         this.socket = socket;
         online = true;
 
@@ -89,6 +93,10 @@ public class ClientHandler {
 
     public void setServerLogic(ServerLogic serverLogic) {
         this.serverLogic = serverLogic;
+    }
+
+    public void goToPlayScreen(){
+        guiControl.goToPlayScreen();
     }
 
 

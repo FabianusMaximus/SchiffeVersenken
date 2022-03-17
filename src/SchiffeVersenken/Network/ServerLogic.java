@@ -2,11 +2,15 @@ package SchiffeVersenken.Network;
 
 import SchiffeVersenken.Components.ShipPanel;
 
+import java.io.IOException;
+
 public class ServerLogic {
     private ClientHandler clientHandler1, clientHandler2;
     private boolean ready1, ready2;
-    private ShipPanel[][] gameField1, gameField2;
     private Server server;
+
+    private ShipPanel[][] gameField1, gameField2;
+
 
     public ServerLogic(ClientHandler clientHandler1, ClientHandler clientHandler2, Server server) {
 
@@ -38,7 +42,8 @@ public class ServerLogic {
             throw new RuntimeException();
         }
         if (ready1 && ready2) {
-            //TODO mach was cooles
+            clientHandler1.goToPlayScreen();
+            clientHandler2.goToPlayScreen();
         }
     }
 
@@ -74,31 +79,27 @@ public class ServerLogic {
     public void setGameField(ClientHandler clientHandler, String string) {
         if (clientHandler == clientHandler1) {
             gameField1 = translateGamefield(string);
+            System.out.println("GameField from Client 1: ");
+            printGamefield(gameField1);
         } else if (clientHandler == clientHandler2) {
             gameField2 = translateGamefield(string);
+            System.out.println("GameField from Client 2:");
+            printGamefield(gameField2);
         } else {
             throw new RuntimeException();
         }
     }
 
     /**
-     * Funktion zum Überprüfen, ob das gamefield auch richtig übersetzt wurde
+     * Funktion, die das Spielfeld in der Console anzeigt, um zu schauen, ob es richtig übersetzt wurde
      */
-    public void printGamefields() {
-        System.out.println("Gamefield form Client 1:");
-        for (ShipPanel[] shipPanels : gameField1) {
-            for (int j = 0; j < gameField1[0].length; j++) {
+    public void printGamefield(ShipPanel[][] gameField) {
+        for (ShipPanel[] shipPanels : gameField) {
+            for (int j = 0; j < gameField[0].length; j++) {
                 System.out.print(shipPanels[j].isBlocked() + "\t");
             }
             System.out.println();
         }
 
-        System.out.println("Gamefield form Client 2:");
-        for (ShipPanel[] shipPanels : gameField2) {
-            for (int j = 0; j < gameField2[0].length; j++) {
-                System.out.print(shipPanels[j].isBlocked() + "\t");
-            }
-            System.out.println();
-        }
     }
 }

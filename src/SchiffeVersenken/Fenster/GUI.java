@@ -70,6 +70,10 @@ public class GUI extends JFrame {
         return gamePanel.getCell();
     }
 
+    public ShipPanel[][] getPlayField(){
+        return playPanel.getPlayerCell();
+    }
+
     public void goToGameScreen() {
         startPanel.setVisible(false);
         clientPanel.setVisible(false);
