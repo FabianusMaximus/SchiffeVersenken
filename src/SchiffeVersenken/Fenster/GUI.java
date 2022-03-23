@@ -48,7 +48,7 @@ public class GUI extends JFrame {
         gamePanel.setVisible(false);
         cp.add(gamePanel);
 
-        playPanel = new PlayPanel(width, guiControl);
+        playPanel = new PlayPanel(width, height, guiControl);
         playPanel.setBounds(0,0,width,height);
         playPanel.setVisible(false);
         cp.add(playPanel);
@@ -90,6 +90,9 @@ public class GUI extends JFrame {
     }
 
     public void goToPlayScreen() {
+        //TODO Keine Schiffchen
+        playPanel.setPlayerCell(gamePanel.getCell());
+        playPanel.updatePlayerPanel();
         startPanel.setVisible(false);
         gamePanel.setVisible(false);
         clientPanel.setVisible(false);
@@ -111,4 +114,5 @@ public class GUI extends JFrame {
     public void setDefaultColor(Color color) {
         gamePanel.setDefaultColor(color);
     }
+
 }

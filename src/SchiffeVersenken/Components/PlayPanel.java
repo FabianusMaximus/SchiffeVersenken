@@ -4,6 +4,7 @@ import SchiffeVersenken.Control;
 import SchiffeVersenken.Fenster.GUIControl;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -13,15 +14,20 @@ public class PlayPanel extends CustomPanel {
     private ShipPanel[][] playerCell;
     private ShipPanel[][] enemyCell;
 
-    public PlayPanel(int width, GUIControl guiControl){
-        super(width, width/2, guiControl);
+    public PlayPanel(int width, int height, GUIControl guiControl){
+        super(width,height, guiControl);
         this.setBackground(Color.WHITE);
-        this.setLayout(new GridLayout(1,2, this.width /20,0));
+        this.setLayout(null);
+
+        JPanel basePanel = new JPanel();
+        basePanel.setBounds((int) (width*0.07), (int) ((width/2)*0.04), (int) (width*0.85), (int) ((width/2)*0.85));
+        basePanel.setLayout(new GridLayout(1,2, this.width /20,0));
+        this.add(basePanel);
 
         JPanel playerPanel = new JPanel();
         playerPanel.setBackground(Color.GREEN);
         playerPanel.setLayout(new GridLayout(10,10,5,5));
-        this.add(playerPanel);
+        basePanel.add(playerPanel);
 
         playerCell = new ShipPanel[10][10];
         int playerid = 0;
@@ -29,14 +35,6 @@ public class PlayPanel extends CustomPanel {
             for (int j = 0; j < playerCell[i].length; j++) {
                 playerCell[i][j] = new ShipPanel(playerid++);
                 playerCell[i][j].setBackground(Color.black);
-                int finalX = i;
-                int finalY = j;
-                playerCell[i][j].addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                       //clickCell(finalX, finalY, selectedShip);
-                    }
-                });
                 playerPanel.add(playerCell[i][j]);
             }
         }
@@ -45,7 +43,7 @@ public class PlayPanel extends CustomPanel {
         enemyPanel= new JPanel();
         enemyPanel.setBackground(Color.RED);
         enemyPanel.setLayout(new GridLayout(10,10,5,5));
-        this.add(enemyPanel);
+        basePanel.add(enemyPanel);
 
         enemyCell = new ShipPanel[10][10];
         int enemyid = 0;
@@ -74,17 +72,16 @@ public class PlayPanel extends CustomPanel {
         return playerCell;
     }
 
-    public static void main(String[] args) {
-        int width = 1000;
-        JFrame testFrame = new JFrame();
-        testFrame.setSize(new Dimension(width,width/2));
-        Container cp = testFrame.getContentPane();
-        cp.setLayout(null);
-        cp.setBackground(Color.white);
-        PlayPanel playPanel = new PlayPanel(width, new GUIControl(new Control()));
-        playPanel.setBounds((int) (width*0.07), (int) ((width/2)*0.04), (int) (width*0.85), (int) ((width/2)*0.85));
-        cp.add(playPanel);
-        testFrame.setLocationRelativeTo(null);
-        testFrame.setVisible(true);
+    public void updatePlayerPanel(){
+        for (int i = 0; i < playerCell.length; i++) {
+            for (int j = 0; j < playerCell[0].length; j++) {
+                if (playerCell[i][j].getStatus()== ShipPanel.Status.LOADED){
+                    playerCell[i][j].setBackground(Color.GREEN);
+                }else if (playerCell[i][j].getStatus()== ShipPanel.Status.SUNKEN){
+                    playerCell[i][j].setBackground(Color.GRAY);
+                }
+            }
+        }
     }
+
 }
