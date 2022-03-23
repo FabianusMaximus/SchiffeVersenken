@@ -93,7 +93,12 @@ public class ClientHandler {
     }
 
     public void goToPlayScreen() {
-        guiControl.goToPlayScreen();
+        try {
+            sendMessage("bothready");
+            System.out.println("habe gesendet");
+        } catch (IOException e) {
+            System.out.println("Nachricht will nicht raus");
+        }
     }
 
 

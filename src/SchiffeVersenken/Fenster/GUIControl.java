@@ -175,8 +175,10 @@ public class GUIControl {
     public void connectToServer(String ip) {
         if (checkIP(ip)) {
             try {
-                this.clientLogic = new ClientLogic(new Client(ip), gui);
-                this.playLogic = new PlayLogic(new Client(ip), gui);
+                Client client = new Client(ip, this);
+                this.clientLogic = new ClientLogic(client, gui);
+                this.playLogic = new PlayLogic(client, gui);
+                new Thread(client::init).start();
                 gui.goToGameScreen();
 
             } catch (IOException e) {
