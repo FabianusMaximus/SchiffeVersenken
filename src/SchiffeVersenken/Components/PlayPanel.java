@@ -1,12 +1,13 @@
 package SchiffeVersenken.Components;
 
+import SchiffeVersenken.Control;
 import SchiffeVersenken.Fenster.GUIControl;
 
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.Color;
-import java.awt.GridLayout;
 
 public class PlayPanel extends CustomPanel {
 
@@ -23,10 +24,16 @@ public class PlayPanel extends CustomPanel {
         basePanel.setLayout(new GridLayout(1, 2, this.width / 20, 0));
         this.add(basePanel);
 
+        JPanel playerColorPanel = new JPanel();
+        playerColorPanel.setBackground(Color.GREEN);
+        playerColorPanel.setLayout(null);
+        basePanel.add(playerColorPanel);
+
         JPanel playerPanel = new JPanel();
-        playerPanel.setBackground(Color.GREEN.darker());
+        playerPanel.setBackground(Color.blue);
+        playerPanel.setBounds((int) (height*0.006), (int) (height*0.025), (int) (height*0.7), (int) (height*0.7));
         playerPanel.setLayout(new GridLayout(10, 10, 5, 5));
-        basePanel.add(playerPanel);
+        playerColorPanel.add(playerPanel);
 
         playerCell = new ShipPanel[10][10];
         int playid = 0;
@@ -46,10 +53,16 @@ public class PlayPanel extends CustomPanel {
             }
         }
 
+        JPanel enemyColorPanel = new JPanel();
+        enemyColorPanel.setBackground(Color.RED);
+        enemyColorPanel.setLayout(null);
+        basePanel.add(enemyColorPanel);
+
         JPanel enemyPanel = new JPanel();
-        enemyPanel.setBackground(Color.RED.darker());
+        enemyPanel.setBackground(Color.blue);
+        enemyPanel.setBounds((int) (height*0.006), (int) (height*0.025), (int) (height*0.7), (int) (height*0.7));
         enemyPanel.setLayout(new GridLayout(10, 10, 5, 5));
-        basePanel.add(enemyPanel);
+        enemyColorPanel.add(enemyPanel);
 
         enemyCell = new ShipPanel[10][10];
         int enemyid = 0;
@@ -90,7 +103,7 @@ public class PlayPanel extends CustomPanel {
         for (int i = 0; i < playerCell.length; i++) {
             for (int j = 0; j < playerCell[0].length; j++) {
                 if (playerCell[i][j].getStatus() == ShipPanel.Status.LOADED) {
-                    playerCell[i][j].setBackground(Color.GREEN.brighter());
+                    playerCell[i][j].setBackground(Color.GREEN);
                     playerCell[i][j].repaint();
                 } else if (playerCell[i][j].getStatus() == ShipPanel.Status.SUNKEN) {
                     playerCell[i][j].setBackground(Color.GRAY);
@@ -98,6 +111,43 @@ public class PlayPanel extends CustomPanel {
                 }
             }
         }
+    }
+
+    public void updateEnemyPanel() {
+        for (int i = 0; i < playerCell.length; i++) {
+            for (int j = 0; j < playerCell[0].length; j++) {
+                if (playerCell[i][j].getStatus() == ShipPanel.Status.FREE) {
+                    playerCell[i][j].setBackground(Color.RED);
+                    playerCell[i][j].repaint();
+                } else if (playerCell[i][j].getStatus() == ShipPanel.Status.SUNKEN) {
+                    playerCell[i][j].setBackground(Color.GRAY);
+                    playerCell[i][j].repaint();
+                }
+            }
+        }
+    }
+
+
+
+    public static void main(String[] args) {
+        JFrame testWindow = new JFrame();
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        int width = (int) ((int) size.getWidth() - size.getWidth() / 5);
+        int height = (int) ((int) size.getHeight() - size.getHeight() / 5);
+        Container cp = testWindow.getContentPane();
+        cp.setLayout(null);
+
+        testWindow.setTitle("TestFenster");
+        testWindow.setSize(width, height);
+        testWindow.setResizable(false);
+        testWindow.setLocationRelativeTo(null);
+        testWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        PlayPanel playPanel = new PlayPanel(width,height,new GUIControl(new Control()));
+        playPanel.setBounds(0,0,width,height);
+        cp.add(playPanel);
+
+        testWindow.setVisible(true);
     }
 
 }
