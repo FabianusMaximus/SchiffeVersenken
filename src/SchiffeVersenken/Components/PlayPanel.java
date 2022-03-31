@@ -24,7 +24,7 @@ public class PlayPanel extends CustomPanel {
         this.add(basePanel);
 
         JPanel playerPanel = new JPanel();
-        playerPanel.setBackground(Color.GREEN);
+        playerPanel.setBackground(Color.GREEN.darker());
         playerPanel.setLayout(new GridLayout(10, 10, 5, 5));
         basePanel.add(playerPanel);
 
@@ -33,7 +33,7 @@ public class PlayPanel extends CustomPanel {
         for (int i = 0; i < playerCell.length; i++) {
             for (int j = 0; j < playerCell[i].length; j++) {
                 playerCell[i][j] = new ShipPanel(playid++);
-                playerCell[i][j].setBackground(Color.ORANGE);
+                playerCell[i][j].setBackground(Color.black);
                 int finalX = i;
                 int finalY = j;
                 playerCell[i][j].addMouseListener(new MouseAdapter() {
@@ -47,7 +47,7 @@ public class PlayPanel extends CustomPanel {
         }
 
         JPanel enemyPanel = new JPanel();
-        enemyPanel.setBackground(Color.RED);
+        enemyPanel.setBackground(Color.RED.darker());
         enemyPanel.setLayout(new GridLayout(10, 10, 5, 5));
         basePanel.add(enemyPanel);
 
@@ -56,7 +56,7 @@ public class PlayPanel extends CustomPanel {
         for (int i = 0; i < enemyCell.length; i++) {
             for (int j = 0; j < enemyCell[i].length; j++) {
                 enemyCell[i][j] = new ShipPanel(enemyid++);
-                enemyCell[i][j].setBackground(Color.ORANGE);
+                enemyCell[i][j].setBackground(Color.black);
                 int finalX = i;
                 int finalY = j;
                 enemyCell[i][j].addMouseListener(new MouseAdapter() {
@@ -90,7 +90,7 @@ public class PlayPanel extends CustomPanel {
         for (int i = 0; i < playerCell.length; i++) {
             for (int j = 0; j < playerCell[0].length; j++) {
                 if (playerCell[i][j].getStatus() == ShipPanel.Status.LOADED) {
-                    playerCell[i][j].setBackground(Color.GREEN);
+                    playerCell[i][j].setBackground(Color.GREEN.brighter());
                     playerCell[i][j].repaint();
                 } else if (playerCell[i][j].getStatus() == ShipPanel.Status.SUNKEN) {
                     playerCell[i][j].setBackground(Color.GRAY);
