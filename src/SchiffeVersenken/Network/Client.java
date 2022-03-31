@@ -30,10 +30,10 @@ public class Client {
                 String message = receiveMessage();
                 System.out.println("angekommene Nachricht: " + message);
                 switch (message) {
-                    case "bothready" -> {
-                        guiControl.goToPlayScreen();
-                    }
+                    case "bothready" -> guiControl.goToPlayScreen();
                     case "ping" -> System.out.println("ping");
+                    case "yourTurn" -> guiControl.setActivePlayer(true);
+                    case "notYourTurn" -> guiControl.setActivePlayer(false);
                 }
 
 

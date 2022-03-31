@@ -95,10 +95,29 @@ public class ClientHandler {
     public void goToPlayScreen() {
         try {
             sendMessage("bothready");
-            System.out.println("habe gesendet");
+            System.out.println("habe bothready gesendet");
         } catch (IOException e) {
             System.out.println("Nachricht will nicht raus");
         }
+    }
+
+    public void setActivePlayer(boolean activePlayer) {
+        if (activePlayer) {
+            try {
+                sendMessage("yourTurn");
+                System.out.println("habe yourTurn Gesendet");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                sendMessage("notYourTurn");
+                System.out.println("habe notYourTurn Gesendet");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 

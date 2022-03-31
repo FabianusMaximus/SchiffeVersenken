@@ -113,28 +113,28 @@ public class PlayPanel extends CustomPanel {
     }
 
     public void updatePlayerPanel() {
-        for (int i = 0; i < playerCell.length; i++) {
+        for (ShipPanel[] shipPanels : playerCell) {
             for (int j = 0; j < playerCell[0].length; j++) {
-                if (playerCell[i][j].getStatus() == ShipPanel.Status.LOADED) {
-                    playerCell[i][j].setBackground(Color.GREEN);
-                    playerCell[i][j].repaint();
-                } else if (playerCell[i][j].getStatus() == ShipPanel.Status.SUNKEN) {
-                    playerCell[i][j].setBackground(Color.WHITE);
-                    playerCell[i][j].repaint();
+                if (shipPanels[j].getStatus() == ShipPanel.Status.LOADED) {
+                    shipPanels[j].setBackground(Color.GREEN);
+                    shipPanels[j].repaint();
+                } else if (shipPanels[j].getStatus() == ShipPanel.Status.SUNKEN) {
+                    shipPanels[j].setBackground(Color.GRAY);
+                    shipPanels[j].repaint();
                 }
             }
         }
     }
 
     public void updateEnemyPanel() {
-        for (int i = 0; i < playerCell.length; i++) {
+        for (ShipPanel[] shipPanels : playerCell) {
             for (int j = 0; j < playerCell[0].length; j++) {
-                if (playerCell[i][j].getStatus() == ShipPanel.Status.FREE) {
-                    playerCell[i][j].setBackground(Color.RED);
-                    playerCell[i][j].repaint();
-                } else if (playerCell[i][j].getStatus() == ShipPanel.Status.SUNKEN) {
-                    playerCell[i][j].setBackground(Color.white);
-                    playerCell[i][j].repaint();
+                if (shipPanels[j].getStatus() == ShipPanel.Status.FREE) {
+                    shipPanels[j].setBackground(Color.RED);
+                    shipPanels[j].repaint();
+                } else if (shipPanels[j].getStatus() == ShipPanel.Status.SUNKEN) {
+                    shipPanels[j].setBackground(Color.GRAY);
+                    shipPanels[j].repaint();
                 }
             }
         }

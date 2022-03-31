@@ -114,4 +114,8 @@ public class GUI extends JFrame {
         gamePanel.setDefaultColor(color);
     }
 
+    public void updateActiveplacer(boolean activePlayer){
+        playPanel.changePlayerTurn(activePlayer);
+    }
+
 }

@@ -8,6 +8,7 @@ public class ServerLogic {
     private ClientHandler clientHandler1, clientHandler2;
     private boolean ready1, ready2;
     private Server server;
+    private boolean activePlayer;
 
     private ShipPanel[][] gameField1, gameField2;
 
@@ -43,7 +44,9 @@ public class ServerLogic {
         }
         if (ready1 && ready2) {
             clientHandler1.goToPlayScreen();
+            //clientHandler1.setActivePlayer(false);
             clientHandler2.goToPlayScreen();
+            //clientHandler2.setActivePlayer(true);
         }
     }
 

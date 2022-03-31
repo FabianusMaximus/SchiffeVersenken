@@ -204,4 +204,8 @@ public class GUIControl {
         gui.goToPlayScreen();
     }
 
+    public void setActivePlayer(boolean activePlayer) {
+        clientLogic.setActivePlayer(activePlayer);
+    }
+
 }

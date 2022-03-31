@@ -15,6 +15,7 @@ public class ClientLogic {
     private GUI gui;
     private Ship selectedShip;
     private boolean bestaetigt = false;
+    private boolean activePlayer = false;
 
     public ClientLogic(Client client, GUI gui) {
         this.client = client;
@@ -247,6 +248,12 @@ public class ClientLogic {
             }
         }
         return translatedField.toString();
+    }
+
+    public void setActivePlayer(boolean activePlayer) {
+        System.out.println("Du bisch dran: " + activePlayer);
+        this.activePlayer = activePlayer;
+        gui.updateActiveplacer(activePlayer);
     }
 
 }
