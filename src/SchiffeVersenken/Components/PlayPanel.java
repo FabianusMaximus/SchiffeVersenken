@@ -13,11 +13,14 @@ public class PlayPanel extends CustomPanel {
 
     private ShipPanel[][] playerCell;
     private ShipPanel[][] enemyCell;
+    private JLabel playerTurn;
 
     public PlayPanel(int width, int height, GUIControl guiControl) {
         super(width, height, guiControl);
         this.setBackground(Color.WHITE);
         this.setLayout(null);
+
+        Font standardFont = new Font("Times new Roman", Font.PLAIN, width / 20);
 
         JPanel basePanel = new JPanel();
         basePanel.setBounds((int) (width * 0.07), (int) ((width / 2) * 0.04), (int) (width * 0.85), (int) ((width / 2) * 0.85));
@@ -81,6 +84,16 @@ public class PlayPanel extends CustomPanel {
                 enemyPanel.add(enemyCell[i][j]);
             }
         }
+
+        JPanel textBox = new JPanel();
+        textBox.setBounds((int) (width*0.3),(int) (height*0.8), (int) (width*0.4),(int)(height*0.125));
+        textBox.setBackground(Color.WHITE);
+        add(textBox);
+
+        playerTurn = new JLabel("Platzhalter");
+        playerTurn.setFont(standardFont);
+        textBox.add(playerTurn);
+
     }
 
     public void setPlayerCell(ShipPanel[][] shipPanels) {
@@ -106,7 +119,7 @@ public class PlayPanel extends CustomPanel {
                     playerCell[i][j].setBackground(Color.GREEN);
                     playerCell[i][j].repaint();
                 } else if (playerCell[i][j].getStatus() == ShipPanel.Status.SUNKEN) {
-                    playerCell[i][j].setBackground(Color.GRAY);
+                    playerCell[i][j].setBackground(Color.WHITE);
                     playerCell[i][j].repaint();
                 }
             }
@@ -120,14 +133,23 @@ public class PlayPanel extends CustomPanel {
                     playerCell[i][j].setBackground(Color.RED);
                     playerCell[i][j].repaint();
                 } else if (playerCell[i][j].getStatus() == ShipPanel.Status.SUNKEN) {
-                    playerCell[i][j].setBackground(Color.GRAY);
+                    playerCell[i][j].setBackground(Color.white);
                     playerCell[i][j].repaint();
                 }
             }
         }
     }
 
-
+    public void changePlayerTurn(Boolean pBoolean){
+        if (pBoolean) {
+            playerTurn.setText("Du bist am Zug");
+            playerTurn.setForeground(Color.green);
+        }else {
+            playerTurn.setText("Warten...");
+            playerTurn.setForeground(Color.RED);
+        }
+        playerTurn.repaint();
+    }
 
     public static void main(String[] args) {
         JFrame testWindow = new JFrame();
