@@ -174,5 +174,4 @@ public class GamePanel extends CustomPanel {
         defaultColor = color;
     }
 
-
 }

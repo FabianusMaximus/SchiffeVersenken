@@ -201,8 +201,6 @@ public class GUIControl {
      * Bereitet das Spielfeld vor und wechselt anschließend dort hin
      */
     public void goToPlayScreen() {
-        playLogic.updatePlayField();
-        gui.getPlayPanel().setPlayerCell(gui.getCell());
         gui.goToPlayScreen();
     }
 

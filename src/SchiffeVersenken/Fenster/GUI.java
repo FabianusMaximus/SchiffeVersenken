@@ -90,9 +90,6 @@ public class GUI extends JFrame {
     }
 
     public void goToPlayScreen() {
-        //TODO Keine Schiffchen
-        playPanel.setPlayerCell(gamePanel.getCell());
-        playPanel.updatePlayerPanel();
         startPanel.setVisible(false);
         gamePanel.setVisible(false);
         clientPanel.setVisible(false);

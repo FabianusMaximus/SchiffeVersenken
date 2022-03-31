@@ -3,6 +3,7 @@ package SchiffeVersenken.Components;
 import SchiffeVersenken.Ship;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class ShipPanel extends JPanel {
     private int id;
@@ -10,12 +11,14 @@ public class ShipPanel extends JPanel {
     private Status status;
 
     public ShipPanel(int id) {
+        super();
         this.id = id;
         status = Status.FREE;
         linkedShip = null;
     }
 
     public ShipPanel(int id, Ship ship) {
+        super();
         linkedShip = ship;
         status = Status.LOADED;
         this.id = id;
@@ -87,6 +90,10 @@ public class ShipPanel extends JPanel {
 
     public Status getStatus() {
         return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     enum Status {
