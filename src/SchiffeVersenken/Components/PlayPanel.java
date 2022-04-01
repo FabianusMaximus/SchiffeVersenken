@@ -34,7 +34,7 @@ public class PlayPanel extends CustomPanel {
 
         JPanel playerPanel = new JPanel();
         playerPanel.setBackground(Color.blue);
-        playerPanel.setBounds((int) (height*0.006), (int) (height*0.025), (int) (height*0.7), (int) (height*0.7));
+        playerPanel.setBounds((int) (height * 0.006), (int) (height * 0.025), (int) (height * 0.7), (int) (height * 0.7));
         playerPanel.setLayout(new GridLayout(10, 10, 5, 5));
         playerColorPanel.add(playerPanel);
 
@@ -55,7 +55,7 @@ public class PlayPanel extends CustomPanel {
 
         JPanel enemyPanel = new JPanel();
         enemyPanel.setBackground(Color.blue);
-        enemyPanel.setBounds((int) (height*0.006), (int) (height*0.025), (int) (height*0.7), (int) (height*0.7));
+        enemyPanel.setBounds((int) (height * 0.006), (int) (height * 0.025), (int) (height * 0.7), (int) (height * 0.7));
         enemyPanel.setLayout(new GridLayout(10, 10, 5, 5));
         enemyColorPanel.add(enemyPanel);
 
@@ -65,12 +65,13 @@ public class PlayPanel extends CustomPanel {
             for (int j = 0; j < enemyCell[i].length; j++) {
                 enemyCell[i][j] = new ShipPanel(enemyid++);
                 enemyCell[i][j].setBackground(Color.black);
-                int finalX = i;
-                int finalY = j;
                 enemyCell[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        //clickCell(finalX, finalY, selectedShip);
+                        System.out.println(e.getButton());
+                        if (e.getButton() == MouseEvent.BUTTON1) {
+                            //TODO Muss Signal schicken und von Server überprüft werden
+                        }
                     }
                 });
                 enemyPanel.add(enemyCell[i][j]);
@@ -78,7 +79,7 @@ public class PlayPanel extends CustomPanel {
         }
 
         JPanel textBox = new JPanel();
-        textBox.setBounds((int) (width*0.3),(int) (height*0.8), (int) (width*0.4),(int)(height*0.125));
+        textBox.setBounds((int) (width * 0.3), (int) (height * 0.8), (int) (width * 0.4), (int) (height * 0.125));
         textBox.setBackground(Color.WHITE);
         add(textBox);
 
@@ -90,9 +91,10 @@ public class PlayPanel extends CustomPanel {
 
     /**
      * übernimmt Spieler Feld und setzt alle Schifffelder mit entsprechendem Status
+     *
      * @param shipPanels Spielfeld das Übergeben werden muss
      */
-    public void updatePlayerShipStatus(ShipPanel[][] shipPanels){
+    public void updatePlayerShipStatus(ShipPanel[][] shipPanels) {
         for (int i = 0; i < playerCell.length; i++) {
             for (int j = 0; j < playerCell[i].length; j++) {
                 playerCell[i][j].setStatus(shipPanels[i][j].getStatus());
@@ -103,9 +105,10 @@ public class PlayPanel extends CustomPanel {
 
     /**
      * Ändert Status des eigenes Schiffes
+     *
      * @param schiffFeld schiffeld dessen Status geändert werden muss
      */
-    public void changePlayerShipStatus(ShipPanel schiffFeld){
+    public void changePlayerShipStatus(ShipPanel schiffFeld) {
         for (ShipPanel[] shipPanels : playerCell) {
             for (int j = 0; j < shipPanels.length; j++) {
                 if (shipPanels[j].getId() == schiffFeld.getId()) {
@@ -118,6 +121,7 @@ public class PlayPanel extends CustomPanel {
 
     /**
      * Gibt Spielerfeld zurück
+     *
      * @return
      */
     public ShipPanel[][] getPlayerCell() {
@@ -160,13 +164,14 @@ public class PlayPanel extends CustomPanel {
 
     /**
      * Setzt bei playerTurn die Ausgabe, ob ein Spieler dran ist oder warten muss.
+     *
      * @param pBoolean true Spieler ist dran und färbt Grün/ false Spieler muss warten und färbt rot
      */
-    public void changePlayerTurn(Boolean pBoolean){
+    public void changePlayerTurn(Boolean pBoolean) {
         if (pBoolean) {
             playerTurn.setText("Du bist am Zug");
             playerTurn.setForeground(Color.green);
-        }else {
+        } else {
             playerTurn.setText("Warten...");
             playerTurn.setForeground(Color.RED);
         }
@@ -176,9 +181,10 @@ public class PlayPanel extends CustomPanel {
     /**
      * ändert den Status eines Feldes auf dem Gegner spielfeld
      * und benutzt gleich updateEnemyPanel();
+     *
      * @param shipCell übergabe des zuvor ausgewählten Felds auf dem Gegner Spielfeld
      */
-    public void changeEnemyCellStatus(ShipPanel shipCell){
+    public void changeEnemyCellStatus(ShipPanel shipCell) {
         for (ShipPanel[] shipPanels : enemyCell) {
             for (int j = 0; j < shipPanels.length; j++) {
                 if (shipPanels[j].getId() == shipCell.getId()) {
@@ -203,8 +209,8 @@ public class PlayPanel extends CustomPanel {
         testWindow.setLocationRelativeTo(null);
         testWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        PlayPanel playPanel = new PlayPanel(width,height,new GUIControl(new Control()));
-        playPanel.setBounds(0,0,width,height);
+        PlayPanel playPanel = new PlayPanel(width, height, new GUIControl(new Control()));
+        playPanel.setBounds(0, 0, width, height);
         cp.add(playPanel);
 
         ShipPanel schiffchen = new ShipPanel(5);
