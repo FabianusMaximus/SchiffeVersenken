@@ -4,7 +4,6 @@ import SchiffeVersenken.Control;
 import SchiffeVersenken.Fenster.GUIControl;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -25,6 +24,7 @@ public class PlayPanel extends CustomPanel {
         JPanel basePanel = new JPanel();
         basePanel.setBounds((int) (width * 0.07), (int) ((width / 2) * 0.04), (int) (width * 0.85), (int) ((width / 2) * 0.85));
         basePanel.setLayout(new GridLayout(1, 2, this.width / 20, 0));
+        basePanel.setBackground(Color.WHITE);
         this.add(basePanel);
 
         JPanel playerColorPanel = new JPanel();
@@ -44,14 +44,6 @@ public class PlayPanel extends CustomPanel {
             for (int j = 0; j < playerCell[i].length; j++) {
                 playerCell[i][j] = new ShipPanel(playid++);
                 playerCell[i][j].setBackground(Color.black);
-                int finalX = i;
-                int finalY = j;
-                playerCell[i][j].addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        //clickCell(finalX, finalY, selectedShip);
-                    }
-                });
                 playerPanel.add(playerCell[i][j]);
             }
         }
@@ -96,22 +88,45 @@ public class PlayPanel extends CustomPanel {
 
     }
 
-    public void setPlayerCell(ShipPanel[][] shipPanels) {
-        playerCell = shipPanels;
-    }
-
-    public void updateShipStatus(ShipPanel[][] shipPanels){
+    /**
+     * übernimmt Spieler Feld und setzt alle Schifffelder mit entsprechendem Status
+     * @param shipPanels Spielfeld das Übergeben werden muss
+     */
+    public void updatePlayerShipStatus(ShipPanel[][] shipPanels){
         for (int i = 0; i < playerCell.length; i++) {
             for (int j = 0; j < playerCell[i].length; j++) {
                 playerCell[i][j].setStatus(shipPanels[i][j].getStatus());
             }
         }
+        updatePlayerPanel();
     }
 
+    /**
+     * Ändert Status des eigenes Schiffes
+     * @param schiffFeld schiffeld dessen Status geändert werden muss
+     */
+    public void changePlayerShipStatus(ShipPanel schiffFeld){
+        for (ShipPanel[] shipPanels : playerCell) {
+            for (int j = 0; j < shipPanels.length; j++) {
+                if (shipPanels[j].getId() == schiffFeld.getId()) {
+                    shipPanels[j].setStatus(schiffFeld.getStatus());
+                }
+            }
+        }
+        updatePlayerPanel();
+    }
+
+    /**
+     * Gibt Spielerfeld zurück
+     * @return
+     */
     public ShipPanel[][] getPlayerCell() {
         return playerCell;
     }
 
+    /**
+     * färbt das Spielerfeld neu ein
+     */
     public void updatePlayerPanel() {
         for (ShipPanel[] shipPanels : playerCell) {
             for (int j = 0; j < playerCell[0].length; j++) {
@@ -126,10 +141,13 @@ public class PlayPanel extends CustomPanel {
         }
     }
 
+    /**
+     * Durchläuft das gesamte Gegner Spielfeld und färbt die Felder in die entsprechenden Farben ein
+     */
     public void updateEnemyPanel() {
-        for (ShipPanel[] shipPanels : playerCell) {
+        for (ShipPanel[] shipPanels : enemyCell) {
             for (int j = 0; j < playerCell[0].length; j++) {
-                if (shipPanels[j].getStatus() == ShipPanel.Status.FREE) {
+                if (shipPanels[j].getStatus() == ShipPanel.Status.MISSED) {
                     shipPanels[j].setBackground(Color.RED);
                     shipPanels[j].repaint();
                 } else if (shipPanels[j].getStatus() == ShipPanel.Status.SUNKEN) {
@@ -140,6 +158,10 @@ public class PlayPanel extends CustomPanel {
         }
     }
 
+    /**
+     * Setzt bei playerTurn die Ausgabe, ob ein Spieler dran ist oder warten muss.
+     * @param pBoolean true Spieler ist dran und färbt Grün/ false Spieler muss warten und färbt rot
+     */
     public void changePlayerTurn(Boolean pBoolean){
         if (pBoolean) {
             playerTurn.setText("Du bist am Zug");
@@ -149,6 +171,22 @@ public class PlayPanel extends CustomPanel {
             playerTurn.setForeground(Color.RED);
         }
         playerTurn.repaint();
+    }
+
+    /**
+     * ändert den Status eines Feldes auf dem Gegner spielfeld
+     * und benutzt gleich updateEnemyPanel();
+     * @param shipCell übergabe des zuvor ausgewählten Felds auf dem Gegner Spielfeld
+     */
+    public void changeEnemyCellStatus(ShipPanel shipCell){
+        for (ShipPanel[] shipPanels : enemyCell) {
+            for (int j = 0; j < shipPanels.length; j++) {
+                if (shipPanels[j].getId() == shipCell.getId()) {
+                    shipPanels[j].setStatus(shipCell.getStatus());
+                }
+            }
+        }
+        updateEnemyPanel();
     }
 
     public static void main(String[] args) {
@@ -168,6 +206,16 @@ public class PlayPanel extends CustomPanel {
         PlayPanel playPanel = new PlayPanel(width,height,new GUIControl(new Control()));
         playPanel.setBounds(0,0,width,height);
         cp.add(playPanel);
+
+        ShipPanel schiffchen = new ShipPanel(5);
+        schiffchen.setStatus(ShipPanel.Status.SUNKEN);
+
+        ShipPanel keinSchiffchen = new ShipPanel(9);
+        keinSchiffchen.setStatus(ShipPanel.Status.MISSED);
+
+        playPanel.changePlayerTurn(false);
+        playPanel.changeEnemyCellStatus(schiffchen);
+        playPanel.changeEnemyCellStatus(keinSchiffchen);
 
         testWindow.setVisible(true);
     }

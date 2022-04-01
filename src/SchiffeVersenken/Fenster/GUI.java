@@ -93,8 +93,7 @@ public class GUI extends JFrame {
         startPanel.setVisible(false);
         gamePanel.setVisible(false);
         clientPanel.setVisible(false);
-        playPanel.updateShipStatus(gamePanel.getCell());
-        playPanel.updatePlayerPanel();
+        playPanel.updatePlayerShipStatus(gamePanel.getCell());
         playPanel.setVisible(true);
     }
 
