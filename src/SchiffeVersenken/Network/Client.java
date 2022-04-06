@@ -10,16 +10,12 @@ import java.net.Socket;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class Client {
-    private Socket clientSocket;
+public class Client extends Communictaion {
     private GUIControl guiControl;
-    private volatile Deque<String> messageStack = new ArrayDeque<>();
-
-    private boolean online;
 
     public Client(String ip, GUIControl guiControl) throws IOException {
+        super(new Socket(ip, 5050));
         this.guiControl = guiControl;
-        clientSocket = new Socket(ip, 5050);
         online = true;
     }
 
@@ -51,19 +47,6 @@ public class Client {
                 }
             }
         }
-    }
-
-    public void sendMessage(String pMessage) throws IOException {
-        PrintWriter pr = new PrintWriter(clientSocket.getOutputStream());
-        pr.println(pMessage);
-        pr.flush();
-    }
-
-    public String receiveMessage() throws IOException {
-        InputStreamReader in = new InputStreamReader(clientSocket.getInputStream());
-        BufferedReader bf = new BufferedReader(in);
-
-        return bf.readLine();
     }
 
 }

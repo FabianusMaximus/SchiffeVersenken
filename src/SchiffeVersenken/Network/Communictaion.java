@@ -13,8 +13,8 @@ public abstract class Communictaion {
     protected volatile Deque<String> messageStack = new ArrayDeque<>();
     protected boolean online;
 
-    public Communictaion(){
-
+    public Communictaion(Socket socket){
+        this.socket = socket;
     }
 
     /**
