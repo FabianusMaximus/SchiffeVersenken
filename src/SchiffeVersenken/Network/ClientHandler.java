@@ -3,10 +3,7 @@ package SchiffeVersenken.Network;
 import SchiffeVersenken.Fenster.GUIControl;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayDeque;
-import java.util.Deque;
 
 public class ClientHandler extends Communictaion {
 
