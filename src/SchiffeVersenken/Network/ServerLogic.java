@@ -2,8 +2,6 @@ package SchiffeVersenken.Network;
 
 import SchiffeVersenken.Components.ShipPanel;
 
-import java.io.IOException;
-
 public class ServerLogic {
     private ClientHandler clientHandler1, clientHandler2;
     private boolean ready1, ready2;

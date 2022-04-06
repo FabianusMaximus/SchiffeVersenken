@@ -109,7 +109,6 @@ public class GamePanel extends CustomPanel {
                 cell[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        System.out.println(e.getButton());
                         if (e.getButton() == MouseEvent.BUTTON1) {
                             guiControl.clickCell(finalX, finalY);
                         } else if (e.getButton() == MouseEvent.BUTTON3) {
