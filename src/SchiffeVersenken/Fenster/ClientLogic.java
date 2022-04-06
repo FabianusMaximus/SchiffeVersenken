@@ -221,7 +221,6 @@ public class ClientLogic {
             bestaetigt = true;
             gui.setDefaultColor(Color.green);
             try {
-                client.sendMessage("ready");
                 client.sendMessage(translateGamefield());
                 System.out.println("Field translation: " + translateGamefield());
             } catch (IOException e) {

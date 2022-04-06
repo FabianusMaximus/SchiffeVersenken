@@ -7,14 +7,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class Client {
     private Socket clientSocket;
     private GUIControl guiControl;
-    private InputStreamReader stream;
-    private BufferedReader reader;
-    private PrintWriter writer;
-    private String message;
+    private volatile Deque<String> messageStack = new ArrayDeque<>();
 
     private boolean online;
 
@@ -27,18 +26,29 @@ public class Client {
     public void init() {
         while (online) {
             try {
-                String message = receiveMessage();
-                System.out.println("angekommene Nachricht: " + message);
-                switch (message) {
-                    case "bothready" -> guiControl.goToPlayScreen();
-                    case "ping" -> System.out.println("ping");
-                    case "yourTurn" -> guiControl.setActivePlayer(true);
-                    case "notYourTurn" -> guiControl.setActivePlayer(false);
-                }
-
-
+                messageStack.add(receiveMessage());
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+        }
+    }
+
+    public void verarbeitenStack() {
+        while (online) {
+            if (!messageStack.isEmpty()) {
+                String message = messageStack.pop();
+                System.out.println("angekommene Nachricht: " + message);
+                switch (message) {
+                    case "bothreadyfalse" -> {
+                        guiControl.goToPlayScreen();
+                        guiControl.setActivePlayer(false);
+                    }
+                    case "bothreadytrue" -> {
+                        guiControl.goToPlayScreen();
+                        guiControl.setActivePlayer(true);
+                    }
+                    case "ping" -> System.out.println("ping");
+                }
             }
         }
     }
@@ -56,7 +66,4 @@ public class Client {
         return bf.readLine();
     }
 
-    public void printMessage() {
-        System.out.println("Server: " + message);
-    }
 }

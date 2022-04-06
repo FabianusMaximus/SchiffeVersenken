@@ -179,6 +179,7 @@ public class GUIControl {
                 this.clientLogic = new ClientLogic(client, gui);
                 this.playLogic = new PlayLogic(client, gui);
                 new Thread(client::init).start();
+                new Thread(client::verarbeitenStack).start();
                 gui.goToGameScreen();
 
             } catch (IOException e) {

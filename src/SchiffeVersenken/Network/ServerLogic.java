@@ -43,10 +43,8 @@ public class ServerLogic {
             throw new RuntimeException();
         }
         if (ready1 && ready2) {
-            clientHandler1.goToPlayScreen();
-            //clientHandler1.setActivePlayer(false);
-            clientHandler2.goToPlayScreen();
-            //clientHandler2.setActivePlayer(true);
+            clientHandler1.goToPlayScreen(false);
+            clientHandler2.goToPlayScreen(true);
         }
     }
 

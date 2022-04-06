@@ -55,6 +55,7 @@ public class Server {
             ClientHandler clientHandler = new ClientHandler(control.getGuiControl(),socket);
             control.addClientHandler(clientHandler);
             new Thread(clientHandler::init).start();
+            new Thread(clientHandler::verarbeitenStack).start();
         }
         serverScreen.addText("Both Clients connected");
     }

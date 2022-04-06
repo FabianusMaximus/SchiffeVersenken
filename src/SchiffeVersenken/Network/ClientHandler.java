@@ -9,12 +9,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class ClientHandler {
     private GUIControl guiControl;
     private Socket socket;
     private boolean online;
     private PrintWriter pr;
+    private volatile Deque<String> messageStack = new ArrayDeque<>();
 
     private ServerLogic serverLogic;
 
@@ -31,21 +34,29 @@ public class ClientHandler {
      */
     public void init() {
         System.out.println("Socket " + socket.getInetAddress().getHostName() + " connected");
-
         while (online) {
             try {
-                String message = receiveMessage();
+                messageStack.add(receiveMessage());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     *
+     */
+    public void verarbeitenStack() {
+        while (online) {
+            if (!messageStack.isEmpty()) {
+                String message = messageStack.pop();
                 switch (message) {
-                    case "ready" -> serverLogic.clientReady(this);
                     case "ping" -> System.out.println("ping");
                 }
                 if (message.contains("field")) {
                     serverLogic.setGameField(this, message);
+                    serverLogic.clientReady(this);
                 }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                shutdown();
             }
         }
     }
@@ -92,9 +103,9 @@ public class ClientHandler {
         this.serverLogic = serverLogic;
     }
 
-    public void goToPlayScreen() {
+    public void goToPlayScreen(boolean activePlayer ) {
         try {
-            sendMessage("bothready");
+            sendMessage("bothready" + activePlayer);
             System.out.println("habe bothready gesendet");
         } catch (IOException e) {
             System.out.println("Nachricht will nicht raus");
