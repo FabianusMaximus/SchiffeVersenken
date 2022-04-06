@@ -205,6 +205,10 @@ public class GUIControl {
         gui.goToPlayScreen();
     }
 
+    public void shotRoutine(int iD){
+        clientLogic.shotRoutine(iD);
+    }
+
     public void setActivePlayer(boolean activePlayer) {
         clientLogic.setActivePlayer(activePlayer);
     }

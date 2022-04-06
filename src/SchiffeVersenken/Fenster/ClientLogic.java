@@ -249,6 +249,21 @@ public class ClientLogic {
         return translatedField.toString();
     }
 
+    public void shotRoutine(int iD){
+        try {
+            if (activePlayer){
+                client.sendMessage("shot:" + iD);
+            }else {
+                JOptionPane.showMessageDialog(gui,
+                        "Du bist nid dran du huremichi",
+                        "Ungeduldiger Wixxer",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setActivePlayer(boolean activePlayer) {
         System.out.println("Du bisch dran: " + activePlayer);
         this.activePlayer = activePlayer;

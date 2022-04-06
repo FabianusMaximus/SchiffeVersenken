@@ -65,12 +65,14 @@ public class PlayPanel extends CustomPanel {
             for (int j = 0; j < enemyCell[i].length; j++) {
                 enemyCell[i][j] = new ShipPanel(enemyid++);
                 enemyCell[i][j].setBackground(Color.black);
+                int finalI = i;
+                int finalJ = j;
                 enemyCell[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         System.out.println(e.getButton());
                         if (e.getButton() == MouseEvent.BUTTON1) {
-                            //TODO Muss Signal schicken und von Server überprüft werden
+                            guiControl.shotRoutine(enemyCell[finalI][finalJ].getId());
                         }
                     }
                 });

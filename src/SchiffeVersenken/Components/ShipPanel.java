@@ -96,7 +96,7 @@ public class ShipPanel extends JPanel {
         this.status = status;
     }
 
-    enum Status {
+    public enum Status {
         FREE, LOADED, BLOCKED, ERROR, SUNKEN, MISSED
     }
 }

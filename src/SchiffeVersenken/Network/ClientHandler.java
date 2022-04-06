@@ -56,6 +56,8 @@ public class ClientHandler {
                 if (message.contains("field")) {
                     serverLogic.setGameField(this, message);
                     serverLogic.clientReady(this);
+                } else if (message.contains("shot")) {
+                    serverLogic.verarbeitenShot(message, this);
                 }
             }
         }
@@ -103,7 +105,7 @@ public class ClientHandler {
         this.serverLogic = serverLogic;
     }
 
-    public void goToPlayScreen(boolean activePlayer ) {
+    public void goToPlayScreen(boolean activePlayer) {
         try {
             sendMessage("bothready" + activePlayer);
             System.out.println("habe bothready gesendet");

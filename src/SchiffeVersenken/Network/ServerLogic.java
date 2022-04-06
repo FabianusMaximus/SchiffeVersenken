@@ -2,6 +2,7 @@ package SchiffeVersenken.Network;
 
 import SchiffeVersenken.Components.ShipPanel;
 
+import java.awt.*;
 import java.io.IOException;
 
 public class ServerLogic {
@@ -103,4 +104,54 @@ public class ServerLogic {
         }
 
     }
+
+    public void verarbeitenShot(String string, ClientHandler clientHandler) {
+        String hold = string.split(":")[1];
+        int iD = Integer.parseInt(hold);
+
+        if (clientHandler == clientHandler1) {
+            if (vergleichenID(iD, gameField2)) {
+                sendTreffer(clientHandler1);
+            } else {
+                sendMissed(clientHandler1);
+            }
+        } else {
+            if (vergleichenID(iD, gameField1)) {
+                sendTreffer(clientHandler2);
+            } else {
+                sendMissed(clientHandler2);
+            }
+        }
+    }
+
+    public boolean vergleichenID(int iD, ShipPanel[][] gameField) {
+        int holdID = 0;
+        for (ShipPanel[] fields : gameField) {
+            for (ShipPanel field : fields
+            ) {
+                holdID = field.getId();
+                if (holdID == iD) {
+                    return field.getStatus() == ShipPanel.Status.LOADED;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void sendTreffer(ClientHandler clientHandler) {
+        try {
+            clientHandler.sendMessage("treffer");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendMissed(ClientHandler clientHandler) {
+        try {
+            clientHandler.sendMessage("missed");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
