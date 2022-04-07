@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -13,7 +14,7 @@ public abstract class Communictaion {
     protected volatile Deque<String> messageStack = new ArrayDeque<>();
     protected boolean online;
 
-    public Communictaion(Socket socket){
+    public Communictaion(Socket socket) {
         this.socket = socket;
     }
 
@@ -30,19 +31,18 @@ public abstract class Communictaion {
     /**
      * Funktion, die es ermöglicht den Clients eine Nachricht zu senden
      *
-     * @param pMessage String der Nachricht die gesendet werden soll
+     * @param message String der Nachricht die gesendet werden soll
      * @throws IOException
      */
-    public void sendMessage(String pMessage) throws IOException {
-        PrintWriter pr = new PrintWriter(socket.getOutputStream());
-        pr.println(pMessage);
-        pr.flush();
+    public void sendMessage(String message) throws IOException {
+        message = message + "\n";
+        socket.getOutputStream().write(message.getBytes(StandardCharsets.UTF_8));
     }
 
     /**
      * Schließt den Socket
      */
-    private void shutdown() {
+    protected void shutdown() {
         online = false;
         try {
             socket.close();

@@ -205,11 +205,11 @@ public class ClientLogic {
         for (ShipPanel[] shipPanels : gui.getCell()) {
             for (ShipPanel shipPanel : shipPanels) {
                 if (shipPanel.isError()) {
-                    return false;
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
 
     public Ship getSelectedShip() {
@@ -217,7 +217,7 @@ public class ClientLogic {
     }
 
     public void clickContinue() {
-        if (selectedShip == null) {
+        if (selectedShip == null && !checkError()) {
             bestaetigt = true;
             gui.setDefaultColor(Color.green);
             try {
@@ -255,8 +255,8 @@ public class ClientLogic {
                 client.sendMessage("shot:" + iD);
             }else {
                 JOptionPane.showMessageDialog(gui,
-                        "Du bist nid dran du huremichi",
-                        "Ungeduldiger Wixxer",
+                        "Du bist nicht an der Reihe, warte bis der Gegner seinen Zug gemacht hat",
+                        "Ungedulds Error",
                         JOptionPane.ERROR_MESSAGE);
             }
         } catch (IOException e) {

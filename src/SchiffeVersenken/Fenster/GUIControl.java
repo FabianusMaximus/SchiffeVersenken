@@ -213,4 +213,10 @@ public class GUIControl {
         clientLogic.setActivePlayer(activePlayer);
     }
 
+    public void applyShot(boolean treffer){
+        if (treffer){
+
+        }
+    }
+
 }

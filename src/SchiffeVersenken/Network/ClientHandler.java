@@ -25,7 +25,7 @@ public class ClientHandler extends Communictaion {
             try {
                 messageStack.add(receiveMessage());
             } catch (IOException e) {
-                e.printStackTrace();
+                shutdown();
             }
         }
     }

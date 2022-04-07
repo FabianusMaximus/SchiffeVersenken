@@ -70,7 +70,7 @@ public class ServerLogic {
         int count = 0;
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                holdField[i][j].setBlocked(field[count] == '1');
+                holdField[i][j].setLoaded(field[count] == '1');
                 count++;
             }
         }
@@ -97,10 +97,59 @@ public class ServerLogic {
     public void printGamefield(ShipPanel[][] gameField) {
         for (ShipPanel[] shipPanels : gameField) {
             for (int j = 0; j < gameField[0].length; j++) {
-                System.out.print(shipPanels[j].isBlocked() + "\t");
+                System.out.print(shipPanels[j].isLoaded() + "\t");
             }
             System.out.println();
         }
 
+    }
+
+    public void verarbeitenShot(String string, ClientHandler clientHandler) {
+        String hold = string.split(":")[1];
+        int iD = Integer.parseInt(hold);
+
+        if (clientHandler == clientHandler1) {
+            if (vergleichenID(iD, gameField2)) {
+                sendTreffer(clientHandler1);
+            } else {
+                sendMissed(clientHandler1);
+            }
+        } else {
+            if (vergleichenID(iD, gameField1)) {
+                sendTreffer(clientHandler2);
+            } else {
+                sendMissed(clientHandler2);
+            }
+        }
+    }
+
+    public boolean vergleichenID(int iD, ShipPanel[][] gameField) {
+        int holdID = 0;
+        for (ShipPanel[] fields : gameField) {
+            for (ShipPanel field : fields
+            ) {
+                holdID = field.getId();
+                if (holdID == iD) {
+                    return field.getStatus() == ShipPanel.Status.LOADED;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void sendTreffer(ClientHandler clientHandler) {
+        try {
+            clientHandler.sendMessage("treffer");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendMissed(ClientHandler clientHandler) {
+        try {
+            clientHandler.sendMessage("missed");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

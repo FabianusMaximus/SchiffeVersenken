@@ -32,7 +32,7 @@ public class ShipPanel extends JPanel {
         return status != Status.FREE;
     }
 
-    public boolean isShip(){
+    public boolean isShip() {
         return status == Status.LOADED;
     }
 
@@ -55,7 +55,18 @@ public class ShipPanel extends JPanel {
         } else {
             status = Status.FREE;
         }
+    }
 
+    public void setLoaded(boolean loaded) {
+        if (loaded) {
+            status = Status.LOADED;
+        } else {
+            status = Status.FREE;
+        }
+    }
+
+    public boolean isLoaded() {
+        return status == Status.LOADED;
     }
 
     public void setError(boolean error) {
@@ -75,7 +86,7 @@ public class ShipPanel extends JPanel {
         return status == Status.BLOCKED;
     }
 
-    public boolean isError(){
+    public boolean isError() {
         return status == Status.ERROR;
     }
 

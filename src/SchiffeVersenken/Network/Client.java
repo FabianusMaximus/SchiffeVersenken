@@ -24,7 +24,7 @@ public class Client extends Communictaion {
             try {
                 messageStack.add(receiveMessage());
             } catch (IOException e) {
-                e.printStackTrace();
+                shutdown();
             }
         }
     }
@@ -39,10 +39,14 @@ public class Client extends Communictaion {
                         guiControl.goToPlayScreen();
                         guiControl.setActivePlayer(false);
                     }
+                    case "yourTurn" -> guiControl.setActivePlayer(true);
+                    case "notYourTurn" -> guiControl.setActivePlayer(false);
                     case "bothreadytrue" -> {
                         guiControl.goToPlayScreen();
                         guiControl.setActivePlayer(true);
                     }
+                    case "treffer" -> guiControl.applyShot(true);
+                    case "false" -> guiControl.applyShot(false);
                     case "ping" -> System.out.println("ping");
                 }
             }
