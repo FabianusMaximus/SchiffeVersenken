@@ -1,5 +1,6 @@
 package SchiffeVersenken.Network;
 
+import SchiffeVersenken.Components.ShipPanel;
 import SchiffeVersenken.Fenster.GUIControl;
 
 import java.io.BufferedReader;
@@ -52,6 +53,9 @@ public class Client extends Communictaion {
                         guiControl.applyShot(false);
                     }
                     case "ping" -> System.out.println("ping");
+                }
+                if (message.contains("schuss")) {
+                    guiControl.setEnemyShot(message);
                 }
             }
         }

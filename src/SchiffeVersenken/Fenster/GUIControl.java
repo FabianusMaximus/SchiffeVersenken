@@ -94,14 +94,11 @@ public class GUIControl {
 
     public static void applyColorSheme(ShipPanel[] shipPanels) {
         for (ShipPanel shipPanel : shipPanels) {
-            if (!shipPanel.isBelegt() && !shipPanel.isBlocked()) {
-                shipPanel.setBackground(Color.black);
-            } else if (shipPanel.isBlocked()) {
-                shipPanel.setBackground(Color.gray);
-            } else if (shipPanel.isError()) {
-                shipPanel.setBackground(Color.red);
-            } else {
-                shipPanel.setBackground(Color.green);
+            switch (shipPanel.getStatus()) {
+                case FREE -> shipPanel.setBackground(Color.black);
+                case LOADED -> shipPanel.setBackground(Color.green);
+                case ERROR -> shipPanel.setBackground(Color.red);
+                case BLOCKED -> shipPanel.setBackground(Color.gray);
             }
         }
     }
@@ -227,6 +224,21 @@ public class GUIControl {
         } else {
             gui.getPlayPanel().changeEnemyCellStatus(holdID, ShipPanel.Status.MISSED);
         }
+    }
+
+    public void setEnemyShot(String string) {
+        String hold = string.split(":")[1];
+        int iD = Integer.parseInt(hold);
+        //TODO Player Cell einfärben
+    }
+
+    private Point vergleichenID(int iD) {
+        for (int i = 0; i < gui.getPlayPanel().getPlayerCell().length; i++) {
+            for (int j = 0; j < gui.getPlayPanel().getPlayerCell()[i].length; j++) {
+                if (gui.getPlayPanel().getPlayerCell()[i][j].getId() == iD) return new Point(i, j);
+            }
+        }
+        return null;
     }
 
 }

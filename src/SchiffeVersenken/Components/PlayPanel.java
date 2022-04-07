@@ -136,16 +136,27 @@ public class PlayPanel extends CustomPanel {
      */
     public void updatePlayerPanel() {
         for (ShipPanel[] shipPanels : playerCell) {
-            for (int j = 0; j < playerCell[0].length; j++) {
-                if (shipPanels[j].getStatus() == ShipPanel.Status.LOADED) {
-                    shipPanels[j].setBackground(Color.GREEN);
-                    shipPanels[j].repaint();
-                } else if (shipPanels[j].getStatus() == ShipPanel.Status.SUNKEN) {
-                    shipPanels[j].setBackground(Color.GRAY);
-                    shipPanels[j].repaint();
+            for (ShipPanel shipPanel : shipPanels) {
+                switch (shipPanel.getStatus()) {
+                    case FREE -> shipPanel.setBackground(Color.BLACK);
+                    case LOADED -> shipPanel.setBackground(Color.GREEN);
+                    case HIT -> shipPanel.setBackground(Color.ORANGE);
+                    case SUNKEN -> shipPanel.setBackground(Color.GRAY);
+                }
+                this.repaint();
+            }
+        }
+    }
+
+    public void updateStatusPlayerPanel(int iD, ShipPanel.Status status) {
+        for (ShipPanel[] shipPanels : playerCell) {
+            for (ShipPanel shipPanel : shipPanels) {
+                if (shipPanel.getId() == iD) {
+                    shipPanel.setStatus(status);
                 }
             }
         }
+        updateEnemyPanel();
     }
 
     /**

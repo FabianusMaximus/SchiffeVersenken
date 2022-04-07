@@ -10,6 +10,8 @@ public class ServerLogic {
     private Server server;
     private boolean activePlayer;
 
+    private int iD;
+
     private ShipPanel[][] gameField1, gameField2;
 
 
@@ -106,19 +108,19 @@ public class ServerLogic {
 
     public void verarbeitenShot(String string, ClientHandler clientHandler) {
         String hold = string.split(":")[1];
-        int iD = Integer.parseInt(hold);
+        iD = Integer.parseInt(hold);
 
         if (clientHandler == clientHandler1) {
             if (vergleichenID(iD, gameField2)) {
-                sendTreffer(clientHandler1);
+                sendTreffer(clientHandler1, clientHandler2);
             } else {
-                sendMissed(clientHandler1);
+                sendMissed(clientHandler1, clientHandler2);
             }
         } else {
             if (vergleichenID(iD, gameField1)) {
-                sendTreffer(clientHandler2);
+                sendTreffer(clientHandler2, clientHandler1);
             } else {
-                sendMissed(clientHandler2);
+                sendMissed(clientHandler2, clientHandler1);
             }
         }
     }
@@ -137,22 +139,21 @@ public class ServerLogic {
         return false;
     }
 
-    public void sendTreffer(ClientHandler clientHandler) {
+    public void sendTreffer(ClientHandler schiessender, ClientHandler empfangender) {
         try {
-            clientHandler.sendMessage("treffer");
+            schiessender.sendMessage("treffer");
+            empfangender.sendMessage("schuss:" + iD);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void sendMissed(ClientHandler clientHandler) {
+    public void sendMissed(ClientHandler schiessender, ClientHandler empfangender) {
         try {
-            clientHandler.sendMessage("missed");
+            schiessender.sendMessage("missed");
+            empfangender.sendMessage("schuss:" + iD);
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void sendActivePlayer(){
     }
 }
