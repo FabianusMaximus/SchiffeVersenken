@@ -63,24 +63,4 @@ public class ClientHandler extends Communictaion {
         }
     }
 
-    public void setActivePlayer(boolean activePlayer) {
-        if (activePlayer) {
-            try {
-                sendMessage("yourTurn");
-                System.out.println("habe yourTurn Gesendet");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                sendMessage("notYourTurn");
-                System.out.println("habe notYourTurn Gesendet");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
-
-
 }

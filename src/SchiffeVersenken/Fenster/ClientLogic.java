@@ -31,9 +31,12 @@ public class ClientLogic {
     public void clickCell(int x, int y) {
         if (!bestaetigt) {
             System.out.println("PanelID: " + gui.getCell()[x][y].getId());
-            if (!gui.getCell()[x][y].isBelegt() && !gui.getCell()[x][y].isBlocked() && selectedShip != null) {
+            if (gui.getCell()[x][y].getStatus() != ShipPanel.Status.LOADED
+                    && gui.getCell()[x][y].getStatus() != ShipPanel.Status.BLOCKED
+                    && selectedShip != null) {
                 placeShip(x, y, selectedShip);
-            } else if (gui.getCell()[x][y].isBelegt() && selectedShip == null) {
+            } else if ((gui.getCell()[x][y].getStatus() == ShipPanel.Status.LOADED ||
+                    gui.getCell()[x][y].getStatus() == ShipPanel.Status.ERROR) && selectedShip == null) {
                 Ship holdShip = gui.getCell()[x][y].getLinkedShip();
                 removeShip(holdShip);
                 selectedShip = holdShip;
@@ -76,7 +79,11 @@ public class ClientLogic {
             int a = (int) ship.getBlockedZone().get(i).getX();
             int b = (int) ship.getBlockedZone().get(i).getY();
             if (checkValid(a, b) && !outOfBounds) {
-                gui.getCell()[a][b].setBlocked(true);
+                if (gui.getCell()[a][b].getStatus() == ShipPanel.Status.LOADED) {
+                    gui.getCell()[a][b].setStatus(ShipPanel.Status.ERROR);
+                } else {
+                    gui.getCell()[a][b].setStatus(ShipPanel.Status.BLOCKED);
+                }
             }
         }
 
@@ -84,7 +91,12 @@ public class ClientLogic {
             int a = (int) ship.getLocation().get(i).getX();
             int b = (int) ship.getLocation().get(i).getY();
             if (checkValid(a, b) && !outOfBounds) {
-                gui.getCell()[a][b].setBelegt(true);
+                if (gui.getCell()[a][b].getStatus() != ShipPanel.Status.FREE) {
+                    gui.getCell()[a][b].setStatus(ShipPanel.Status.ERROR);
+                } else {
+                    //TODO Hier musst du noch was fixxen Daniel
+                    gui.getCell()[a][b].setStatus(ShipPanel.Status.LOADED);
+                }
                 gui.getCell()[a][b].setLinkedShip(ship);
             }
         }
@@ -92,7 +104,7 @@ public class ClientLogic {
             int a = (int) ship.getLocation().get(i).getX();
             int b = (int) ship.getLocation().get(i).getY();
             if (checkValid(a, b) && outOfBounds) {
-                gui.getCell()[a][b].setError(true);
+                gui.getCell()[a][b].setStatus(ShipPanel.Status.ERROR);
                 gui.getCell()[a][b].setLinkedShip(ship);
             }
         }
@@ -107,6 +119,7 @@ public class ClientLogic {
         ArrayList<Ship> shipsOnField = new ArrayList<>();
         for (ShipPanel[] shipPanels : gui.getCell()) {
             for (ShipPanel shipPanel : shipPanels) {
+                shipPanel.setStatus(ShipPanel.Status.FREE);
                 Ship holdShips = shipPanel.getLinkedShip();
                 if (holdShips != null) {
                     shipsOnField.add(holdShips);
@@ -150,9 +163,7 @@ public class ClientLogic {
 
     public void updateGamefield() {
         replaceShips();
-        for (ShipPanel[] shipPanels : gui.getCell()) {
-            GUIControl.applyColorSheme(shipPanels);
-        }
+        GUIControl.applyColorSheme(gui.getCell());
         gui.revalidate();
     }
 
@@ -164,10 +175,11 @@ public class ClientLogic {
                 int a = (int) selectedShip.getLocation().get(i).getX();
                 int b = (int) selectedShip.getLocation().get(i).getY();
                 if (checkValid(a, b)) {
-                    if ((gui.getCell()[a][b].isBelegt() || gui.getCell()[a][b].isBlocked())) {
-                        gui.getCell()[a][b].setBackground(Color.red);
+                    ShipPanel shipPanel = gui.getCell()[a][b];
+                    if ((shipPanel.isBelegt() || shipPanel.isBlocked())) {
+                        shipPanel.setBackground(Color.red);
                     } else {
-                        gui.getCell()[a][b].setBackground(Color.green);
+                        shipPanel.setBackground(Color.green);
                     }
                 } else {
                     placementError();
@@ -271,7 +283,7 @@ public class ClientLogic {
         gui.updateActiveplayer(activePlayer);
     }
 
-    public boolean getActivePlayer(){
+    public boolean getActivePlayer() {
         return activePlayer;
     }
 

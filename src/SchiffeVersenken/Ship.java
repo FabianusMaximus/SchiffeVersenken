@@ -35,25 +35,39 @@ public class Ship {
 
     }
 
-    public ArrayList<Point> generateBlockedZone(int x, int y) {
+    private ArrayList<Point> generateBlockedZone(int x, int y) {
         ArrayList<Point> blockedIndexes = new ArrayList<Point>();
         int holdX = x - 1;
         int holdY = y - 1;
 
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < groesse + 2; j++) {
-
-                if (orientation == Orientation.HORIZONTAL
-                        && holdX + i >= 0 && holdX + i < 10 && holdY + j >= 0 && holdY + j < 10) {
-                    blockedIndexes.add(new Point(holdX + i, holdY + j));
-                } else if (orientation == Orientation.VERTICAL
-                        && holdX + j >= 0 && holdX + j < 10 && holdY + i >= 0 && holdY + i < 10) {
-                    blockedIndexes.add(new Point(holdX + j, holdY + i));
-                }
+        for (int j = 0; j < groesse + 2; j++) {
+            if (orientation == Orientation.HORIZONTAL
+                    && checkBounds(holdX, holdY + j)) {
+                blockedIndexes.add(new Point(holdX, holdY + j));
+            } else if (orientation == Orientation.VERTICAL
+                    && checkBounds(holdX + j, holdY)) {
+                blockedIndexes.add(new Point(holdX + j, holdY));
             }
         }
+
+        blockedIndexes.add(new Point(x, holdY));
+        blockedIndexes.add(new Point(x, y +groesse));
+
+        for (int j = 0; j < groesse + 2; j++) {
+            if (orientation == Orientation.HORIZONTAL
+                    && checkBounds(holdX + 2, holdY + j)) {
+                blockedIndexes.add(new Point(holdX + 2, holdY + j));
+            } else if (orientation == Orientation.VERTICAL
+                    && checkBounds(holdX + j, holdY + 2)) {
+                blockedIndexes.add(new Point(holdX + j, holdY + 2));
+            }
+        }
+
         return blockedIndexes;
+    }
+
+    private boolean checkBounds(int x, int y) {
+        return x >= 0 && x < 10 && y >= 0 && y < 10;
     }
 
     public void changeOrientation() {

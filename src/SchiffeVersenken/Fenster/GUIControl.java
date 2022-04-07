@@ -14,7 +14,6 @@ public class GUIControl {
     private GUI gui;
     private Control control;
     private ClientLogic clientLogic;
-    private PlayLogic playLogic;
 
     private int holdID; //Speichert die letzte ID, auf die geschossen wurde
 
@@ -92,13 +91,16 @@ public class GUIControl {
         return control.getShip(index);
     }
 
-    public static void applyColorSheme(ShipPanel[] shipPanels) {
-        for (ShipPanel shipPanel : shipPanels) {
-            switch (shipPanel.getStatus()) {
-                case FREE -> shipPanel.setBackground(Color.black);
-                case LOADED -> shipPanel.setBackground(Color.green);
-                case ERROR -> shipPanel.setBackground(Color.red);
-                case BLOCKED -> shipPanel.setBackground(Color.gray);
+
+    public static void applyColorSheme(ShipPanel[][] field) {
+        for (ShipPanel[] shipPanels : field) {
+            for (ShipPanel shipPanel : shipPanels) {
+                switch (shipPanel.getStatus()) {
+                    case FREE -> shipPanel.setBackground(Color.black);
+                    case LOADED -> shipPanel.setBackground(Color.green);
+                    case ERROR -> shipPanel.setBackground(Color.red);
+                    case BLOCKED -> shipPanel.setBackground(Color.gray);
+                }
             }
         }
     }
@@ -176,7 +178,6 @@ public class GUIControl {
             try {
                 Client client = new Client(ip, this);
                 this.clientLogic = new ClientLogic(client, gui);
-                this.playLogic = new PlayLogic(client, gui);
                 new Thread(client::init).start();
                 new Thread(client::verarbeitenStack).start();
                 gui.goToGameScreen();
@@ -218,6 +219,12 @@ public class GUIControl {
         gui.updateActiveplayer(clientLogic.getActivePlayer());
     }
 
+
+    /**
+     * Setzt den Status des Feldes neu, um anzuzeigen, ob der Schuss getroffen hat
+     *
+     * @param treffer Ob der Spieler getroffen hat
+     */
     public void applyShot(boolean treffer) {
         if (treffer) {
             gui.getPlayPanel().changeEnemyCellStatus(holdID, ShipPanel.Status.HIT);
@@ -226,19 +233,17 @@ public class GUIControl {
         }
     }
 
+    /**
+     * Setzt den Status des Feldes neu, auf das der Gegner geschossen hat
+     *
+     * @param string String der die ID des Feldes beinhaltet
+     */
     public void setEnemyShot(String string) {
-        String hold = string.split(":")[1];
-        int iD = Integer.parseInt(hold);
-        //TODO Player Cell einfärben
-    }
-
-    private Point vergleichenID(int iD) {
-        for (int i = 0; i < gui.getPlayPanel().getPlayerCell().length; i++) {
-            for (int j = 0; j < gui.getPlayPanel().getPlayerCell()[i].length; j++) {
-                if (gui.getPlayPanel().getPlayerCell()[i][j].getId() == iD) return new Point(i, j);
-            }
+        int iD = Integer.parseInt(string.split(":")[1]);
+        if (gui.getPlayPanel().getPlayerCell(iD).getStatus() != ShipPanel.Status.LOADED) {
+            flipActivePlayer();
         }
-        return null;
+        gui.getPlayPanel().updateStatusPlayerPanel(iD, ShipPanel.Status.HIT);
     }
 
 }

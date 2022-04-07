@@ -1,15 +1,8 @@
 package SchiffeVersenken.Network;
 
-import SchiffeVersenken.Components.ShipPanel;
 import SchiffeVersenken.Fenster.GUIControl;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayDeque;
-import java.util.Deque;
 
 public class Client extends Communictaion {
     private GUIControl guiControl;
@@ -51,8 +44,9 @@ public class Client extends Communictaion {
                     }
                     case "missed" -> {
                         guiControl.applyShot(false);
+                        guiControl.flipActivePlayer();
                     }
-                    case "ping" -> System.out.println("ping");
+                    case "ping" -> System.out.println("ping von: " + socket.getInetAddress());
                 }
                 if (message.contains("schuss")) {
                     guiControl.setEnemyShot(message);

@@ -156,7 +156,7 @@ public class PlayPanel extends CustomPanel {
                 }
             }
         }
-        updateEnemyPanel();
+        updatePlayerPanel();
     }
 
     /**
@@ -166,21 +166,13 @@ public class PlayPanel extends CustomPanel {
         for (ShipPanel[] shipPanels : enemyCell) {
             for (ShipPanel shipPanel : shipPanels) {
                 switch (shipPanel.getStatus()) {
-                    case MISSED -> {
-                        shipPanel.setBackground(Color.RED);
-                        shipPanel.repaint();
-                    }
-                    case SUNKEN -> {
-                        shipPanel.setBackground(Color.GRAY);
-                        shipPanel.repaint();
-                    }
-                    case HIT -> {
-                        shipPanel.setBackground(Color.ORANGE);
-                        shipPanel.repaint();
-                    }
+                    case MISSED -> shipPanel.setBackground(Color.RED);
+                    case SUNKEN -> shipPanel.setBackground(Color.GRAY);
+                    case HIT -> shipPanel.setBackground(Color.ORANGE);
                 }
             }
         }
+        this.repaint();
     }
 
     /**
@@ -215,6 +207,23 @@ public class PlayPanel extends CustomPanel {
             }
         }
         updateEnemyPanel();
+    }
+
+    /**
+     * Gibt die Celle des Spielers zurück, das die ID hat
+     *
+     * @param iD ID der Zelle
+     * @return Celle des Spielers
+     */
+    public ShipPanel getPlayerCell(int iD) {
+        for (ShipPanel[] shipPanels : playerCell) {
+            for (ShipPanel shipPanel : shipPanels) {
+                if (iD == shipPanel.getId()) {
+                    return shipPanel;
+                }
+            }
+        }
+        return null;
     }
 
     public static void main(String[] args) {
