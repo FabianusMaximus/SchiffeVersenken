@@ -16,6 +16,8 @@ public class GUIControl {
     private ClientLogic clientLogic;
     private PlayLogic playLogic;
 
+    private int holdID; //Speichert die letzte ID, auf die geschossen wurde
+
     public GUIControl(Control control) {
         this.control = control;
         this.gui = new GUI(this);
@@ -205,7 +207,8 @@ public class GUIControl {
         gui.goToPlayScreen();
     }
 
-    public void shotRoutine(int iD){
+    public void shotRoutine(int iD) {
+        holdID = iD;
         clientLogic.shotRoutine(iD);
     }
 
@@ -213,9 +216,16 @@ public class GUIControl {
         clientLogic.setActivePlayer(activePlayer);
     }
 
-    public void applyShot(boolean treffer){
-        if (treffer){
+    public void flipActivePlayer() {
+        clientLogic.flipActivePlayer();
+        gui.updateActiveplayer(clientLogic.getActivePlayer());
+    }
 
+    public void applyShot(boolean treffer) {
+        if (treffer) {
+            gui.getPlayPanel().changeEnemyCellStatus(holdID, ShipPanel.Status.HIT);
+        } else {
+            gui.getPlayPanel().changeEnemyCellStatus(holdID, ShipPanel.Status.MISSED);
         }
     }
 

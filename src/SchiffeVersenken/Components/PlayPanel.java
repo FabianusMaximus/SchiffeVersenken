@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.ObjectInputFilter;
 
 public class PlayPanel extends CustomPanel {
 
@@ -152,13 +153,20 @@ public class PlayPanel extends CustomPanel {
      */
     public void updateEnemyPanel() {
         for (ShipPanel[] shipPanels : enemyCell) {
-            for (int j = 0; j < playerCell[0].length; j++) {
-                if (shipPanels[j].getStatus() == ShipPanel.Status.MISSED) {
-                    shipPanels[j].setBackground(Color.RED);
-                    shipPanels[j].repaint();
-                } else if (shipPanels[j].getStatus() == ShipPanel.Status.SUNKEN) {
-                    shipPanels[j].setBackground(Color.GRAY);
-                    shipPanels[j].repaint();
+            for (ShipPanel shipPanel : shipPanels) {
+                switch (shipPanel.getStatus()) {
+                    case MISSED -> {
+                        shipPanel.setBackground(Color.RED);
+                        shipPanel.repaint();
+                    }
+                    case SUNKEN -> {
+                        shipPanel.setBackground(Color.GRAY);
+                        shipPanel.repaint();
+                    }
+                    case HIT -> {
+                        shipPanel.setBackground(Color.ORANGE);
+                        shipPanel.repaint();
+                    }
                 }
             }
         }
@@ -184,13 +192,14 @@ public class PlayPanel extends CustomPanel {
      * ändert den Status eines Feldes auf dem Gegner spielfeld
      * und benutzt gleich updateEnemyPanel();
      *
-     * @param shipCell übergabe des zuvor ausgewählten Felds auf dem Gegner Spielfeld
+     * @param iD     ID auf der Celle die geupdatet werden soll
+     * @param status Status den die Zelle erhalten soll
      */
-    public void changeEnemyCellStatus(ShipPanel shipCell) {
+    public void changeEnemyCellStatus(int iD, ShipPanel.Status status) {
         for (ShipPanel[] shipPanels : enemyCell) {
-            for (int j = 0; j < shipPanels.length; j++) {
-                if (shipPanels[j].getId() == shipCell.getId()) {
-                    shipPanels[j].setStatus(shipCell.getStatus());
+            for (ShipPanel shipPanel : shipPanels) {
+                if (shipPanel.getId() == iD) {
+                    shipPanel.setStatus(status);
                 }
             }
         }
@@ -215,15 +224,9 @@ public class PlayPanel extends CustomPanel {
         playPanel.setBounds(0, 0, width, height);
         cp.add(playPanel);
 
-        ShipPanel schiffchen = new ShipPanel(5);
-        schiffchen.setStatus(ShipPanel.Status.SUNKEN);
-
-        ShipPanel keinSchiffchen = new ShipPanel(9);
-        keinSchiffchen.setStatus(ShipPanel.Status.MISSED);
-
         playPanel.changePlayerTurn(false);
-        playPanel.changeEnemyCellStatus(schiffchen);
-        playPanel.changeEnemyCellStatus(keinSchiffchen);
+        playPanel.changeEnemyCellStatus(5, ShipPanel.Status.SUNKEN);
+        playPanel.changeEnemyCellStatus(9, ShipPanel.Status.MISSED);
 
         testWindow.setVisible(true);
     }

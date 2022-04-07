@@ -45,8 +45,12 @@ public class Client extends Communictaion {
                         guiControl.goToPlayScreen();
                         guiControl.setActivePlayer(true);
                     }
-                    case "treffer" -> guiControl.applyShot(true);
-                    case "false" -> guiControl.applyShot(false);
+                    case "treffer" -> {
+                        guiControl.applyShot(true);
+                    }
+                    case "missed" -> {
+                        guiControl.applyShot(false);
+                    }
                     case "ping" -> System.out.println("ping");
                 }
             }

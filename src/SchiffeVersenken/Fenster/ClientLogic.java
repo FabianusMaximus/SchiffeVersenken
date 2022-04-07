@@ -2,7 +2,6 @@ package SchiffeVersenken.Fenster;
 
 import SchiffeVersenken.Components.ShipPanel;
 import SchiffeVersenken.Network.Client;
-import SchiffeVersenken.Network.ClientHandler;
 import SchiffeVersenken.Ship;
 
 import javax.swing.*;
@@ -16,6 +15,7 @@ public class ClientLogic {
     private Ship selectedShip;
     private boolean bestaetigt = false;
     private boolean activePlayer = false;
+    private int holdID;
 
     public ClientLogic(Client client, GUI gui) {
         this.client = client;
@@ -249,11 +249,12 @@ public class ClientLogic {
         return translatedField.toString();
     }
 
-    public void shotRoutine(int iD){
+    public void shotRoutine(int iD) {
+        holdID = iD;
         try {
-            if (activePlayer){
+            if (activePlayer) {
                 client.sendMessage("shot:" + iD);
-            }else {
+            } else {
                 JOptionPane.showMessageDialog(gui,
                         "Du bist nicht an der Reihe, warte bis der Gegner seinen Zug gemacht hat",
                         "Ungedulds Error",
@@ -267,7 +268,15 @@ public class ClientLogic {
     public void setActivePlayer(boolean activePlayer) {
         System.out.println("Du bisch dran: " + activePlayer);
         this.activePlayer = activePlayer;
-        gui.updateActiveplacer(activePlayer);
+        gui.updateActiveplayer(activePlayer);
+    }
+
+    public boolean getActivePlayer(){
+        return activePlayer;
+    }
+
+    public void flipActivePlayer() {
+        activePlayer = !activePlayer;
     }
 
 }

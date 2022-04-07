@@ -3,7 +3,6 @@ package SchiffeVersenken.Components;
 import SchiffeVersenken.Ship;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class ShipPanel extends JPanel {
     private int id;
@@ -15,13 +14,6 @@ public class ShipPanel extends JPanel {
         this.id = id;
         status = Status.FREE;
         linkedShip = null;
-    }
-
-    public ShipPanel(int id, Ship ship) {
-        super();
-        linkedShip = ship;
-        status = Status.LOADED;
-        this.id = id;
     }
 
     public int getId() {
@@ -107,7 +99,14 @@ public class ShipPanel extends JPanel {
         this.status = status;
     }
 
+
     public enum Status {
-        FREE, LOADED, BLOCKED, ERROR, SUNKEN, MISSED
+        FREE, //Auf dem Feld befindet sich kein Schiff
+        LOADED, //Auf dem Feld befindet sich ein Schiff
+        BLOCKED, //Das Feld ist für eine Platzierung blockiert
+        ERROR, //Auf dem Feld gibt es einen Fehler aufgrund von falscher Platzierung
+        SUNKEN, //Das Schiff auf diesem Feld ist untergegangen
+        MISSED, //Der Schuss ging daneben
+        HIT //Der Schuss hat getroffen
     }
 }

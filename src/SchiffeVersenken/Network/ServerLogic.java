@@ -152,4 +152,7 @@ public class ServerLogic {
             e.printStackTrace();
         }
     }
+
+    public void sendActivePlayer(){
+    }
 }
