@@ -34,6 +34,7 @@ public class ClientLogic {
             if (gui.getCell()[x][y].getStatus() != ShipPanel.Status.LOADED
                     && gui.getCell()[x][y].getStatus() != ShipPanel.Status.BLOCKED
                     && selectedShip != null) {
+                System.out.println(gui.getCell()[x][y].getStatus());
                 placeShip(x, y, selectedShip);
             } else if ((gui.getCell()[x][y].getStatus() == ShipPanel.Status.LOADED ||
                     gui.getCell()[x][y].getStatus() == ShipPanel.Status.ERROR) && selectedShip == null) {
@@ -74,6 +75,22 @@ public class ClientLogic {
                 }
             }
         }
+        for (int i = 0; i < ship.getLocation().size(); i++) {
+            int a = (int) ship.getLocation().get(i).getX();
+            int b = (int) ship.getLocation().get(i).getY();
+            if (checkValid(a, b) && !outOfBounds) {
+                if (gui.getCell()[a][b].getStatus() == ShipPanel.Status.FREE) {
+                    gui.getCell()[a][b].setStatus(ShipPanel.Status.LOADED);
+                } else {
+                    gui.getCell()[a][b].setStatus(ShipPanel.Status.ERROR);
+                }
+
+                gui.getCell()[a][b].setLinkedShip(ship);
+            } else if (checkValid(a, b) && outOfBounds) {
+                gui.getCell()[a][b].setStatus(ShipPanel.Status.ERROR);
+                gui.getCell()[a][b].setLinkedShip(ship);
+            }
+        }
 
         for (int i = 0; i < ship.getBlockedZone().size(); i++) {
             int a = (int) ship.getBlockedZone().get(i).getX();
@@ -87,34 +104,16 @@ public class ClientLogic {
             }
         }
 
-        for (int i = 0; i < ship.getLocation().size(); i++) {
-            int a = (int) ship.getLocation().get(i).getX();
-            int b = (int) ship.getLocation().get(i).getY();
-            if (checkValid(a, b) && !outOfBounds) {
-                if (gui.getCell()[a][b].getStatus() != ShipPanel.Status.FREE) {
-                    gui.getCell()[a][b].setStatus(ShipPanel.Status.ERROR);
-                } else {
-                    //TODO Hier musst du noch was fixxen Daniel
-                    gui.getCell()[a][b].setStatus(ShipPanel.Status.LOADED);
-                }
-                gui.getCell()[a][b].setLinkedShip(ship);
-            }
-        }
-        for (int i = 0; i < ship.getLocation().size(); i++) {
-            int a = (int) ship.getLocation().get(i).getX();
-            int b = (int) ship.getLocation().get(i).getY();
-            if (checkValid(a, b) && outOfBounds) {
-                gui.getCell()[a][b].setStatus(ShipPanel.Status.ERROR);
-                gui.getCell()[a][b].setLinkedShip(ship);
-            }
-        }
         selectedShip = null;
     }
+
+    int count = 0;
 
     /**
      * Plaziert alle Schiffe, die sich auf dem Spielfeld befinden neu, damit Daniel das Spiel nicht kaputt machen kann
      */
     private void replaceShips() {
+        System.out.println("replace wurde gecalled" + count++);
         Ship holdShip = selectedShip;
         ArrayList<Ship> shipsOnField = new ArrayList<>();
         for (ShipPanel[] shipPanels : gui.getCell()) {
@@ -164,7 +163,7 @@ public class ClientLogic {
     public void updateGamefield() {
         replaceShips();
         GUIControl.applyColorSheme(gui.getCell());
-        gui.revalidate();
+        gui.repaint();
     }
 
     public void showPreview(int x, int y) {

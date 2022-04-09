@@ -1,5 +1,7 @@
 package SchiffeVersenken;
 
+import SchiffeVersenken.Components.ShipPanel;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -40,26 +42,22 @@ public class Ship {
         int holdX = x - 1;
         int holdY = y - 1;
 
-        for (int j = 0; j < groesse + 2; j++) {
-            if (orientation == Orientation.HORIZONTAL
-                    && checkBounds(holdX, holdY + j)) {
-                blockedIndexes.add(new Point(holdX, holdY + j));
-            } else if (orientation == Orientation.VERTICAL
-                    && checkBounds(holdX + j, holdY)) {
-                blockedIndexes.add(new Point(holdX + j, holdY));
+        switch (orientation) {
+            case HORIZONTAL -> {
+                for (int i = 0; i < groesse + 2; i++) {
+                    blockedIndexes.add(new Point(holdX, holdY + i));
+                    blockedIndexes.add(new Point(holdX + 2, holdY + i));
+                }
+                blockedIndexes.add(new Point(x, holdY));
+                blockedIndexes.add(new Point(x, y + groesse));
             }
-        }
-
-        blockedIndexes.add(new Point(x, holdY));
-        blockedIndexes.add(new Point(x, y +groesse));
-
-        for (int j = 0; j < groesse + 2; j++) {
-            if (orientation == Orientation.HORIZONTAL
-                    && checkBounds(holdX + 2, holdY + j)) {
-                blockedIndexes.add(new Point(holdX + 2, holdY + j));
-            } else if (orientation == Orientation.VERTICAL
-                    && checkBounds(holdX + j, holdY + 2)) {
-                blockedIndexes.add(new Point(holdX + j, holdY + 2));
+            case VERTICAL -> {
+                for (int i = 0; i < groesse + 2; i++) {
+                    blockedIndexes.add(new Point(holdX + i, holdY));
+                    blockedIndexes.add(new Point(holdX + i, holdY + 2));
+                }
+                blockedIndexes.add(new Point(holdX, y));
+                blockedIndexes.add(new Point(x + groesse, y));
             }
         }
 
