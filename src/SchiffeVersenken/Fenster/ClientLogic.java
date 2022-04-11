@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ClientLogic {
     private Client client;
@@ -41,6 +42,7 @@ public class ClientLogic {
                 Ship holdShip = gui.getCell()[x][y].getLinkedShip();
                 removeShip(holdShip);
                 selectedShip = holdShip;
+                replaceShips();
             } else if ((gui.getCell()[x][y].isBelegt() || gui.getCell()[x][y].isBlocked()) && selectedShip != null) {
                 JOptionPane.showMessageDialog(gui,
                         "Das Schiff kann hier nicht platziert werden",
@@ -125,8 +127,12 @@ public class ClientLogic {
                 }
             }
         }
+        Ship verglShip = new Ship("Karl", 3);
         for (Ship ship : shipsOnField) {
-            placeShip((int) ship.getLocation().get(0).getX(), (int) ship.getLocation().get(0).getY(), ship);
+            if (ship != verglShip) {
+                verglShip = ship;
+                placeShip((int) ship.getLocation().get(0).getX(), (int) ship.getLocation().get(0).getY(), ship);
+            }
         }
 
         selectedShip = holdShip;
@@ -161,9 +167,8 @@ public class ClientLogic {
     }
 
     public void updateGamefield() {
-        replaceShips();
         GUIControl.applyColorSheme(gui.getCell());
-        gui.repaint();
+        gui.revalidate();
     }
 
     public void showPreview(int x, int y) {

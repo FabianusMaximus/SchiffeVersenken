@@ -49,7 +49,7 @@ public class GUI extends JFrame {
         cp.add(gamePanel);
 
         playPanel = new PlayPanel(width, height, guiControl);
-        playPanel.setBounds(0,0,width,height);
+        playPanel.setBounds(0, 0, width, height);
         playPanel.setVisible(false);
         cp.add(playPanel);
 
@@ -70,7 +70,7 @@ public class GUI extends JFrame {
         return gamePanel.getCell();
     }
 
-    public ShipPanel[][] getPlayField(){
+    public ShipPanel[][] getPlayField() {
         return playPanel.getPlayerCell();
     }
 
@@ -97,7 +97,7 @@ public class GUI extends JFrame {
         playPanel.setVisible(true);
     }
 
-    public PlayPanel getPlayPanel(){
+    public PlayPanel getPlayPanel() {
         return playPanel;
     }
 
@@ -113,7 +113,7 @@ public class GUI extends JFrame {
         gamePanel.setDefaultColor(color);
     }
 
-    public void updateActiveplayer(boolean activePlayer){
+    public void updateActiveplayer(boolean activePlayer) {
         playPanel.changePlayerTurn(activePlayer);
     }
 
