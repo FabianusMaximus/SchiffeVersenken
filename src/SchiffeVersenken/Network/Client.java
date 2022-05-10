@@ -50,6 +50,8 @@ public class Client extends Communictaion {
                 }
                 if (message.contains("schuss")) {
                     guiControl.setEnemyShot(message);
+                }else if (message.contains("sunken")){
+                    guiControl.verarbeitenSunken(message);
                 }
             }
         }

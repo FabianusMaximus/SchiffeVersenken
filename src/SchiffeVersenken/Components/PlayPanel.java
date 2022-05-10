@@ -155,10 +155,11 @@ public class PlayPanel extends CustomPanel {
         applyColorScheme(enemyCell);
     }
 
-    private void applyColorScheme(ShipPanel[][] field){
+    private void applyColorScheme(ShipPanel[][] field) {
         for (ShipPanel[] shipPanels : field) {
             for (ShipPanel shipPanel : shipPanels) {
                 switch (shipPanel.getStatus()) {
+                    case LOADED -> shipPanel.setBackground(Color.GREEN);
                     case MISSED -> shipPanel.setBackground(Color.RED);
                     case SUNKEN -> shipPanel.setBackground(Color.GRAY);
                     case HIT -> shipPanel.setBackground(Color.ORANGE);

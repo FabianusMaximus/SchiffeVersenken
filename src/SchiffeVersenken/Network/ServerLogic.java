@@ -3,6 +3,7 @@ package SchiffeVersenken.Network;
 import SchiffeVersenken.Components.ShipPanel;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ServerLogic {
     private ClientHandler clientHandler1, clientHandler2;
@@ -125,6 +126,22 @@ public class ServerLogic {
         }
     }
 
+    public void weiterleitenSunken(ClientHandler clientHandler, String message) {
+        if (clientHandler == clientHandler1){
+            try {
+                clientHandler2.sendMessage(message);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }else {
+            try {
+                clientHandler2.sendMessage(message);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     public boolean vergleichenID(int iD, ShipPanel[][] gameField) {
         int holdID = 0;
         for (ShipPanel[] fields : gameField) {
@@ -156,4 +173,5 @@ public class ServerLogic {
             e.printStackTrace();
         }
     }
+
 }

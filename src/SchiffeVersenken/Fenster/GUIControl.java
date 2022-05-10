@@ -276,9 +276,24 @@ public class GUIControl {
     private Integer[] calculateSunkenIds(Ship ship) {
         ArrayList<Integer> holdIDs = new ArrayList<>();
         for (Point point : ship.getBlockedZone()) {
-            holdIDs.add(gui.getPlayPanel().getPlayerCell()[(int) point.getX()][(int) point.getY()].getId());
+            if (point.getX() >= 0 && point.getY() >= 0 && point.getX() <= 10 && point.getY() <= 10) {
+                holdIDs.add(gui.getPlayPanel().getPlayerCell()[(int) point.getX()][(int) point.getY()].getId());
+            }
         }
         return holdIDs.toArray(new Integer[0]);
+    }
+
+    public void verarbeitenSunken(String message){
+        String holdString = message.split(":")[1];
+        String[] s_IDs = holdString.split(",");
+        ArrayList<Integer> iDs = new ArrayList<>();
+        for (String s : s_IDs) {
+            iDs.add(Integer.parseInt(s));
+        }
+        for (Integer i: iDs) {
+            gui.getPlayPanel().getPlayerCell(i).setStatus(ShipPanel.Status.SUNKEN);
+        }
+        gui.getPlayPanel().updatePlayerPanel();
     }
 
 }

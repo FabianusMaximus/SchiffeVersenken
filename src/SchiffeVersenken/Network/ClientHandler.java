@@ -45,6 +45,9 @@ public class ClientHandler extends Communictaion {
                     serverLogic.clientReady(this);
                 } else if (message.contains("shot")) {
                     serverLogic.verarbeitenShot(message, this);
+                } else if (message.contains("sunken")) {
+                    serverLogic.weiterleitenSunken(this, message);
+
                 }
             }
         }

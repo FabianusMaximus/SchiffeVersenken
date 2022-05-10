@@ -287,7 +287,7 @@ public class ClientLogic {
         for (int i : iDs) {
             message.append(i).append(",");
         }
-        System.out.println("Sunken Nachricht: " + message);
+        System.out.println("Sunken Nachricht: " + message.toString());
         try {
             client.sendMessage(message.toString());
         } catch (IOException e) {
