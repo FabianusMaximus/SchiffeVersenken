@@ -295,6 +295,14 @@ public class ClientLogic {
         }
     }
 
+    public void sendGameOver(){
+        try {
+            client.sendMessage("gameOver");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void setActivePlayer(boolean activePlayer) {
         System.out.println("Du bisch dran: " + activePlayer);
         this.activePlayer = activePlayer;

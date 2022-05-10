@@ -1,6 +1,7 @@
 package SchiffeVersenken.Network;
 
 import SchiffeVersenken.Fenster.GUIControl;
+
 import java.io.IOException;
 import java.net.Socket;
 
@@ -46,11 +47,13 @@ public class Client extends Communictaion {
                         guiControl.applyShot(false);
                         guiControl.flipActivePlayer();
                     }
+                    case "win" -> guiControl.goToWinScreen(true);
+                    case "lose" -> guiControl.goToWinScreen(false);
                     case "ping" -> System.out.println("ping von: " + socket.getInetAddress());
                 }
                 if (message.contains("schuss")) {
                     guiControl.setEnemyShot(message);
-                }else if (message.contains("sunken")){
+                } else if (message.contains("sunken")) {
                     guiControl.verarbeitenSunken(message);
                 }
             }

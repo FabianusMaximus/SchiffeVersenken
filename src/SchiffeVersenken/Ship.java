@@ -13,6 +13,8 @@ public class Ship {
     private ArrayList<Point> blockedZone;
     private Orientation orientation;
 
+    private boolean schiffsAmArschEyyyy; //TODO vielleicht umbenennen
+
     public Ship(String pName, int pGroesse) {
         name = pName;
         value = pGroesse;
@@ -110,6 +112,14 @@ public class Ship {
 
     public ArrayList<Point> getBlockedZone() {
         return blockedZone;
+    }
+
+    public boolean isSchiffsAmArschEyyyy(){
+        return schiffsAmArschEyyyy;
+    }
+
+    public void setSchiffsAmArschEyyyy(boolean schiffsAmArschEyyyy) {
+        this.schiffsAmArschEyyyy = schiffsAmArschEyyyy;
     }
 }
 

@@ -248,6 +248,7 @@ public class GUIControl {
         for (Ship ship : control.getShips()) {
             if (checkShipSunken(ship)) sinkShip(ship);
         }
+        if (checkAllShipsSunken())clientLogic.sendGameOver();
     }
 
     public boolean checkShipSunken(Ship ship) {
@@ -266,6 +267,7 @@ public class GUIControl {
     }
 
     public void sinkShip(Ship ship) {
+        ship.setSchiffsAmArschEyyyy(true);
         for (Point point : ship.getLocation()) {
             gui.getPlayPanel().getPlayerCell()[(int) point.getX()][(int) point.getY()].setStatus(ShipPanel.Status.SUNKEN);
             gui.getPlayPanel().updatePlayerPanel();
@@ -283,17 +285,31 @@ public class GUIControl {
         return holdIDs.toArray(new Integer[0]);
     }
 
-    public void verarbeitenSunken(String message){
+    public void verarbeitenSunken(String message) {
         String holdString = message.split(":")[1];
         String[] s_IDs = holdString.split(",");
         ArrayList<Integer> iDs = new ArrayList<>();
         for (String s : s_IDs) {
             iDs.add(Integer.parseInt(s));
         }
-        for (Integer i: iDs) {
-            gui.getPlayPanel().getPlayerCell(i).setStatus(ShipPanel.Status.SUNKEN);
+        for (Integer i : iDs) {
+            gui.getPlayPanel().changeEnemyCellStatus(i, ShipPanel.Status.SUNKEN);
         }
         gui.getPlayPanel().updatePlayerPanel();
+    }
+
+    private boolean checkAllShipsSunken() {
+        int count = 0;
+        for (Ship ship : control.getShips()) {
+            if (ship.isSchiffsAmArschEyyyy()) count++;
+        }
+        return count == control.getShips().length;
+    }
+
+    public void goToWinScreen(boolean gewonnen){
+        //TODO hier muss dein Screen dann aufgerufen werden
+        control.setGewonnen(gewonnen);
+        System.out.println("Ich würde jetzt zum Winscreen gehen");
     }
 
 }

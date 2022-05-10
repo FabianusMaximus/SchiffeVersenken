@@ -39,12 +39,13 @@ public class ClientHandler extends Communictaion {
                 String message = messageStack.pop();
                 switch (message) {
                     case "ping" -> System.out.println("ping");
+                    case "gameOver" -> serverLogic.verarbeitenGameOver(this);
                 }
                 if (message.contains("field")) {
                     serverLogic.setGameField(this, message);
                     serverLogic.clientReady(this);
                 } else if (message.contains("shot")) {
-                    serverLogic.verarbeitenShot(message, this);
+                    serverLogic.verarbeitenShot(this, message);
                 } else if (message.contains("sunken")) {
                     serverLogic.weiterleitenSunken(this, message);
 

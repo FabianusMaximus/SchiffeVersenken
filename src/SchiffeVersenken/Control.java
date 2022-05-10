@@ -23,6 +23,8 @@ public class Control {
 
     private String datenSpielfeld;
 
+    private boolean gewonnen;
+
     public Control() {
         generateShips();
     }
@@ -94,6 +96,14 @@ public class Control {
 
     public Ship[] getShips() {
         return ships;
+    }
+
+    public boolean isGewonnen() {
+        return gewonnen;
+    }
+
+    public void setGewonnen(boolean gewonnen) {
+        this.gewonnen = gewonnen;
     }
 
     public void start() {

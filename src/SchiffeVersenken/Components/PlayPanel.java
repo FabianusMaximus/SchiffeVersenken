@@ -70,7 +70,8 @@ public class PlayPanel extends CustomPanel {
                 enemyCell[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        if (e.getButton() == MouseEvent.BUTTON1) {
+                        if (e.getButton() == MouseEvent.BUTTON1 &&
+                                enemyCell[finalI][finalJ].getStatus() == ShipPanel.Status.FREE) {
                             guiControl.shotRoutine(enemyCell[finalI][finalJ].getId());
                             System.out.println(enemyCell[finalI][finalJ].getId());
                         }

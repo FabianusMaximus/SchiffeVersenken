@@ -107,7 +107,7 @@ public class ServerLogic {
 
     }
 
-    public void verarbeitenShot(String string, ClientHandler clientHandler) {
+    public void verarbeitenShot(ClientHandler clientHandler, String string) {
         String hold = string.split(":")[1];
         iD = Integer.parseInt(hold);
 
@@ -171,6 +171,24 @@ public class ServerLogic {
             empfangender.sendMessage("schuss:" + iD);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void verarbeitenGameOver(ClientHandler clienthandler){
+        if (clienthandler == clientHandler1){
+            try {
+                clientHandler2.sendMessage("lose");
+                clientHandler1.sendMessage("win");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }else{
+            try {
+                clientHandler1.sendMessage("lose");
+                clientHandler2.sendMessage("win");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
