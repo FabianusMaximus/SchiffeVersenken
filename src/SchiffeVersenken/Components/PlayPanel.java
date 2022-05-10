@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.ObjectInputFilter;
 
 public class PlayPanel extends CustomPanel {
 
@@ -135,17 +134,7 @@ public class PlayPanel extends CustomPanel {
      * färbt das Spielerfeld neu ein
      */
     public void updatePlayerPanel() {
-        for (ShipPanel[] shipPanels : playerCell) {
-            for (ShipPanel shipPanel : shipPanels) {
-                switch (shipPanel.getStatus()) {
-                    case FREE -> shipPanel.setBackground(Color.BLACK);
-                    case LOADED -> shipPanel.setBackground(Color.GREEN);
-                    case HIT -> shipPanel.setBackground(Color.ORANGE);
-                    case SUNKEN -> shipPanel.setBackground(Color.GRAY);
-                }
-                this.repaint();
-            }
-        }
+        applyColorScheme(playerCell);
     }
 
     public void updateStatusPlayerPanel(int iD, ShipPanel.Status status) {
@@ -163,7 +152,11 @@ public class PlayPanel extends CustomPanel {
      * Durchläuft das gesamte Gegner Spielfeld und färbt die Felder in die entsprechenden Farben ein
      */
     public void updateEnemyPanel() {
-        for (ShipPanel[] shipPanels : enemyCell) {
+        applyColorScheme(enemyCell);
+    }
+
+    private void applyColorScheme(ShipPanel[][] field){
+        for (ShipPanel[] shipPanels : field) {
             for (ShipPanel shipPanel : shipPanels) {
                 switch (shipPanel.getStatus()) {
                     case MISSED -> shipPanel.setBackground(Color.RED);

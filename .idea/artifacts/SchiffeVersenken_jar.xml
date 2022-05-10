@@ -3,7 +3,6 @@
     <output-path>$PROJECT_DIR$/out/artifacts/SchiffeVersenken_jar</output-path>
     <root id="archive" name="SchiffeVersenken.jar">
       <element id="module-output" name="SchiffeVersenken" />
-      <element id="library" level="project" name="lib" />
     </root>
   </artifact>
 </component>

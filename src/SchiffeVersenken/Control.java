@@ -92,6 +92,10 @@ public class Control {
         return ships[index];
     }
 
+    public Ship[] getShips() {
+        return ships;
+    }
+
     public void start() {
         openGUI();
     }

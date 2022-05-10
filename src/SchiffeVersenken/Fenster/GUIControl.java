@@ -8,6 +8,7 @@ import SchiffeVersenken.Ship;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class GUIControl {
@@ -244,6 +245,40 @@ public class GUIControl {
             flipActivePlayer();
         }
         gui.getPlayPanel().updateStatusPlayerPanel(iD, ShipPanel.Status.HIT);
+        for (Ship ship : control.getShips()) {
+            if (checkShipSunken(ship)) sinkShip(ship);
+        }
+    }
+
+    public boolean checkShipSunken(Ship ship) {
+        int count = 0;
+        for (Point point : ship.getLocation()) {
+            ShipPanel aktCell = gui.getPlayPanel().getPlayerCell()[(int) point.getX()][(int) point.getY()];
+            if (aktCell.getStatus() == ShipPanel.Status.HIT) {
+                count++;
+                if (count == ship.getGroesse()) {
+                    System.out.println("Schiff's DOWN!");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void sinkShip(Ship ship) {
+        for (Point point : ship.getLocation()) {
+            gui.getPlayPanel().getPlayerCell()[(int) point.getX()][(int) point.getY()].setStatus(ShipPanel.Status.SUNKEN);
+            gui.getPlayPanel().updatePlayerPanel();
+            clientLogic.sendSunken(calculateSunkenIds(ship));
+        }
+    }
+
+    private Integer[] calculateSunkenIds(Ship ship) {
+        ArrayList<Integer> holdIDs = new ArrayList<>();
+        for (Point point : ship.getBlockedZone()) {
+            holdIDs.add(gui.getPlayPanel().getPlayerCell()[(int) point.getX()][(int) point.getY()].getId());
+        }
+        return holdIDs.toArray(new Integer[0]);
     }
 
 }

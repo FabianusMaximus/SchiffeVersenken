@@ -281,6 +281,20 @@ public class ClientLogic {
         }
     }
 
+    public void sendSunken(Integer[] iDs) {
+        StringBuilder message = new StringBuilder();
+        message.append("sunken:");
+        for (int i : iDs) {
+            message.append(i).append(",");
+        }
+        System.out.println("Sunken Nachricht: " + message);
+        try {
+            client.sendMessage(message.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setActivePlayer(boolean activePlayer) {
         System.out.println("Du bisch dran: " + activePlayer);
         this.activePlayer = activePlayer;
