@@ -307,9 +307,8 @@ public class GUIControl {
     }
 
     public void goToWinScreen(boolean gewonnen){
-        //TODO hier muss dein Screen dann aufgerufen werden
         control.setGewonnen(gewonnen);
-        System.out.println("Ich würde jetzt zum Winscreen gehen");
+        gui.goToWinScreen(gewonnen);
     }
 
 }

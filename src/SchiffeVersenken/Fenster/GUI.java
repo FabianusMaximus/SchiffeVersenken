@@ -7,13 +7,14 @@ import java.awt.*;
 
 public class GUI extends JFrame {
     private GUIControl guiControl;
-    private int width;
-    private int height;
+        private int width;
+        private int height;
 
     private StartPanel startPanel;
     private GamePanel gamePanel;
     private ClientPanel clientPanel;
     private PlayPanel playPanel;
+    private WinPanel winPanel;
 
     private Container cp;
     private Font standardFont;
@@ -53,6 +54,11 @@ public class GUI extends JFrame {
         playPanel.setVisible(false);
         cp.add(playPanel);
 
+        winPanel = new WinPanel(width,height,guiControl);
+        winPanel.setBounds(0,0,width,height);
+        winPanel.setVisible(false);
+        cp.add(winPanel);
+
         setVisible(true);
     }
 
@@ -78,6 +84,7 @@ public class GUI extends JFrame {
         startPanel.setVisible(false);
         clientPanel.setVisible(false);
         playPanel.setVisible(false);
+        winPanel.setVisible(false);
         gamePanel.setVisible(true);
     }
 
@@ -85,16 +92,26 @@ public class GUI extends JFrame {
         startPanel.setVisible(false);
         gamePanel.setVisible(false);
         playPanel.setVisible(false);
+        winPanel.setVisible(false);
         clientPanel.setVisible(true);
-
     }
 
     public void goToPlayScreen() {
         startPanel.setVisible(false);
         gamePanel.setVisible(false);
         clientPanel.setVisible(false);
+        winPanel.setVisible(false);
         playPanel.updatePlayerShipStatus(gamePanel.getCell());
         playPanel.setVisible(true);
+    }
+
+    public void goToWinScreen(Boolean gewonnen){
+        startPanel.setVisible(false);
+        gamePanel.setVisible(false);
+        playPanel.setVisible(false);
+        clientPanel.setVisible(false);
+        winPanel.setWinMessage(gewonnen);
+        winPanel.setVisible(true);
     }
 
     public PlayPanel getPlayPanel() {

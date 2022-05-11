@@ -221,29 +221,4 @@ public class PlayPanel extends CustomPanel {
         return null;
     }
 
-    public static void main(String[] args) {
-        JFrame testWindow = new JFrame();
-        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-        int width = (int) ((int) size.getWidth() - size.getWidth() / 5);
-        int height = (int) ((int) size.getHeight() - size.getHeight() / 5);
-        Container cp = testWindow.getContentPane();
-        cp.setLayout(null);
-
-        testWindow.setTitle("TestFenster");
-        testWindow.setSize(width, height);
-        testWindow.setResizable(false);
-        testWindow.setLocationRelativeTo(null);
-        testWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        PlayPanel playPanel = new PlayPanel(width, height, new GUIControl(new Control()));
-        playPanel.setBounds(0, 0, width, height);
-        cp.add(playPanel);
-
-        playPanel.changePlayerTurn(false);
-        playPanel.changeEnemyCellStatus(5, ShipPanel.Status.SUNKEN);
-        playPanel.changeEnemyCellStatus(9, ShipPanel.Status.MISSED);
-
-        testWindow.setVisible(true);
-    }
-
 }
