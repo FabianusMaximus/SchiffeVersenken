@@ -271,8 +271,8 @@ public class GUIControl {
         for (Point point : ship.getLocation()) {
             gui.getPlayPanel().getPlayerCell()[(int) point.getX()][(int) point.getY()].setStatus(ShipPanel.Status.SUNKEN);
             gui.getPlayPanel().updatePlayerPanel();
-            clientLogic.sendSunken(calculateSunkenIds(ship));
         }
+        clientLogic.sendSunken(calculateSunkenIds(ship));
     }
 
     private Integer[] calculateSunkenIds(Ship ship) {
@@ -309,6 +309,11 @@ public class GUIControl {
     public void goToWinScreen(boolean gewonnen){
         control.setGewonnen(gewonnen);
         gui.goToWinScreen(gewonnen);
+    }
+
+    public void startNewGame(){
+        gui.dispose();
+        control.restart();
     }
 
 }

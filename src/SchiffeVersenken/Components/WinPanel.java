@@ -56,7 +56,7 @@ public class WinPanel extends CustomPanel{
         newGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Passiert noch nichts");
+                guiControl.startNewGame();
             }
         });
 

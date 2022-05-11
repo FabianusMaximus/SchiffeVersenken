@@ -127,26 +127,18 @@ public class ServerLogic {
     }
 
     public void weiterleitenSunken(ClientHandler clientHandler, String message) {
-        if (clientHandler == clientHandler1){
-            try {
-                clientHandler2.sendMessage(message);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }else {
-            try {
-                clientHandler2.sendMessage(message);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            if (clientHandler == clientHandler1) clientHandler2.sendMessage(message);
+            else clientHandler1.sendMessage(message);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
     public boolean vergleichenID(int iD, ShipPanel[][] gameField) {
         int holdID = 0;
         for (ShipPanel[] fields : gameField) {
-            for (ShipPanel field : fields
-            ) {
+            for (ShipPanel field : fields) {
                 holdID = field.getId();
                 if (holdID == iD) {
                     return field.getStatus() == ShipPanel.Status.LOADED;
@@ -174,21 +166,17 @@ public class ServerLogic {
         }
     }
 
-    public void verarbeitenGameOver(ClientHandler clienthandler){
-        if (clienthandler == clientHandler1){
-            try {
-                clientHandler2.sendMessage("lose");
-                clientHandler1.sendMessage("win");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }else{
-            try {
+    public void verarbeitenGameOver(ClientHandler clienthandler) {
+        try {
+            if (clienthandler == clientHandler1) {
                 clientHandler1.sendMessage("lose");
                 clientHandler2.sendMessage("win");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            } else {
+                clientHandler2.sendMessage("lose");
+                clientHandler1.sendMessage("win");
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

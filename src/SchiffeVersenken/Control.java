@@ -14,7 +14,7 @@ public class Control {
     private Ship[] ships;
 
     private ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
-    
+
     private Client client;
 
     private Server server;
@@ -82,9 +82,6 @@ public class Control {
         return serverLogic;
     }
 
-    public Server getServer() {
-        return server;
-    }
 
     public void setServer(Server server) {
         this.server = server;
@@ -107,6 +104,20 @@ public class Control {
     }
 
     public void start() {
+        openGUI();
+    }
+
+    public void restart() {
+        guiControl = null;
+        ships = null;
+        clientHandlers = new ArrayList<>();
+        client = null;
+        server = null;
+        serverLogic = null;
+        datenSpielfeld = null;
+        gewonnen = false;
+
+        generateShips();
         openGUI();
     }
 }

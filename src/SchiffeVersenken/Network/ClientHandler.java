@@ -2,6 +2,7 @@ package SchiffeVersenken.Network;
 
 import SchiffeVersenken.Fenster.GUIControl;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.Socket;
 
