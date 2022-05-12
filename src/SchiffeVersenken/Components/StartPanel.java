@@ -8,6 +8,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.URL;
 
 public class StartPanel extends CustomPanel {
 
@@ -29,9 +30,10 @@ public class StartPanel extends CustomPanel {
         title.setVerticalAlignment(SwingConstants.CENTER);
         this.add(title);
 
-        ImageIcon imageIcon = new ImageIcon(new ImageIcon("src/SchiffeVersenken/img/Titel Image.png").getImage()
-                .getScaledInstance(title.getWidth(), title.getHeight(), Image.SCALE_DEFAULT));
-        title.setIcon(imageIcon);
+        ClassLoader cldr = StartPanel.class.getClassLoader();
+        URL url = cldr.getResource("SchiffeVersenken/img/TitelImage.png");
+        title.setIcon(new ImageIcon(new ImageIcon(url).getImage()
+                .getScaledInstance(title.getWidth(), title.getHeight(), Image.SCALE_DEFAULT)));
 
         buttonPanel = new JPanel();
         buttonPanel.setSize(width / 2, height / 2);
