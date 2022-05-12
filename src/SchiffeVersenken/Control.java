@@ -108,6 +108,7 @@ public class Control {
     }
 
     public void restart() {
+        server.close();
         guiControl = null;
         ships = null;
         clientHandlers = new ArrayList<>();

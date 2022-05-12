@@ -43,8 +43,12 @@ public class ClientHandler extends Communictaion {
                     case "gameOver" -> serverLogic.verarbeitenGameOver(this);
                 }
                 if (message.contains("field")) {
-                    serverLogic.setGameField(this, message);
-                    serverLogic.clientReady(this);
+                    try{
+                        serverLogic.setGameField(this, message);
+                        serverLogic.clientReady(this);
+                    }catch (NullPointerException e){
+                        System.out.println("Jetzt wart halt a weng");
+                    }
                 } else if (message.contains("shot")) {
                     serverLogic.verarbeitenShot(this, message);
                 } else if (message.contains("sunken")) {

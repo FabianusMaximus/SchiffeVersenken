@@ -64,5 +64,14 @@ public class Server {
         serverScreen.addText(text);
     }
 
+    public void close(){
+        try {
+            socket.close();
+            serverSocket.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }
