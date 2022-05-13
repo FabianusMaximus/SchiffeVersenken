@@ -247,7 +247,8 @@ public class GUIControl {
         for (Ship ship : control.getShips()) {
             if (checkShipSunken(ship)) sinkShip(ship);
         }
-        if (checkAllShipsSunken()){
+        if (checkAllShipsSunken()) {
+            //TODO der Bug entsteht wahrscheinlich, weil hier die Nachrichten zu schnell gesendet werden
             clientLogic.sendGameOver();
             goToWinScreen(false);
         }
@@ -308,12 +309,12 @@ public class GUIControl {
         return count == control.getShips().length;
     }
 
-    public void goToWinScreen(boolean gewonnen){
+    public void goToWinScreen(boolean gewonnen) {
         control.setGewonnen(gewonnen);
         gui.goToWinScreen(gewonnen);
     }
 
-    public void startNewGame(){
+    public void startNewGame() {
         gui.dispose();
         control.restart();
     }
