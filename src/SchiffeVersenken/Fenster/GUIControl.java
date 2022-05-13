@@ -248,7 +248,11 @@ public class GUIControl {
         for (Ship ship : control.getShips()) {
             if (checkShipSunken(ship)) sinkShip(ship);
         }
-        if (checkAllShipsSunken())clientLogic.sendGameOver();
+        System.out.println("hier kam ich gerade noch so hin");
+        if (checkAllShipsSunken()){
+            clientLogic.sendGameOver();
+            goToWinScreen(false);
+        }
     }
 
     public boolean checkShipSunken(Ship ship) {

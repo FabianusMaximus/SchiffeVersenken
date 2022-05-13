@@ -169,10 +169,9 @@ public class ServerLogic {
     public void verarbeitenGameOver(ClientHandler clienthandler) {
         try {
             if (clienthandler == clientHandler1) {
-                clientHandler1.sendMessage("lose");
+                //TODO diese Nachricht wird gesendet, aber der Client empfängt sie nicht
                 clientHandler2.sendMessage("win");
             } else {
-                clientHandler2.sendMessage("lose");
                 clientHandler1.sendMessage("win");
             }
         } catch (IOException e) {

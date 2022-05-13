@@ -48,7 +48,6 @@ public class Client extends Communictaion {
                         guiControl.flipActivePlayer();
                     }
                     case "win" -> guiControl.goToWinScreen(true);
-                    case "lose" -> guiControl.goToWinScreen(false);
                     case "ping" -> System.out.println("ping von: " + socket.getInetAddress());
                 }
                 if (message.contains("schuss")) {

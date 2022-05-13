@@ -3,7 +3,6 @@ package SchiffeVersenken;
 
 import SchiffeVersenken.Fenster.GUIControl;
 import SchiffeVersenken.Network.ClientHandler;
-import SchiffeVersenken.Network.Client;
 import SchiffeVersenken.Network.Server;
 import SchiffeVersenken.Network.ServerLogic;
 
@@ -15,13 +14,9 @@ public class Control {
 
     private ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
 
-    private Client client;
-
     private Server server;
 
     private ServerLogic serverLogic;
-
-    private String datenSpielfeld;
 
     private boolean gewonnen;
 
@@ -44,34 +39,12 @@ public class Control {
                         new Ship("U-Boot", 2), new Ship("U-Boot", 2)};
     }
 
-
-    public boolean isCellValid(int x, int y) {
-
-        return false;
-    }
-
-    public void setCellSelected(int x, int y) {
-
-    }
-
-    public GUIControl getGuiControl() {
-        return guiControl;
-    }
-
     public void addClientHandler(ClientHandler clientHandler) {
         this.clientHandlers.add(clientHandler);
     }
 
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
     public ArrayList<ClientHandler> getClientHandlers() {
         return this.clientHandlers;
-    }
-
-    public Client getClient() {
-        return this.client;
     }
 
     public void setServerLogic() {
@@ -112,10 +85,8 @@ public class Control {
         guiControl = null;
         ships = null;
         clientHandlers = new ArrayList<>();
-        client = null;
         server = null;
         serverLogic = null;
-        datenSpielfeld = null;
         gewonnen = false;
 
         generateShips();

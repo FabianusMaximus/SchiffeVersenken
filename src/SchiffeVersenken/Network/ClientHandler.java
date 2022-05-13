@@ -1,19 +1,13 @@
 package SchiffeVersenken.Network;
 
-import SchiffeVersenken.Fenster.GUIControl;
-
-import javax.swing.*;
 import java.io.IOException;
 import java.net.Socket;
 
 public class ClientHandler extends Communictaion {
-
-    private GUIControl guiControl;
     private ServerLogic serverLogic;
 
-    public ClientHandler(GUIControl guiControl, Socket socket) {
+    public ClientHandler(Socket socket) {
         super(socket);
-        this.guiControl = guiControl;
         online = true;
     }
 
@@ -43,10 +37,10 @@ public class ClientHandler extends Communictaion {
                     case "gameOver" -> serverLogic.verarbeitenGameOver(this);
                 }
                 if (message.contains("field")) {
-                    try{
+                    try {
                         serverLogic.setGameField(this, message);
                         serverLogic.clientReady(this);
-                    }catch (NullPointerException e){
+                    } catch (NullPointerException e) {
                         System.out.println("Jetzt wart halt a weng");
                     }
                 } else if (message.contains("shot")) {
