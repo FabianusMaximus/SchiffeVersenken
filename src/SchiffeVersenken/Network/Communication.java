@@ -5,15 +5,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayDeque;
-import java.util.Deque;
 
-public abstract class Communictaion {
+public abstract class Communication {
     protected Socket socket;
-    protected volatile Deque<String> messageStack = new ArrayDeque<>();
     protected volatile boolean online;
 
-    public Communictaion(Socket socket) {
+    public Communication(Socket socket) {
         this.socket = socket;
     }
 
@@ -21,11 +18,6 @@ public abstract class Communictaion {
      * Funktion die in einem Tread auf eine Nachricht wartet
      */
     public abstract void init();
-
-    /**
-     *
-     */
-    public abstract void verarbeitenStack();
 
     /**
      * Funktion, die es ermöglicht den Clients eine Nachricht zu senden
@@ -36,6 +28,7 @@ public abstract class Communictaion {
     public void sendMessage(String message) throws IOException {
         message = message + "\n";
         socket.getOutputStream().write(message.getBytes(StandardCharsets.UTF_8));
+        System.out.println("raus: " + message);
     }
 
     /**

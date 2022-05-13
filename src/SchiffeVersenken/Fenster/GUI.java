@@ -118,14 +118,6 @@ public class GUI extends JFrame {
         return playPanel;
     }
 
-    public void setGuiControl(GUIControl guiControl) {
-        this.guiControl = guiControl;
-    }
-
-    public Font getStandardFont() {
-        return standardFont;
-    }
-
     public void setDefaultColor(Color color) {
         gamePanel.setDefaultColor(color);
     }

@@ -42,6 +42,8 @@ public class ClientPanel extends CustomPanel {
         joinButton = new JButton("Join");
         joinButton.setSize(width / 2, height / 4);
         joinButton.setLocation(width / 2 - joinButton.getWidth() / 2, height / 2 + joinButton.getHeight() / 2);
+        joinButton.setBackground(Color.white);
+        joinButton.setForeground(Color.BLACK);
         joinButton.setFont(standardFont);
         joinButton.addActionListener(new ActionListener() {
             @Override

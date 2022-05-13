@@ -5,7 +5,7 @@ import SchiffeVersenken.Fenster.GUIControl;
 import java.io.IOException;
 import java.net.Socket;
 
-public class Client extends Communictaion {
+public class Client extends Communication {
     private GUIControl guiControl;
 
     public Client(String ip, GUIControl guiControl) throws IOException {
@@ -17,18 +17,8 @@ public class Client extends Communictaion {
     public void init() {
         while (online) {
             try {
-                messageStack.add(receiveMessage());
-            } catch (IOException e) {
-                shutdown();
-            }
-        }
-    }
-
-    public void verarbeitenStack() {
-        while (online) {
-            if (!messageStack.isEmpty()) {
-                String message = messageStack.pop();
-                System.out.println("angekommene Nachricht: " + message);
+                String message = receiveMessage();
+                System.out.println("Angekommene Nachricht: " + message);
                 switch (message) {
                     case "bothreadyfalse" -> {
                         guiControl.goToPlayScreen();
@@ -55,6 +45,8 @@ public class Client extends Communictaion {
                 } else if (message.contains("sunken")) {
                     guiControl.verarbeitenSunken(message);
                 }
+            } catch (IOException e) {
+                shutdown();
             }
         }
     }

@@ -180,7 +180,6 @@ public class GUIControl {
                 Client client = new Client(ip, this);
                 this.clientLogic = new ClientLogic(client, gui);
                 new Thread(client::init).start();
-                new Thread(client::verarbeitenStack).start();
                 gui.goToGameScreen();
 
             } catch (IOException e) {
@@ -248,7 +247,6 @@ public class GUIControl {
         for (Ship ship : control.getShips()) {
             if (checkShipSunken(ship)) sinkShip(ship);
         }
-        System.out.println("hier kam ich gerade noch so hin");
         if (checkAllShipsSunken()){
             clientLogic.sendGameOver();
             goToWinScreen(false);
