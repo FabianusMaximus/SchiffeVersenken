@@ -110,13 +110,10 @@ public class ClientLogic {
         selectedShip = null;
     }
 
-    int count = 0;
-
     /**
      * Plaziert alle Schiffe, die sich auf dem Spielfeld befinden neu, damit Daniel das Spiel nicht kaputt machen kann
      */
     private void replaceShips() {
-        System.out.println("replace wurde gecalled" + count++);
         Ship holdShip = selectedShip;
         ArrayList<Ship> shipsOnField = new ArrayList<>();
         for (ShipPanel[] shipPanels : gui.getCell()) {
@@ -318,6 +315,10 @@ public class ClientLogic {
 
     public void flipActivePlayer() {
         activePlayer = !activePlayer;
+    }
+
+    public void closeClient(){
+        client.shutdown();
     }
 
 }

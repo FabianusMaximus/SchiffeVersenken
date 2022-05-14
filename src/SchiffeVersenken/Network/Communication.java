@@ -34,11 +34,10 @@ public abstract class Communication {
     /**
      * Schließt den Socket
      */
-    protected void shutdown() {
+    public void shutdown() {
         online = false;
         try {
             socket.close();
-            online = false;
             System.out.println(socket.getInetAddress().getHostName() + " closed");
         } catch (IOException e) {
             e.printStackTrace();

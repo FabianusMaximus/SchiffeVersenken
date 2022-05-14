@@ -67,6 +67,7 @@ public class Server {
         try {
             socket.close();
             serverSocket.close();
+            serverScreen.dispose();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

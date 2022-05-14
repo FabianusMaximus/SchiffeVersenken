@@ -68,10 +68,6 @@ public class Control {
         return ships;
     }
 
-    public boolean isGewonnen() {
-        return gewonnen;
-    }
-
     public void setGewonnen(boolean gewonnen) {
         this.gewonnen = gewonnen;
     }
@@ -82,6 +78,7 @@ public class Control {
 
     public void restart() {
         server.close();
+        guiControl.closeClient();
         guiControl = null;
         ships = null;
         clientHandlers = new ArrayList<>();

@@ -84,28 +84,5 @@ public class WinPanel extends CustomPanel{
             winMessage.setForeground(Color.RED.darker());
         }
     }
-
-    public static void main(String[] args) {
-        JFrame testWindow2 = new JFrame();
-        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-        int width = (int) ((int) size.getWidth() - size.getWidth() / 5);
-        int height = (int) ((int) size.getHeight() - size.getHeight() / 5);
-        Container cp = testWindow2.getContentPane();
-        cp.setLayout(null);
-
-        testWindow2.setTitle("TestFenster");
-        testWindow2.setSize(width, height);
-        testWindow2.setResizable(false);
-        testWindow2.setLocationRelativeTo(null);
-        testWindow2.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        WinPanel testPanel = new WinPanel(width, height, new GUIControl(new Control()));
-        testPanel.setBounds(0, 0, width, height);
-        cp.add(testPanel);
-
-        testPanel.setWinMessage(true);
-
-        testWindow2.setVisible(true);
-    }
-
+    
 }

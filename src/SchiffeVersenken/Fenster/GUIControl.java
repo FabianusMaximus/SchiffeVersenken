@@ -318,5 +318,9 @@ public class GUIControl {
         control.restart();
     }
 
+    public void closeClient(){
+        clientLogic.closeClient();
+    }
+
 
 }
