@@ -21,7 +21,7 @@ public class ClientHandler extends Communication {
                 String message = receiveMessage();
                 switch (message) {
                     case "ping" -> System.out.println("ping");
-                    case "gameOver" -> serverLogic.verarbeitenGameOver(this);
+                    case "gameOver" -> serverLogic.weiterleitenMessage(this, "win");
                 }
                 if (message.contains("field")) {
                     try {
@@ -33,7 +33,7 @@ public class ClientHandler extends Communication {
                 } else if (message.contains("shot")) {
                     serverLogic.verarbeitenShot(this, message);
                 } else if (message.contains("sunken")) {
-                    serverLogic.weiterleitenSunken(this, message);
+                    serverLogic.weiterleitenMessage(this, message);
 
                 }
             } catch (IOException e) {

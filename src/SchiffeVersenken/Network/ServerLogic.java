@@ -126,15 +126,6 @@ public class ServerLogic {
         }
     }
 
-    public void weiterleitenSunken(ClientHandler clientHandler, String message) {
-        try {
-            if (clientHandler == clientHandler1) clientHandler2.sendMessage(message);
-            else clientHandler1.sendMessage(message);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public boolean vergleichenID(int iD, ShipPanel[][] gameField) {
         int holdID = 0;
         for (ShipPanel[] fields : gameField) {
@@ -166,14 +157,10 @@ public class ServerLogic {
         }
     }
 
-    public void verarbeitenGameOver(ClientHandler clienthandler) {
+    public void weiterleitenMessage(ClientHandler clienthandler, String message) {
         try {
-            if (clienthandler == clientHandler2) {
-                //TODO diese Nachricht wird gesendet, aber der Client empfängt sie nicht
-                clientHandler1.sendMessage("win");
-            } else {
-                clientHandler2.sendMessage("win");
-            }
+            if (clienthandler == clientHandler1) clientHandler2.sendMessage(message);
+            else clientHandler1.sendMessage(message);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

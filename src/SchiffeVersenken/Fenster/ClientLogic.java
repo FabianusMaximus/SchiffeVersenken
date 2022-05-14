@@ -9,6 +9,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 public class ClientLogic {
     private Client client;
@@ -294,10 +295,13 @@ public class ClientLogic {
         }
     }
 
-    public void sendGameOver(){
+    public void sendGameOver() {
         try {
             client.sendMessage("gameOver");
-        } catch (IOException e) {
+            //TODO vielleicht geht das ja echt
+            TimeUnit.SECONDS.sleep(1);
+            client.sendMessage("gameOver");
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }

@@ -248,7 +248,6 @@ public class GUIControl {
             if (checkShipSunken(ship)) sinkShip(ship);
         }
         if (checkAllShipsSunken()) {
-            //TODO der Bug entsteht wahrscheinlich, weil hier die Nachrichten zu schnell gesendet werden
             clientLogic.sendGameOver();
             goToWinScreen(false);
         }
@@ -318,5 +317,6 @@ public class GUIControl {
         gui.dispose();
         control.restart();
     }
+
 
 }
