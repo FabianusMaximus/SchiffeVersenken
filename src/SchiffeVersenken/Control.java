@@ -77,14 +77,16 @@ public class Control {
     }
 
     public void restart() {
-        server.close();
         guiControl.closeClient();
-        guiControl = null;
-        ships = null;
         clientHandlers = new ArrayList<>();
+        if(server != null){
+            server.close();
+        }
+        ships = null;
         server = null;
         serverLogic = null;
         gewonnen = false;
+        guiControl = null;
 
         generateShips();
         openGUI();
