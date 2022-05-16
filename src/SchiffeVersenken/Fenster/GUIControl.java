@@ -280,7 +280,7 @@ public class GUIControl {
     private Integer[] calculateSunkenIds(Ship ship) {
         ArrayList<Integer> holdIDs = new ArrayList<>();
         for (Point point : ship.getBlockedZone()) {
-            if (point.getX() >= 0 && point.getY() >= 0 && point.getX() <= 10 && point.getY() <= 10) {
+            if (point.getX() >= 0 && point.getY() >= 0 && point.getX() < 10 && point.getY() < 10) {
                 holdIDs.add(gui.getPlayPanel().getPlayerCell()[(int) point.getX()][(int) point.getY()].getId());
             }
         }
@@ -318,7 +318,7 @@ public class GUIControl {
         control.restart();
     }
 
-    public void closeClient(){
+    public void closeClient() {
         clientLogic.closeClient();
     }
 
