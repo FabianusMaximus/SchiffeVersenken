@@ -6,6 +6,7 @@ import SchiffeVersenken.Network.Client;
 import SchiffeVersenken.Network.Server;
 import SchiffeVersenken.Ship;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -183,7 +184,9 @@ public class GUIControl {
                 gui.goToGameScreen();
 
             } catch (IOException e) {
-                System.out.println("Server kaputt");
+                System.out.println("Konnte den Server mit mit der IP-Adresse " + ip + " nicht erreichen");
+                JOptionPane.showMessageDialog(gui, "Konnte den Server mit mit der IP-Adresse " + ip +
+                        " nicht erreichen", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         } else {
             System.out.println("Die IP-Adresse kann nicht verbunden werden");
