@@ -190,6 +190,8 @@ public class GUIControl {
             }
         } else {
             System.out.println("Die IP-Adresse kann nicht verbunden werden");
+            JOptionPane.showMessageDialog(gui, "Die eingegebene IP-Adresse (" + ip +
+                    ") ist keine Valide IP-Adresse", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
 
